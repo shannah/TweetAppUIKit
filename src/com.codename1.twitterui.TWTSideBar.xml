@@ -1,0 +1,24 @@
+<?xml verison="1.0"?>
+<border uiid="TWTSideBarWrapper">
+    <y constraint="north" id="north" uiid="TWTSideBarNorth" flags="safeArea">
+        <border>
+            <$avatar constraint="west"/>
+            <x constraint="east">
+                <flow valign="top"><border id="top-actions-wrapper"/></flow>
+                <flow valign="top"><$overflowMenu uiid="TWTSideBarOverflowMenuButton"/></flow>
+               
+            </x>
+        </border>
+        <$nameLabel uiid="TWTSideBarNameLabel"/>
+        <$idLabel uiid="TWTSideBarIDLabel"/>
+        <border id="stats-actions-wrapper" uiid="TWTSideBarStatsActionsWrapper"/>
+    </y>
+    <y constraint="center" id="center" uiid="TWTSideBarCenter">
+        <border id="sidebar-actions-wrapper" uiid="TWTSideBarActionsWrapper" flags="safeArea"/>
+        <border id="settings-actions-wrapper" uiid="TWTSideBarSettingsActionsWrapper" flags="safeArea"/>
+    </y>
+    <border constraint="south" id="south" uiid="TWTSideBarSouth" flags="safeArea">
+        <border constraint="west" id="bottom-left-actions-wrapper"/>
+        <border constraint="east" id="bottom-right-actions-wrapper"/>
+    </border>
+</border>

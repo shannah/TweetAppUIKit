@@ -1,0 +1,43 @@
+= Tweet App UI Kit
+
+Mobile UI Components for https://www.codenameone.com/[Codename One] apps inspired by Twitter
+
+This library provides a collection of UI components for building twitter-like mobile apps.  
+
+== License
+
+Apache 2.0
+
+== Included Components
+
+. "Tweet" List
+. "Headline List"
+. Search form
+. Settings form
+. Sidebar
+
+
+== Demo
+
+TODO
+
+== Documentation
+
+TODO
+
+== Requirements 
+
+TODO
+
+== Installation
+
+TODO
+
+== Further Reading
+
+. https://www.codenameone.com/[Codename One]
+. https://github.com/shannah/CodeRAD[CodeRAD library]
+
+== Credits
+
+. Created by https://sjhannah.com[Steve Hannah],  https://www.codenameone.com[Codename One]
