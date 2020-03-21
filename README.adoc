@@ -15,6 +15,9 @@ Apache 2.0
 . Search form
 . Settings form
 . Sidebar
+. Bottom Tabs (e.g. Home, Search, etc..)
+. Title Bar
+. "Tweet" Details View
 
 
 == Demo

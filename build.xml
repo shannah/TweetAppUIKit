@@ -241,5 +241,21 @@
         <echo>Add your CSS Styles into css/theme.css</echo>
         <echo message="Dependencies such as images and fonts should be placed inside the css/lib/${application.title} directory."/>
     </target>
-            
+    <target  description="Build Javadoc." name="javadoc" depends="init">
+        
+
+        <javadoc destdir="docs/javadoc"
+        linkoffline="https://www.codenameone.com/javadoc/ javadoc-dependencies/com.codename1"
+        classpath="lib/CodenameOne.jar:lib/CLDC11.jar:../CodeRAD/dist/CodeRAD.jar"
+         executable="/Library/Java/JavaVirtualMachines/zulu8.40.0.25-ca-fx-jdk8.0.222-macosx_x64/bin/javadoc"
+         sourcepath="src"
+         overview="src/overview.adoc">
+        <doclet name="org.asciidoctor.Asciidoclet" path="lib/asciidoclet-1.5.7-SNAPSHOT-shaded.jar">
+          <param name="--base-dir" value="${basedir}"/>
+          <param name="--attribute" value="name=${ant.project.name}"/>
+          <param name="--attribute" value="version=${version}"/>
+          <param name="--attribute" value="title-link=http://example.com[${ant.project.name} ${version}]"/>
+        </doclet>
+      </javadoc>
+    </target>
 </project>
