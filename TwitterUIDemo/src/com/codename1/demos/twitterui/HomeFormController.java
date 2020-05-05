@@ -109,8 +109,14 @@ public class HomeFormController extends BaseFormController {
     private  EntityList createDemoTweetList() {
         String georgeThumb = "https://weblite.ca/cn1tests/radchat/george.jpg";
         String kramerThumb = "https://weblite.ca/cn1tests/radchat/kramer.jpg";
+        String jerryThumb = "https://weblite.ca/cn1tests/radchat/jerry.jpg";
+        String elaineThumb = "https://weblite.ca/cn1tests/radchat/elaine.jpg";
+        String newmanThumb = "https://weblite.ca/cn1tests/radchat/newman.jpg";
         Entity george = getOrCreateAuthor("George", "@kostanza", georgeThumb);
         Entity kramer = getOrCreateAuthor("Kramer", "@kramer", kramerThumb);
+        Entity jerry = getOrCreateAuthor("Jerry", "@jerrys", jerryThumb);
+        Entity elaine = getOrCreateAuthor("Elaine", "@elaine", elaineThumb);
+        Entity newman = getOrCreateAuthor("Newman", "@newman", newmanThumb);
         long SECOND = 1000l;
         long MINUTE = SECOND * 60;
         long HOUR = MINUTE * 60;
@@ -119,11 +125,9 @@ public class HomeFormController extends BaseFormController {
         
         EntityList list = new EntityList();
         list.add(createTweet(george, "Just made my first sale", new Date(t), "https://optinmonster.com/wp-content/uploads/2018/05/sales-promotion-examples.jpg"));
-        list.add(createTweet(george, "Just made my first sale", new Date(t), "https://optinmonster.com/wp-content/uploads/2018/05/sales-promotion-examples.jpg"));
-        list.add(createTweet(george, "Just made my first sale", new Date(t), "https://optinmonster.com/wp-content/uploads/2018/05/sales-promotion-examples.jpg"));
-        list.add(createTweet(george, "Just made my first sale", new Date(t), "https://optinmonster.com/wp-content/uploads/2018/05/sales-promotion-examples.jpg"));
-        list.add(createTweet(george, "Just made my first sale", new Date(t), "https://optinmonster.com/wp-content/uploads/2018/05/sales-promotion-examples.jpg"));
-        list.add(createTweet(george, "Just made my first sale", new Date(t), "https://optinmonster.com/wp-content/uploads/2018/05/sales-promotion-examples.jpg"));
+        list.add(createTweet(kramer, "Check out these cool new features we added today.  I think you're going to like them.", new Date(t), "https://www.codenameone.com/img/blog/new-features.jpg"));
+        list.add(createTweet(newman, "This is how I feel every time Jerry gets what he wants", new Date(t), "https://weblite.ca/cn1tests/radchat/damn-you-seinfeld.jpg"));
+        list.add(createTweet(elaine, "These urban sombreros are going to be a huge hit.  Don't miss out.  Get them from the Peterman collection.", new Date(t), "https://weblite.ca/cn1tests/radchat/urban-sombrero.jpg"));
         return list;
     }
     

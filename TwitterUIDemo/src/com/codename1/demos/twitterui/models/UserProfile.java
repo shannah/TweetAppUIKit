@@ -5,6 +5,7 @@
  */
 package com.codename1.demos.twitterui.models;
 
+import com.codename1.rad.models.BooleanProperty;
 import com.codename1.rad.models.Entity;
 import com.codename1.rad.models.EntityType;
 import com.codename1.rad.schemas.PostalAddress;
@@ -15,11 +16,13 @@ import com.codename1.rad.schemas.Thing;
  * @author shannah
  */
 public class UserProfile extends Entity {
+    public static BooleanProperty qualityFilter;
     private static final EntityType TYPE = new EntityType() {{
         string(tags(Thing.name));
         string(tags(Thing.identifier));
         string(tags(Thing.thumbnailUrl));
         string(tags(PostalAddress.addressCountry));
+        qualityFilter = Boolean();
     }};
     {
         setEntityType(TYPE);

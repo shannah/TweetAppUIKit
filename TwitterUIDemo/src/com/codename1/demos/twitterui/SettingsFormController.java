@@ -34,6 +34,13 @@ public class SettingsFormController extends BaseFormController {
                     return new PropertySelector(entity, Thing.identifier);
                 })
             ),
+            qualityFilter = action(
+                    label("Quality filter"),
+                    toggleSwitch(
+                        property(UserProfile.qualityFilter),
+                        description("Filter lower-quality content from your notifications. This won't filter out notifications from people you follow or accounts you've interacted with recently.")
+                    )
+            ),
             phone = action(
                     label("Phone"),
                     tags(Person.telephone)
@@ -80,7 +87,7 @@ public class SettingsFormController extends BaseFormController {
         return new ViewNode(
                 section(
                         label("Login and Security"),
-                        username, phone, email, password
+                        username, phone, email, password, qualityFilter
                 ),
                 section(
                         label("Data and permissions"),

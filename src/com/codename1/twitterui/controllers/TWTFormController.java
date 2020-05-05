@@ -27,6 +27,7 @@ import com.codename1.twitterui.views.TWTGlobalTabs;
 import com.codename1.twitterui.views.TWTSideBarView;
 import com.codename1.ui.Button;
 import com.codename1.ui.Component;
+import com.codename1.ui.ComponentSelector;
 import static com.codename1.ui.ComponentSelector.$;
 import com.codename1.ui.Container;
 import com.codename1.ui.FontImage;
@@ -34,6 +35,7 @@ import com.codename1.ui.Form;
 import com.codename1.ui.InterFormContainer;
 import com.codename1.ui.Label;
 import com.codename1.ui.layouts.BorderLayout;
+import com.codename1.ui.plaf.Style;
 
 /**
  *
@@ -61,10 +63,45 @@ public abstract class TWTFormController extends FormController {
         return new TWTSideBarView(getSideBarViewModel(), getViewNode());
     }
     
+    private boolean alignLeftOnLayout = false;
     
     @Override
     public void setView(Component cmp) {
-        Form form = new Form();
+        Form form = new Form() {
+             @Override
+            public void layoutContainer() {
+                super.layoutContainer();
+                if (!alignLeftOnLayout) {
+                    return;
+                }
+                int maxLeftX = 0;
+                ComponentSelector cmps =  $(".left-inset", this);
+                for (Component c : cmps) {
+                    Component wrap = $(c).parents(".left-edge").first().asComponent();
+                    if (wrap == null) {
+                        continue;
+                    }
+                    int thisLeftX = c.getAbsoluteX() + c.getStyle().getPaddingLeftNoRTL() - wrap.getAbsoluteX();
+                    maxLeftX = Math.max(maxLeftX, thisLeftX);
+
+                }
+                maxLeftX -= getAbsoluteX();
+
+                for (Component c : cmps) {
+                    Component wrap = $(c).parents(".left-edge").first().asComponent();
+                    if (wrap == null) {
+                        continue;
+                    }
+                    int absX = c.getAbsoluteX() + c.getStyle().getPaddingLeftNoRTL() - wrap.getAbsoluteX();
+                    if (absX < maxLeftX) {
+                        int marginLeft = c.getStyle().getMarginLeftNoRTL();
+                        c.getAllStyles().setMarginUnitLeft(Style.UNIT_TYPE_PIXELS);
+                        c.getAllStyles().setMarginLeft(marginLeft + maxLeftX - absX);
+                    }
+                }
+
+            }
+        };
         
         Container mainWrap = new Container(new BorderLayout());
         mainWrap.getStyle().stripMarginAndPadding();
@@ -98,18 +135,25 @@ public abstract class TWTFormController extends FormController {
             );
             contentPane.install(form);
         } else {
+            
             form.getToolbar().hideToolbar();
             form.setLayout(new BorderLayout());
+            form.setScrollable(false);
             form.getContentPane().getStyle().stripMarginAndPadding();
             form.getContentPane().add(BorderLayout.CENTER, cmp);
             
             if (!hasTitle) {
+                alignLeftOnLayout = true;
                 Container titleBar = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
                 titleBar.setSafeArea(true);
+                $(titleBar).addTags("left-edge");
+
                 titleBar.setUIID("TitleArea");
 
                 if (hasBackCommand()) {
+                    
                     Button back = new Button();
+                    $(back).addTags("left-inset");
                     FontImage.setIcon(back, FontImage.MATERIAL_ARROW_BACK_IOS, -1);
                     titleBar.add(BorderLayout.WEST, back);
                     back.addActionListener(evt->{

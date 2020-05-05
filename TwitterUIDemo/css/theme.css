@@ -710,3 +710,15 @@ TWTSettingsFormSectionLabel {
     
     padding: 2mm 1mm 2mm 1mm;
 }
+
+TWTSettingsFormActionDescriptionText {
+    font-size: 1.5mm;
+    font-family: var(--main-font-light);
+    font-family: 1.5mm;
+    color: #888888;
+}
+
+TWTSettingsFormActionDescription {
+    padding:0;
+    margin:0;
+}
