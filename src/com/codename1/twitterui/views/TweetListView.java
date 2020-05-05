@@ -5,29 +5,25 @@
  */
 package com.codename1.twitterui.views;
 
-import com.codename1.io.services.TwitterRESTService;
 import com.codename1.rad.models.DateFormatterAttribute;
 import com.codename1.rad.models.Entity;
 import com.codename1.rad.models.EntityList;
 import com.codename1.rad.nodes.ActionNode;
 import com.codename1.rad.nodes.ActionNode.Category;
-import com.codename1.rad.nodes.ActionViewFactoryNode;
 import com.codename1.rad.nodes.ListNode;
 import com.codename1.rad.ui.ActionViewFactory;
-import com.codename1.rad.ui.EntityView;
 import com.codename1.rad.ui.UI;
 import com.codename1.rad.ui.entityviews.EntityListView;
-import com.codename1.twitterui.models.TweetModel;
-import com.codename1.twitterui.schemas.Tweet;
 import com.codename1.twitterui.text.TweetDateFormatter;
 import com.codename1.ui.Button;
 import com.codename1.ui.CN;
 import com.codename1.ui.Component;
-import static com.codename1.ui.ComponentSelector.$;
-import com.codename1.ui.Container;
 
 /**
  *
+ * A view for displaying a list of tweets.
+ * 
+ * 
  * @author shannah
  */
 public class TweetListView extends EntityListView {
