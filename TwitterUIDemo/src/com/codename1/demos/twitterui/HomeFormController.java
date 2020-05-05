@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.codename1.demos.twitterui;
 
 
@@ -13,7 +9,6 @@ import static com.codename1.demos.twitterui.TwitterUIDemo.*;
 
 import com.codename1.demos.twitterui.models.UserProfile;
 import com.codename1.rad.controllers.Controller;
-import com.codename1.rad.controllers.ControllerEvent;
 import com.codename1.rad.models.Entity;
 import com.codename1.rad.models.EntityList;
 import com.codename1.rad.nodes.ListNode;
@@ -35,24 +30,12 @@ import com.codename1.twitterui.views.TWTSearchButton;
 
 import com.codename1.twitterui.views.TWTTitleComponent;
 import com.codename1.twitterui.views.TweetRowView;
-import com.codename1.ui.Dialog;
 
 /**
  *
  * @author shannah
  */
 public class HomeFormController extends BaseFormController {
-    
-    
-    
-    
-    
-    
-        
-        
-    
-   
-            
     
     
     private Map<String,Entity> authors = new HashMap<>();

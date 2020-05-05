@@ -12,7 +12,6 @@ import com.codename1.rad.models.Entity;
 import com.codename1.rad.models.EntityType;
 import com.codename1.rad.models.Property;
 import com.codename1.rad.nodes.ActionNode;
-import com.codename1.rad.nodes.ActionNode.ActionNodeEvent;
 import com.codename1.rad.nodes.ActionNode.Category;
 import com.codename1.rad.nodes.ListNode;
 import com.codename1.rad.nodes.Node;
@@ -43,24 +42,84 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.GridLayout;
-import com.codename1.ui.plaf.Border;
 import com.codename1.ui.plaf.RoundRectBorder;
 
 /**
- *
+ * View used to render individual rows of {@link TweetListView}.
+ * 
+ * === View Model
+ * 
+ * The view model should be an Entity subclass that conforms to the {@link Tweet} schema.  {@link TweetModel} is a 
+ * reference implementation of such a view model.
+ * 
+ * === Action Categories
+ * 
+ * This component supports the following action categories:
+ * 
+ * . {@link #TWEET_MENU_ACTIONS} - Actions to be rendered in the tweet's overflow menu.
+ * . {@link #TWEET_ACTIONS} - Actions to be rendered below the tweet.
+ * . {@link #TWEET_CLICKED} - Action fired when tweet is clicked.
+ * . {@link #TWEET_CLICKED_MENU} -  Actions to be displayed in menu that is shown when the tweet is clicked.
+ * . {@link #TWEET_LONG_PRESS} -  Action fired when tweet is long pressed.
+ * . {@link #TWEET_LONG_PRESS_MENU} - Actions to be displayed in menu that is shown when the tweet is long pressed.
+ * . {@link #TWEET_AUTHOR_CLICKED} - Action fired when author is clicked.
+ * . {@link #TWEET_AUTHOR_LONG_PRESS} - Action fired when author is long pressed.
+ * . {@link #TWEET_AUTHOR_CLICKED_MENU} - Actions displayed in menu when author is clicked.
+ * . {@link #TWEET_AUTHOR_LONG_PRESS_MENU} - Actions displayed in menu when author is long clicked.
+ * 
  * @author shannah
  */
 public class TweetRowView extends AbstractEntityView {
     
+    /**
+     * Actions to be rendered in the tweet's overflow menu.
+     */
     public static final Category TWEET_MENU_ACTIONS = new Category();
+    
+    /**
+     * Actions to be rendered below the tweet.
+     */
     public static final Category TWEET_ACTIONS = new Category();
+    
+    /**
+     * Action fired when tweet is clicked.
+     */
     public static final Category TWEET_CLICKED = new Category();
+    
+    
+    /**
+     * Actions to be displayed in menu that is shown when the tweet is clicked.
+     */
     public static final Category TWEET_CLICKED_MENU = new Category();
+    
+    /**
+     * Action fired when tweet is long pressed.
+     */
     public static final Category TWEET_LONG_PRESS = new Category();
+    
+    /**
+     * Actions to be displayed in menu that is shown when the tweet is long pressed.
+     */
     public static final Category TWEET_LONG_PRESS_MENU = new Category();
+    
+    /**
+     * Action fired when tweet author's name or avatar is clicked.
+     */
     public static final Category TWEET_AUTHOR_CLICKED = new Category();
+    
+    /**
+     * Action fired when tweet author's name or avatar is long pressed.
+     */
     public static final Category TWEET_AUTHOR_LONG_PRESS = new Category();
+    
+    /**
+     * Actions to be displayed in menu when user clicks on the author name or avatar.
+     */
     public static final Category TWEET_AUTHOR_CLICKED_MENU = new Category();
+    
+    /**
+     * Actions to be displayed in menu when user long presses on the author name or avatar.
+     */
     public static final Category TWEET_AUTHOR_LONG_PRESS_MENU = new Category();
     
     private int imageWidth = (int)Math.round(CN.getDisplayWidth() * 0.75), 
@@ -111,7 +170,12 @@ public class TweetRowView extends AbstractEntityView {
     private final Container imageContainerWrapper = new Container(new BorderLayout());
     private final Container actionsContainer = new Container();
     private final Button leadButton = new Button();
-            
+           
+    /**
+     * Creates a tweet row view.
+     * @param tweet The view model.  Entity class should conform to the {@link Tweet} schema.
+     * @param node The UI descriptor (where actions are defined).
+     */
     public TweetRowView(Entity tweet, ViewNode node) {
         super(tweet);
         setLeadComponent(leadButton);
@@ -400,6 +464,9 @@ public class TweetRowView extends AbstractEntityView {
         return node;
     }
     
+    /**
+     * Renderer used by the {@link TweetListView} to create the individual row views, which are instances of {@link TweetRowView}.
+     */
     public static class TweetRowCellRenderer implements EntityListCellRenderer {
 
         @Override
