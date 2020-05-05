@@ -127,7 +127,7 @@ import com.codename1.twitterui.views.TWTSearchButton;
 import com.codename1.twitterui.views.TWTTitleComponent;
 import com.codename1.twitterui.views.TweetRowView;
 
-/**
+{slash}**
  *
  * @author shannah
  *{slash}
