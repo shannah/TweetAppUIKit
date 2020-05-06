@@ -50,10 +50,146 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 
 /**
- *
+ * A view for showing a "tweet" details.  This is the logical view that would be shown
+ * when a user clicks on a "tweet" in the {@link TweetListView} to see an expanded version of
+ * the tweet.
+ * 
+ * .Screenshot of sample tweet rendered using the TweetDetailView.
+ * image::https://shannah.github.io/TweetAppUIKit/manual/images/Image-050520-092454.768.png[]
+ * 
+ * === View Model
+ * 
+ * Will accept any entity conforming to the {@link Tweet} schema.
+ * 
+ * === Actions
+ * 
+ * The there are 3 primary action categories for injecting content into this view: {@link #TWEET_ACTIONS}, {@link #STATS_ACTIONS}, and {@link #OVERFLOW_ACTIONS}.
+ * 
+ * The {@link #TWEET_ACTIONS} are the actions rendered just below the tweet.  These are usually things like "Like", "Retweet", or "Reply", but you can place any
+ * actions you like here.
+ * 
+ * The {@link #STATS_ACTIONS} are actions rendered (also) below the tweet that are meant to contain information about the tweet such as the number of
+ * likes or rewteets.  Example action definitions to take advantage of this:
+ * 
+ * [source,java]
+ * ----
+ * public static final ActionNode retweets = action(
+            icon("Retweets"),
+            label("245"),
+            actionStyle(ActionStyle.IconRight)
+    ), likes = action(
+            icon("Likes"),
+            label("1444"),
+            actionStyle(ActionStyle.IconRight)
+    );
+    ...
+    
+    ViewNode vn = new ViewNode(
+            actions(TweetDetailView.TWEET_ACTIONS, TwitterUIDemo.reply, TwitterUIDemo.retweet, TwitterUIDemo.favorite, TwitterUIDemo.share),
+            actions(TweetDetailView.STATS_ACTIONS, retweets, likes),
+            actions(TweetDetailView.OVERFLOW_ACTIONS, TwitterUIDemo.mute)
+    ); 
+ * ---- 
+ * 
+ * 
+ * === Styles
+ * 
+ * The following UIIDs are used for styling this component, and can be overridden in your own stylesheets.
+ * 
+ * . `TweetDetailView` - The UIID for the detail view container.
+ * . `TweetDetailViewAuthorName` - UIID used for author's full name.
+ * . `TweetDetailViewAuthorID` - UIID for author's ID (e.g. user ID).
+ * . `TweetDetailViewAuthorIcon` - UIID for the author's Icon/thumbnail.
+ * . `TweetDetailViewContent` - UIID for the SpanLabel containing the tweet content.
+ * . `TweetDetailViewContentText` - UIID for the text in the SpanLabel containing the tweet content.
+ * . `TweetDetailViewImage` - UIID for the image in the tweet, if the tweet contains an image.
+ * . `TweetDetailsViewDatePosted` - UIID for the date posted label.
+ * . `TweetDetailViewOverflowMenuButton` - UIID for the overflow menu button.
+ * . `TweetDetailViewStatsAction` - UIID for the label of a {@link #STATS_ACTIONS} action button.
+ * . `TweetDetailViewStatsActionIcon` - UIID for the "icon" of a {@link #STATS_ACTIONS} action button.  The "label" is actually used to render text containing the amount of the stats.
+ * . `TweetDetailViewStatsActions` - UIID for the container containing all of the {@link #STATS_ACTIONS} action buttons.
+ * . `TweetDetailViewTweetAction` - UIID for the {@link #TWEET_ACTIONS} action buttons.
+ * . `TweetDetailViewTweetActions` - UIID for the container containing the {@link #TWEET_ACTIONS} buttons.
+ * 
+ * === Full Example
+ * 
+ * [source,java]
+ * ----
+
+package com.codename1.demos.twitterui;
+
+import ca.weblite.shared.components.CollapsibleHeaderContainer;
+import com.codename1.rad.controllers.Controller;
+import com.codename1.rad.controllers.ControllerEvent;
+import com.codename1.rad.models.Entity;
+import com.codename1.rad.nodes.ActionNode;
+import com.codename1.rad.nodes.ViewNode;
+import com.codename1.rad.ui.ActionStyle;
+import com.codename1.rad.ui.UI;
+import com.codename1.twitterui.controllers.TWTFormController;
+import com.codename1.twitterui.views.TWTTitleComponent;
+import com.codename1.twitterui.views.TweetDetailView;
+import com.codename1.ui.Label;
+import static com.codename1.rad.ui.UI.*;
+
+
+public class TweetDetailsController extends BaseFormController {
+    public static final ActionNode retweets = action(
+            icon("Retweets"),
+            label("245"),
+            actionStyle(ActionStyle.IconRight)
+    ), likes = action(
+            icon("Likes"),
+            label("1444"),
+            actionStyle(ActionStyle.IconRight)
+    );
+    
+    public TweetDetailsController(Controller parent, Entity tweet) {
+        super(parent);
+        
+        TweetDetailView view = new TweetDetailView(tweet, getViewNode());
+        CollapsibleHeaderContainer wrapper = new CollapsibleHeaderContainer(
+                new TWTTitleComponent(tweet, getViewNode(), new Label("Tweet")), 
+                view, 
+        view);
+        setView(wrapper);
+        
+    }
+
+    @Override
+    protected ViewNode createViewNode() {
+        ViewNode vn = new ViewNode(
+                actions(TweetDetailView.TWEET_ACTIONS, TwitterUIDemo.reply, TwitterUIDemo.retweet, TwitterUIDemo.favorite, TwitterUIDemo.share),
+                actions(TweetDetailView.STATS_ACTIONS, retweets, likes),
+                actions(TweetDetailView.OVERFLOW_ACTIONS, TwitterUIDemo.mute)
+        );
+        
+        return vn;
+    }
+    
+    
+
+    @Override
+    public void actionPerformed(ControllerEvent evt) {
+        
+        super.actionPerformed(evt); 
+    }
+    
+    
+   
+    
+}
+
+ * ----
+ * 
  * @author shannah
  */
 public class TweetDetailView extends AbstractEntityView {
+    
+    /**
+     * Actions that are meant to display a statistic about the tweet.  These are rendered
+     * just below the tweet content.  E.g. "245 Retweets", or "1444 Likes".
+     */
     public static final Category STATS_ACTIONS = new Category(),
             TWEET_ACTIONS = new Category(),
             OVERFLOW_ACTIONS = new Category();
@@ -65,6 +201,11 @@ public class TweetDetailView extends AbstractEntityView {
     private static final int avatarSize = CN.convertToPixels(8.5f);
     
     
+    /**
+     * Creates a new detail view.
+     * @param entity The view model.  Any entity conforming to the {@link Tweet} schema.
+     * @param node The view node.  
+     */
     public TweetDetailView(Entity entity, ViewNode node) {
         super(entity);
         setUIID("TweetDetailView");
