@@ -111,6 +111,9 @@ import com.codename1.ui.layouts.GridLayout;
  * . `TweetDetailViewTweetAction` - UIID for the {@link #TWEET_ACTIONS} action buttons.
  * . `TweetDetailViewTweetActions` - UIID for the container containing the {@link #TWEET_ACTIONS} buttons.
  * 
+ * .Styles in the TweetDetailView
+ * image::https://shannah.github.io/TweetAppUIKit/manual/images/TweetDetailsView-Styles.png[]
+ * 
  * === Full Example
  * 
  * [source,java]
