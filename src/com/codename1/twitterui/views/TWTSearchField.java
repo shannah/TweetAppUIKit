@@ -18,6 +18,8 @@ package com.codename1.twitterui.views;
 import com.codename1.compat.java.util.Objects;
 import com.codename1.rad.models.Entity;
 import com.codename1.rad.models.Property;
+import com.codename1.rad.nodes.ActionNode;
+import com.codename1.rad.nodes.ActionNode.Category;
 import com.codename1.rad.nodes.FieldNode;
 import com.codename1.rad.nodes.Node;
 import com.codename1.rad.nodes.ViewNode;
@@ -30,13 +32,44 @@ import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
+import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BorderLayout;
 
 /**
- *
+ * The search field used by the {@link TWTSearchView}.  This includes a {@link TextField} styled like the search field in the Twitter mobile app.  It also includes a "clear" button to clear out the contents of the search and start again.
+ * 
+ * .TWTSearchField when empty.
+ * image::https://shannah.github.io/TweetAppUIKit/manual/images/TWTSearchField-empty.png[]
+ * 
+ * .TWTSearchField when non-empty.  Notice that it now has a "clear" button on the right.
+ * image::https://shannah.github.io/TweetAppUIKit/manual/images/TWTSearchField-nonempty.png[]
+ * 
+ * === View Model
+ * 
+ * The view model should provide a property with the {@link SearchAction#query} tag.  This property will be used as the query string.
+ * 
+ * === Actions
+ * 
+ * . {@link #SEARCH_ACTION} - Action attached to the text fields action listener.
+ * 
+ * === Styles
+ * 
+ * . `TWTSearchFieldIcon` - UIID for search field icon (the magnifying glass).
+ * . `TWTSearchFieldCancelButton` - UIID for the search field's cancel button.
+ * . `TWTSearchField` - UIID for the component.
+ * . `TWTSearchFieldText` - UIID for the text field within the component.
+ * 
+ * === Examples
+ * 
+ * This component is typically used inside the {@link TWTSearchView}, which means you don't interact with it directly.  However, it is also possible to use this component directly.
+ * 
+ * 
  * @author shannah
  */
 public class TWTSearchField extends AbstractEntityView {
+    
+    public static final Category SEARCH_ACTION = new Category();
+    
     private ViewNode node;
     private TextField searchField = new TextField();
     private Button clearButton = new Button("", "TWTSearchFieldCancelButton");
@@ -65,6 +98,17 @@ public class TWTSearchField extends AbstractEntityView {
         
         clearButton.addActionListener(evt->{
             getEntity().setText(queryProp, "");
+        });
+        searchField.addActionListener(evt->{
+            
+            ActionNode searchAction = node.getInheritedAction(SEARCH_ACTION);
+            if (searchAction != null) {
+                ActionEvent e2 = searchAction.fireEvent(entity, TWTSearchField.this);
+                if (e2.isConsumed()) {
+                    evt.consume();
+                    return;
+                }
+            }
         });
         update();
     }
