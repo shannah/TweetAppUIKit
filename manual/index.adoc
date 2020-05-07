@@ -22,5 +22,13 @@ image:images/Image-070520-064442.119.png[]
 
 
 
+== Components
 
+=== TWTTitleComponent
+
+.TWTTitleComponent with a `TWTSearchButton` as its main content, and a single "Settings" action rendered in its `EAST` slot via the `TITLE_ACTIONS` category.
+image::images/Image-070520-073823.013.png[]
+
+.TWTTitleComponent with a Label as its main content, and a single "Settings" action rendered in its `EAST` slot via the `TITLE_ACTIONS` category.  The "Back" button is rendered here instead of the avatar because there is a form to go back to.
+image::images/Image-070520-074236.178.png[]
 
