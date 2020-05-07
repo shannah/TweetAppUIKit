@@ -54,22 +54,64 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 
 /**
- *
+ * A component that renders a list of user profiles as either rows or badges.  This is used by the {@link TWTSearchView}
+ * in {@link ListStyle#Badges} mode to render the list of recent profiles visited.
+ * 
+ * image::https://shannah.github.io/TweetAppUIKit/manual/images/TWTProfileList.png[]
+ * 
+ * === View Model
+ * 
+ * As an {@link EntityListView} subclass, the view model is expected to ben an {@link EntityList}.  When in {@link ListStyle#Badges} mode,
+ * it uses {@link TWTProfileListRowX} to render each item.  When in {@link ListStyle#Rows} mode, it uses {@link TWTProfileListRow} to render
+ * each item.  In both cases, it supports the {@link TWTProfile#name}, {@link TWTProfile#identifier}, and {@link TWTProfile#thumbnailUrl} tags.
+ * 
+ * NOTE: {@link TWTProfile#name} is the same as {@link Thing#name},  {@link TWTProfile#identifier} is the same as {@link Thing#identifier}, 
+ * and {@link TWTProfile#thumbnailUrl} is the same as {@link Thing#thumbnailUrl}, so if your view model provides properties with these tags, they 
+ * will be compatible.
+ * 
+ * === Actions
+ * 
+ * The supported actions will be different depending on whether the list is in {@link ListStyle#Badges} mode or {@link ListStyle#Rows} mode.  If in badges mode,
+ * then see {@link TWTProfileListRowX} documentation for a list of supported actions.  If in "rows" mode, then see {@link TWTProfileListRow} for a list
+ * of supported actions.
+ * 
+ * 
  * @author shannah
  */
 public class TWTProfileList extends EntityListView {
     
+    /**
+     * Enum to specify the style of the profile list.
+     */
     public static enum ListStyle {
+        /**
+         * The list should be displayed in rows.  When in this mode, the {@link TWTProfileList} uses {@link TWTProfileListRow} to render each
+         * item of the list model.
+         */
         Rows,
+        
+        /**
+         * The list should be displayed as badges.  When in this mode, the {@link TWTProfileList} uses {@link TWTProfileListRowX} to render each 
+         * item of the list model.
+         */
         Badges
     }
     
+    /**
+     * An attribute that can be added to the UI descriptor for the TWTProfileList to specify the {@link ListStyle}.
+     */
     public static class ListStyleAttribute extends Attribute<ListStyle> {
         public ListStyleAttribute(ListStyle value) {
             super(value);
         }
     }
     
+    /**
+     * Convenience method to create a {@link TWTProfileList} to render the given profiles in the given style.
+     * @param profiles The view model for the {@link TWTProfileList}
+     * @param style The style of the list.
+     * @return The profile list.
+     */
     public static TWTProfileList creatProfileList(EntityList profiles, ListStyle style) {
         ListNode node = new ListNode();
         switch (style) {
@@ -113,10 +155,19 @@ public class TWTProfileList extends EntityListView {
         return node;
     }
     
+    /**
+     * Creates a new profile list with default UI descriptor (which is in {@link ListStyle#Rows} mode.
+     * @param list 
+     */
     public TWTProfileList(EntityList list) {
         this(list, null);
     }
     
+    /**
+     * Creates a new profile list.
+     * @param list The view model.
+     * @param node The UI descriptor.
+     */
     public TWTProfileList(EntityList list, ListNode node) {
         super(list, decorate(node));
         setUIID("TWTProfileList");
@@ -126,11 +177,54 @@ public class TWTProfileList extends EntityListView {
         }
     }
     
+    /**
+     * Component to render a twitter profile as a badge.  This includes just the avatar ({@link TWTProfile#thumbnailUrl}), name ({@link TWTProfile#name}),
+     * and account ID ({@link TWTProfile#identifier}).
+     * 
+     * === View Model
+     * 
+     * This view supports the {@link TWTProfile#name}, {@link TWTProfile#identifier}, and {@link TWTProfile#thumbnailUrl} tags.
+     * 
+     * image::https://shannah.github.io/TweetAppUIKit/manual/images/TWTProfileListRowX.png[]
+     * 
+     * NOTE: {@link TWTProfile#name} is the same as {@link Thing#name},  {@link TWTProfile#identifier} is the same as {@link Thing#identifier}, 
+     * and {@link TWTProfile#thumbnailUrl} is the same as {@link Thing#thumbnailUrl}, so if your view model provides properties with these tags, they 
+     * will be compatible.
+     * 
+     * === Actions
+     * 
+     * . {@link #PROFILE_CLICKED} - Action triggered when the profile is clicked.
+     * . {@link #PROFILE_LONGPRESS} - Action triggered when profile is long pressed.
+     * . {@link #PROFILE_CLICKED_MENU} - Actions to include in popup menu when user clicks on the profile.
+     * . {@link #PROFILE_LONGPRESS_MENU} - ACtions to include in popup menu when user long presses on the profile.
+     * 
+     * === Styles
+     * 
+     * . `TWTProfileListRowXName` - UIID for the user's name
+     * . `TWTProfileListRowXID` - UIID for the user's ID
+     * . `TWTProfileListRowXIcon` - UIID for the user's avatar.
+     * . `TWTProfileListRowX` - UIID for the component.
+     */
     public static class TWTProfileListRowX extends AbstractEntityView {
-         
+        
+        /**
+         * Action triggered when the profile is clicked.
+         */
         public static final Category PROFILE_CLICKED = new Category(),
+                
+                /**
+                 * Action triggered when profile is long pressed.
+                 */
                 PROFILE_LONGPRESS = new Category(),
+                
+                /**
+                 * Actions to include in popup menu when user clicks on the profile.
+                 */
                 PROFILE_CLICKED_MENU = new Category(),
+                
+                /**
+                 * ACtions to include in popup menu when user long presses on the profile.
+                 */
                 PROFILE_LONGPRESS_MENU = new Category();
         
         
@@ -141,7 +235,11 @@ public class TWTProfileList extends EntityListView {
         private Button icon = new Button("", "TWTProfileListRowXIcon");
         private Property nameProp, iconProp, idProp;
         
-        
+        /**
+         * Creates a new profile view.
+         * @param entity The view model.
+         * @param node The ui descriptor.
+         */
         public TWTProfileListRowX(Entity entity, ViewNode node) {
             super(entity);
             setPreferredW(CN.convertToPixels(14));
@@ -263,7 +361,32 @@ public class TWTProfileList extends EntityListView {
         
     }
     
-    
+     /**
+     * Component to render a twitter profile as a row in the {@link TWTProfileList}.  This includes just the avatar ({@link TWTProfile#thumbnailUrl}), name ({@link TWTProfile#name}),
+     * and account ID ({@link TWTProfile#identifier}) - in addition to a number of actions defined in the {@link #PROFILE_ACTIONS} category.
+     * 
+     * === View Model
+     * 
+     * This view supports the {@link TWTProfile#name}, {@link TWTProfile#identifier}, and {@link TWTProfile#thumbnailUrl} tags.
+     * 
+     * NOTE: {@link TWTProfile#name} is the same as {@link Thing#name},  {@link TWTProfile#identifier} is the same as {@link Thing#identifier}, 
+     * and {@link TWTProfile#thumbnailUrl} is the same as {@link Thing#thumbnailUrl}, so if your view model provides properties with these tags, they 
+     * will be compatible.
+     * 
+     * === Actions
+     * 
+     * . {@link #PROFILE_ACTIONS} - Actions rendered in the row.
+     * 
+     * === Styles
+     * 
+     * . `TWTProfileListRowName` - UIID for the user's name
+     * . `TWTProfileListRowID` - UIID for the user's ID
+     * . `TWTProfileListRowIcon` - UIID for the user's avatar.
+     * . `TWTProfileListRow` - UIID for the component.
+     * . `TWTProfileAction` - UIID for buttons to render the {@link #PROFILE_ACTIONS} actions.
+     * . `TWTProfileActionsWrapper` - UIID for container that wraps the {@link #PROFILE_ACTIONS} actions.
+     * 
+     */
     public static class TWTProfileListRow extends AbstractEntityView {
          
         public static final Category PROFILE_ACTIONS = new Category();

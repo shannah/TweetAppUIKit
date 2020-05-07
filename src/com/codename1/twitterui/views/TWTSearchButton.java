@@ -47,8 +47,8 @@ import com.codename1.ui.layouts.FlowLayout;
  * 
  * === Styles
  * 
- * `TWTSearchButton` - The UIID of the component.
- * `TWTSearchButtonAction` - The UIID of the label inside the button.
+ * .`TWTSearchButton` - The UIID of the component.
+ * .`TWTSearchButtonAction` - The UIID of the label inside the button.
  * 
  * @author shannah
  */
