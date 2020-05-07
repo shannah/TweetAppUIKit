@@ -35,11 +35,211 @@ import com.codename1.ui.layouts.GridLayout;
 /**
  * View for the twitter search form including the search field and autocomplete suggestions
  * and recent searches.
+ * 
+ * image::https://shannah.github.io/TweetAppUIKit/manual/images/Image-050520-095029.395.png[]
+ * 
+ * === View Model
+ * 
+ * The view model should conform to the {@link TWTSearch} schema.  This schema includes properties which are lists of results.
+ * 
+ * .Example View Model
+ * [source,java]
+ * ----
+ * private static class ViewModel extends Entity {
+        private static final EntityType TYPE = new EntityType() {{
+            string(tags(query));
+            list(EntityList.class, tags(autocompleteKeywords));
+            list(EntityList.class, tags(autocompleteProfiles));
+            list(EntityList.class, tags(recentSearchKeywords));
+            list(EntityList.class, tags(recentSearchProfiles));
+        }};
+        {
+            setEntityType(TYPE);
+            set(query, "");
+            set(autocompleteKeywords, new EntityList());
+            set(autocompleteProfiles, new EntityList());
+            set(recentSearchKeywords, new EntityList());
+            set(recentSearchProfiles, new EntityList());
+        }
+    }
+    
+    ....
+    
+    private static ViewModel createViewModel() {
+        ViewModel model = new ViewModel();
+        EntityList recentKeywords = model.getEntityList(recentSearchKeywords);
+        for (String kw : new String[]{"iOS", "Mobiledev", "Android", "Codename One", "UI design"}) {
+            recentKeywords.add(createKeyword(kw));
+        }
+        
+        EntityList recentProfiles = model.getEntityList(recentSearchProfiles);
+        recentProfiles.add(createProfile("George", "@kostanza", "https://weblite.ca/cn1tests/radchat/george.jpg"));
+        recentProfiles.add(createProfile("Kramer", "@cosmo", "https://weblite.ca/cn1tests/radchat/kramer.jpg"));
+        recentProfiles.add(createProfile("Jerry", "@jerrys", null));
+        recentProfiles.add(createProfile("Elaine", "@benes1", null));
+        recentProfiles.add(createProfile("ReallyLong Name That should get clipped", "@longidshouldbeclipped", null));
+        
+        
+        return model;
+        
+    }
+   
+ * ----
+ * 
+ * === Actions
+ * 
+ * . `SEARCH_ACTIONS` - Actions rendered to the right of the search field.
+ * . `CLEAR_RECENT_SEARCHES` - Action triggered when the user presses the "Clear recent searches" button.
+ * . `CANCEL_ACTION` - Action that can be registered to override the default cancel behaviour.  Default behaviour is to go back to the previous form.
+ * 
+ * === Styles
+ * 
+ * . `TWTSearchView` - UIID for the component.
+ * . `TWTSearchViewRecentSearchesHeader` - UIID for the recent searches header.
+ * . `TWTSearchViewRecentSearchesClearButton` - UIID for clear recent searches button.
+ * . `TWTSearchViewRecentSearchesClearButtonCharged` - UIID for clear recent searches button when it is "charged".  I.e. after user has clicked on it once.  This gives the user an option to cancel.
+ * . `TWTSearchViewTitleBar` - UIID for the top title bar.
+ * . `TWTSearchAction` - UIID for the {@link #SEARCH_ACTIONS} buttons.
+ * . `TWTSearchViewCancelAction` - UIID for the cancel button.
+ * 
+ * === Example
+ * 
+ * 
+ * [source,java]
+ * ----
+
+package com.codename1.demos.twitterui;
+
+import com.codename1.demos.twitterui.TwitterUIDemo.AppNavigationEvent;
+import com.codename1.rad.controllers.Controller;
+import com.codename1.rad.controllers.FormController;
+import com.codename1.rad.models.Entity;
+import com.codename1.rad.models.EntityList;
+import com.codename1.rad.models.EntityType;
+import com.codename1.rad.nodes.ViewNode;
+import com.codename1.rad.schemas.Thing;
+import com.codename1.twitterui.views.TWTSearchView;
+import com.codename1.twitterui.schemas.TWTKeyword;
+import com.codename1.twitterui.schemas.TWTSearch;
+import com.codename1.ui.Form;
+import com.codename1.ui.layouts.BorderLayout;
+
+
+public class SearchFormController extends FormController implements TWTSearch, TWTKeyword {
+    
+    public SearchFormController(Controller parent) {
+        super(parent);
+        Form form = new Form(new BorderLayout());
+        TWTSearchView view = new TWTSearchView(createViewModel(), new ViewNode());
+        form.getToolbar().hideToolbar();
+        form.getContentPane().add(BorderLayout.CENTER, view);
+        setView(form);
+    }
+    
+    
+    private static class ViewModel extends Entity {
+        private static final EntityType TYPE = new EntityType() {{
+            string(tags(query));
+            list(EntityList.class, tags(autocompleteKeywords));
+            list(EntityList.class, tags(autocompleteProfiles));
+            list(EntityList.class, tags(recentSearchKeywords));
+            list(EntityList.class, tags(recentSearchProfiles));
+        }};
+        {
+            setEntityType(TYPE);
+            set(query, "");
+            set(autocompleteKeywords, new EntityList());
+            set(autocompleteProfiles, new EntityList());
+            set(recentSearchKeywords, new EntityList());
+            set(recentSearchProfiles, new EntityList());
+        }
+    }
+    
+    private static class KeywordModel extends Entity {
+        private static final EntityType TYPE = new EntityType() {{
+            string(tags(keyword));
+        }};
+        {
+            setEntityType(TYPE);
+        }
+    }
+    
+    
+    private static class ProfileModel extends Entity {
+        private static final EntityType TYPE = new EntityType() {{
+            string(tags(Thing.name));
+            string(tags(Thing.identifier));
+            string(tags(Thing.thumbnailUrl));
+            
+        }};
+        {
+            setEntityType(TYPE);
+        }
+    }
+    private static ViewModel createViewModel() {
+        ViewModel model = new ViewModel();
+        EntityList recentKeywords = model.getEntityList(recentSearchKeywords);
+        for (String kw : new String[]{"iOS", "Mobiledev", "Android", "Codename One", "UI design"}) {
+            recentKeywords.add(createKeyword(kw));
+        }
+        
+        EntityList recentProfiles = model.getEntityList(recentSearchProfiles);
+        recentProfiles.add(createProfile("George", "@kostanza", "https://weblite.ca/cn1tests/radchat/george.jpg"));
+        recentProfiles.add(createProfile("Kramer", "@cosmo", "https://weblite.ca/cn1tests/radchat/kramer.jpg"));
+        recentProfiles.add(createProfile("Jerry", "@jerrys", null));
+        recentProfiles.add(createProfile("Elaine", "@benes1", null));
+        recentProfiles.add(createProfile("ReallyLong Name That should get clipped", "@longidshouldbeclipped", null));
+        
+        
+        return model;
+        
+    }
+    
+    private static KeywordModel createKeyword(String kw) {
+        KeywordModel out = new KeywordModel();
+        out.setText(keyword, kw);
+        return out;
+    }
+    
+    private static ProfileModel createProfile(String name, String id, String icon) {
+        ProfileModel out = new ProfileModel();
+        out.setText(Thing.name, name);
+        out.setText(Thing.identifier, id);
+        out.setText(Thing.thumbnailUrl, icon);
+        return out;
+    }
+
+    @Override
+    public void initController() {
+        super.initController();
+        dispatchEvent(new AppNavigationEvent(this, AppNavigationViewModel.NavSection.Search));
+    }
+  
+}
+
+ * 
+ * ----
+ * 
+ * 
+ * 
  * @author shannah
  */
 public class TWTSearchView extends AbstractEntityView {
+    
+    /**
+     * Actions to be rendered to the right of the search field.
+     */
     public static final Category SEARCH_ACTIONS = new Category();
+    
+    /**
+     * Action to handle "clear recent" searches button clicks.
+     */
     public static final Category CLEAR_RECENT_SEARCHES = new Category();
+    
+    /**
+     * A cancel action.  Register this action to override the behaviour of the cancel button.  IF this is not registered,
+     * then the default behaviour will be used, which will be to navigate back to the previous form.
+     */
     public static final Category CANCEL_ACTION = new Category();
     
     
