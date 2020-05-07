@@ -52,6 +52,9 @@ import com.codename1.ui.plaf.RoundRectBorder;
  * The view model should be an Entity subclass that conforms to the {@link Tweet} schema.  {@link TweetModel} is a 
  * reference implementation of such a view model.
  * 
+ * .A TweetRowView container populated with some sample data.
+ * image::https://shannah.github.io/TweetAppUIKit/manual/images/TweetRowView.png[]
+ * 
  * === Action Categories
  * 
  * This component supports the following action categories:
@@ -66,6 +69,22 @@ import com.codename1.ui.plaf.RoundRectBorder;
  * . {@link #TWEET_AUTHOR_LONG_PRESS} - Action fired when author is long pressed.
  * . {@link #TWEET_AUTHOR_CLICKED_MENU} - Actions displayed in menu when author is clicked.
  * . {@link #TWEET_AUTHOR_LONG_PRESS_MENU} - Actions displayed in menu when author is long clicked.
+ * 
+ * === Styles
+ * 
+ * The style of this component can be customized using CSS.  The following UIIDs are used:
+ * 
+ * . `TweetAuthorName`
+ * . `TweetAuthorID`
+ * . `TweetPostTime`
+ * . `TweetReplyingToButton`
+ * . `TweetOverflowMenu`
+ * . `TweetReplyToLabel`
+ * . `TweetBody`
+ * . `TweetBodyText`
+ * . `TweetRowMainColumn`
+ * . `TweetRowLeftColumn`
+ * . `TweetRowDot`
  * 
  * @author shannah
  */

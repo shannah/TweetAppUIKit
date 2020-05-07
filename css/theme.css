@@ -1,0 +1,721 @@
+
+:root {
+    --main-font: 'native:MainRegular';
+    --main-font-light: 'native:MainLight';
+    --main-font-bold: 'native:MainBold';
+    --main-font-size: 2.5mm;
+}
+
+TweetRowMainColumn {
+    padding: 0 2mm 0 2mm;
+}
+
+TweetRowLeftColumn {
+    padding: 0 0 0 1mm;
+}
+
+
+TweetAuthorName {
+    font-family: 'native:MainBold';
+    font-size: 2.5mm;
+    color:black;
+    font-weight:bold;
+    padding-bottom: 0mm;
+    padding-left: 0;
+    margin-bottom:0;
+}
+
+TweetAuthorID, TweetPostTime, TweetRowDot, TweetOverflowMenu {
+    font-family: 'native:MainLight';
+    font-size: 2.3mm;
+    color: #888888;
+    padding-bottom: 0mm;
+    margin-bottom:0;
+}
+
+TweetOverflowMenu {
+    margin:1mm 0 1mm 1mm;
+}
+
+TweetBody {
+    margin: 0mm 0 1mm 0;
+    padding:0;
+}
+
+TweetBodyText {
+    font-family: 'native:MainLight';
+    font-size: 2.5mm;
+    color:black;
+    margin:0;
+    padding:0;
+}
+
+TweetMenuAction {
+    text-align: left;
+    color: black;
+    font-family: 'native:MainLight';
+    font-size: 3.5mm;
+    padding: 2mm;
+}
+
+TweetMenuAction.pressed {
+    background-color: #cccccc;
+}
+
+TweetAction {
+    font-family: 'native:MainLight';
+    font-size: 2.3mm;
+    color: #888888;
+    padding: 2mm 2mm 2mm 0;
+    
+}
+
+TweetRowView {
+    border:1pt solid white;
+    border-bottom: 1px solid #dddddd;
+    
+    background-color: white;
+    margin:0;
+}
+
+/* The TWTSideBar Component */
+TWTSideBar {
+    background-color: white;
+    border: none;
+    border-right: 1px solid #dddddd;
+    padding:0;
+    margin:0;
+}
+
+/**
+Wrapper for the sidebar content
+*/
+TWTSideBarWrapper {
+    padding:0;
+    margin:0;
+    border:none;
+}
+
+/* North section of TWTSideBar Component.  Contains Avatar, username, stats, etc.. 
+Not scrollable
+*/
+TWTSideBarNorth {
+    border:none;
+    margin:0;
+    padding: 2mm;
+}
+
+/* Center section of TWTSideBar.  Contains menu.  Scrollable Y usually */
+TWTSideBarCenter {
+    padding:0;
+    margin:0;
+}
+
+/* South section of TWTSideBar. Contains bottom left and right menus */
+TWTSideBarSouth {
+    border:none;
+    padding:0;
+    margin:0;
+    
+}
+
+/**
+Overflow menu button for TWTSideBar
+*/
+TWTSideBarOverflowMenuButton {
+    cn1-derive: 'Button';
+    border: 1pt rgb(29, 161, 242) cn1-round-border;
+    padding:0;
+    margin:0;
+    font-size: 4.5mm;
+    color: rgb(29, 161, 242);
+}
+
+/** Top action in TWTSideBar.
+Actions of this type are displayed in upper right corner, just before overflow menu.
+*/
+TWTSideBarTopAction {
+    cn1-derive: 'Button';
+    font-size: 4.5mm;
+    padding:0;
+    margin:0;
+    color: rgb(29, 161, 242);
+}
+
+/**
+Actions appearing in main menu of sidebar. E.g. "Profile", "Links", "Moments".
+A vertical menu, with icon.
+*/
+TWTSideBarAction {
+    cn1-derive: 'Button';
+    font-family: 'native:MainLight';
+    font-size: 3mm;
+    color: rgb(21,21,21);
+    text-align: left;
+    margin-left:2mm;
+    padding-left: 0;
+    margin-top: 2.6mm;
+    margin-bottom: 2.6mm;
+}
+
+TWTSideBarActionIcon {
+    font-family: 'native:MainLight';
+    font-size: 3.5mm;
+    color: rgb(107,119,128);
+}
+
+/**
+ * Wrapper container for sidebar actions
+*/
+TWTSideBarActionsWrapper {
+    margin:0;
+    padding:0;
+    
+}
+
+TWTSideBarSettingsActionsWrapper {
+    margin:0;
+    padding:0;
+    border-top: 1pt solid #eaeaea;
+    margin-top: 2mm;
+    padding-top: 2mm;
+}
+
+/**
+Actions appearing just below the main menu of the sidebar. E.g. "Settings", "Help".
+These actions have no icons. only text.  A vertical menu.
+*/
+TWTSideBarSettingsAction {
+    cn1-derive: 'Button';
+    font-family: 'native:MainLight';
+    font-size: 3mm;
+    color: rgb(21,21,21);
+    text-align: left;
+    margin-left:2mm;
+    padding-left: 0;
+    margin-top: 2.6mm;
+    margin-bottom: 2.6mm;
+}
+
+/**
+Actions in TWTSidebar that display stats about the current user.  E.g. "343 followers"
+*/
+TWTSideBarStatsAction {
+    font-family: 'native:MainRegular';
+    font-size: 2.5mm;
+    color: black;
+}
+TWTSideBarStatsActionIcon {
+    font-family: 'native:MainLight';
+    font-size: 2.5mm;
+    color: #cccccc;
+    padding:0;
+    margin:0;
+}
+
+TWTSideBarStatsActionsWrapper {
+    margin: 2mm 0 0 0;
+
+}
+
+/**
+Actions displayed in bottom left of TWTSideBar.  Icons only.
+*/
+TWTSideBarBottomLeftAction {
+    cn1-derive: 'Button';
+    padding:1.5mm;
+    margin:0;
+}
+
+TWTSideBarBottomLeftActionsWrapper {
+    padding:0;
+    margin: 0 5mm 0 0;
+}
+
+/**
+Actions displayed in bottom right of TWTSideBar.  Icons only.
+*/
+TWTSideBarBottomRightAction {
+    cn1-derive: 'Button';
+    padding:1.5mm;
+    margin:0;
+}
+
+/**
+ Username shown in the TWTSideBar just under the avatar.
+ */
+TWTSideBarNameLabel {
+    cn1-derive: 'Label';
+    text-align: left;
+    font-family: 'native:MainRegular';
+    font-size: 3mm;
+    padding:0;
+    margin:1mm 0 0 0;
+    color: black;
+    margin-left: 2mm;
+}
+
+/**
+ UserID shown in the TWTSideBar under the avatar.
+ */
+TWTSideBarIDLabel {
+    cn1-derive: 'Label';
+    font-family: 'native:MainLight';
+    font-size: 2.5mm;
+    margin:0;
+    padding:0;
+    margin-left:2mm;
+    color: #888888;
+}
+
+TWTTitleComponent {
+    background-color: white;
+    margin:0;
+    padding: 10mm 2mm 1mm 2mm;
+    padding-top:10mm;
+    border-bottom: 1px solid #dddddd;
+}
+/*
+ * A version of the TWTTitleComponent when it is above 
+ * tabs.
+ */
+TWTTitleComponentOverTabs {
+    background-color: white;
+    margin:0;
+    padding: 10mm 2mm 1mm 2mm;
+    padding-top:10mm;
+}
+
+TWTTitleComponentOverflowMenuButton {
+    cn1-derive: 'Button';
+    border: 0.5pt rgb(83, 163, 214) cn1-round-border;
+    padding:0.5mm;
+}
+
+TWTTitleComponentLeftButton {
+    margin:1mm 1mm 1mm 0;
+    padding:0;
+    
+}
+
+
+EntityListView {
+    margin:0;
+}
+
+TWTGlobalTabs {
+    background-color: white;
+    margin:0;
+    border:none;
+    border-top: 1px solid #cccccc;
+    padding: 1mm
+}
+
+TWTGlobalTabsAction {
+    text-align:center;
+    color:#333333;
+}
+
+
+TWTGlobalTabsAction.pressed {
+    color:rgb(29, 161, 242);
+}
+
+TWTGlobalTabsActionBadge {
+    text-align:center;
+    border: 1pt #ffffff cn1-pill-border;
+    background-color:rgb(29, 161, 242);
+    padding:0.25mm;
+    margin:0;
+    font-size: 1.5mm;
+    color: white;
+    
+}
+
+TWTSearchButton {
+    background-color: rgb(230, 236, 240);
+    border: 1pt rgb(230, 236, 240) cn1-pill-border; 
+    margin:0;
+    padding:0;
+    margin-left:1mm;
+    margin-right:1mm;
+    
+}
+
+TWTSearchButtonAction {
+    color: #666666;
+    font-size: 2mm;
+    font-family: 'native:MainLight';
+    padding:0;
+    margin:0;
+}
+
+TWTSearchField {
+    background-color: rgb(230, 236, 240);
+    border: 1pt rgb(230, 236, 240) cn1-pill-border; 
+    margin:0;
+    padding:1mm;
+    margin-left:1mm;
+    margin-right:1mm;
+}
+
+TWTSearchFieldText {
+    font-family: 'native:MainLight';
+    font-size: 2mm;
+    margin:0;
+    padding:0;
+    border:none;
+    background-color: transparent;
+}
+
+TWTSearchFieldCancelButton {
+    color: rgb(29, 161, 242);
+    font-size: 2mm;
+    font-family: 'native:MainLight';
+    margin:0;
+    padding:0;
+}
+
+TWTSearchFieldIcon {
+    font-size: 2mm;
+    font-family: 'native:MainLight';
+    padding:0;
+    margin:0;
+    color: #666666;
+}
+
+TWTSearchViewRecentSearchesClearButton {
+    border: cn1-pill-border;
+    background-color: #999999;
+    color: white;
+    font-family: 'native:MainLight';
+    font-size: 1.75mm;
+    padding: 0.5mm;
+}
+
+TWTSearchViewRecentSearchesClearButtonCharged {
+    border: cn1-pill-border;
+    background-color: #999999;
+    color: white;
+    font-family: 'native:MainLight';
+    font-size: 1.75mm;
+    padding: 0.5mm;
+}
+
+TWTSearchViewRecentSearchesHeaderLabel {
+    font-size: 2.5mm;
+    font-family: 'native:MainBold';
+    color: #666666;
+    
+}
+
+TWTSearchViewRecentSearchesHeader {
+    padding:1mm;
+}
+
+TWTSearchView {
+    padding:0;
+}
+
+TWTKeywordList, TWTProfileList {
+    background-color: white;
+    margin:0;
+    padding:0;
+    
+}
+
+TWTKeywordListRow {
+    border: none;
+    border-top: 1px solid #dddddd;
+    padding: 2mm;
+}
+
+TWTKeywordListRowLabel {
+    font-family: 'native:MainLight';
+    font-size: 2.5mm;
+}
+
+TWTProfileListRowX {
+    margin:0;
+    padding:2mm 1mm 2mm 1mm;
+}
+
+TWTProfileListRowXName {
+    font-family: 'native:MainLight';
+    font-size: 1.5mm;
+    margin:0;
+    padding:0;
+    text-align:center;
+}
+
+TWTProfileListRowXID {
+    font-family: 'native:MainLight';
+    font-size: 1.5mm;
+    color: #666666;
+    margin:0;
+    padding:0;
+    text-align: center;
+}
+
+TWTProfileListRowXIcon {
+    padding:0;
+    margin:0;
+}
+
+TWTSearchViewTitleBar {
+    background-color: white;
+    border: none;
+    border-bottom: 1px solid #dddddd;
+    padding: 1mm;
+}
+
+TWTSearchViewCancelAction, TWTSearchAction {
+    color: rgb(29, 161, 242);
+    font-size: 2mm;
+    font-family: 'native:MainLight';
+}
+
+TWTNewsListRowView {
+    background-color:white;
+    border-top: 1px solid #dddddd;
+    margin:0;
+    padding:2mm;
+}
+TWTNewsListRowViewFeature {
+    background-color:white;
+    border-top: 1px solid #dddddd;
+    margin:0;
+    padding:0;
+}
+
+TWTNewsListRowCreator {
+    font-size: 2mm;
+    font-family: 'native:MainRegular';
+    padding:0;
+    margin:0;
+}
+TWTNewsListRowCreatorFeature {
+    font-size: 2.5mm;
+    font-family: 'native:MainRegular';
+    padding:0;
+    margin:0;
+    color:white;
+}
+TWTNewsListRowDate {
+    font-size: 2mm;
+    font-family: 'native:MainLight';
+    padding:0;
+    margin:0;
+    color: #888888;
+    margin-left: 1mm;
+}
+TWTNewsListRowDateFeature {
+    font-size: 2.5mm;
+    font-family: 'native:MainLight';
+    padding:0;
+    margin:0;
+    color: #888888;
+    margin-left: 1mm;
+    color:white;
+}
+
+TWTNewsListRowHeadline {
+    padding:0;
+    margin:0;
+}
+TWTNewsListRowHeadlineText {
+    font-size: 2.5mm;
+    font-family: 'native:MainRegular';
+    padding:0;
+    margin:0;
+}
+TWTNewsListRowHeadlineTextFeature {
+    font-size: 3mm;
+    font-family: 'native:MainBold';
+    padding:0;
+    margin:0;
+    color:white;
+}
+
+TWTNewsListRowThumbnail {
+    padding:0;
+    margin:0;
+    margin-left: 1mm;
+}
+
+TWTTabs {
+    margin:0;
+    padding:0;
+    background-color:white;
+    border:none;
+}
+
+TWTTab {
+    background-color:white;
+    border-bottom: 0.5mm solid white;
+    margin:0;
+    color: #888888;
+    padding:0;
+    padding-top: 2mm;
+    padding-bottom: 2mm;
+    
+    text-align:center;
+    font-family: 'native:MainRegular';
+    font-size: 2.5mm;
+}
+
+TWTTab.pressed {
+    border-bottom: 0.5mm solid rgb(29, 161, 242);
+    color: rgb(29, 161, 242);
+}
+
+TweetDetailView {
+    margin:0;
+    padding:2mm;
+    background-color: white;
+}
+
+TweetDetailViewAuthorName, TweetDetailViewAuthorID {
+    font-family: 'native:MainRegular';
+    font-size: 2.5mm;
+    margin:0;
+    padding:0;
+}
+TweetDetailViewAuthorID {
+    color: #333333;
+    font-family: 'native:MainThin';
+}
+
+TweetDetailViewAuthorIcon {
+    padding:0 1mm 0 0;
+    margin:0;
+}
+
+TweetDetailViewContent {
+    margin:0;
+    padding:2mm 0 2mm 0;
+}
+
+TweetDetailViewContentText {
+    margin:0;
+    padding:0;
+    font-family: 'native:MainThin';
+    font-size: 4mm;
+    color: black;
+}
+
+TweetDetailsViewDatePosted {
+    margin:0;
+    padding:1mm 0 1mm 0;
+    color: #333333;
+    font-family: 'native:MainThin';
+    font-size: 2.5mm
+}
+
+TweetDetailViewImage {
+    margin: 1mm 0 1mm 0;
+    padding:0;
+    border-radius: 2mm;
+}
+
+TweetDetailViewStatsActions {
+    border:none;
+    margin:1mm 0 1mm 0;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    padding:0.5mm 0 0.5mm 0;
+   
+}
+
+TweetDetailViewStatsAction {
+    color: black;
+    font-size: 2.5mm;
+    font-family: 'native:MainRegular';
+    margin:0;
+    padding:0 1mm 0 0;
+}
+
+TweetDetailViewStatsActionIcon {
+    color: black;
+    font-size: 2.5mm;
+    font-family: 'native:MainLight';
+    color: #444444;
+    
+    padding:0.5mm;
+}
+
+TweetDetailViewTweetAction {
+    text-align:center;
+    font-size: 2.5mm;
+    color: #888888;
+    font-family: 'native:MainRegular';
+    
+}
+
+TweetDetailViewOverflowMenuButton {
+    color: #888888;
+    margin-top: 0;
+    padding-top: 0;
+
+}
+
+TWTSettingsForm {
+    padding:0;
+    margin:0;
+    
+}
+TWTSettingsFormSection {
+    padding:0;
+    margin: 1mm 0 1mm 0;
+   
+}
+TWTSettingsFormAction {
+    background-color:white;
+    margin:0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #eaeaea;
+}
+
+TWTSettingsFormAction.pressed {
+    background-color: #cccccc;
+}
+
+TWTSettingsFormActionLabel {
+    font-family: var(--main-font);
+    font-size: var(--main-font-size);
+    color: black;
+}
+
+TWTSettingsFormActionValue {
+    font-family: var(--main-font-light);
+    font-size: var(--main-font-size);
+    color: #888888;
+}
+
+TWTSettingsFormActionArrowButton {
+    font-family: var(--main-font-light);
+    font-size: var(--main-font-size);
+    color: #cccccc;
+}
+
+TWTSettingsFormSectionLabel {
+    font-family: var(--main-font-bold);
+    font-size: 3.5mm;
+    color: #666666;
+    
+    padding: 2mm 1mm 2mm 1mm;
+}
+
+TWTSettingsFormActionDescriptionText {
+    font-size: 1.5mm;
+    font-family: var(--main-font-light);
+    font-family: 1.5mm;
+    color: #888888;
+}
+
+TWTSettingsFormActionDescription {
+    padding:0;
+    margin:0;
+}

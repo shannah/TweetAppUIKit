@@ -108,14 +108,20 @@ public class SearchTabsController extends BaseFormController {
         EntityList out = new EntityList();
         String georgeThumb = "https://weblite.ca/cn1tests/radchat/george.jpg";
         String kramerThumb = "https://weblite.ca/cn1tests/radchat/kramer.jpg";
+        String jerryThumb = "https://weblite.ca/cn1tests/radchat/jerry.jpg";
         Entity george = getOrCreateAuthor("George", "@kostanza", georgeThumb);
         Entity kramer = getOrCreateAuthor("Kramer", "@kramer", kramerThumb);
+        Entity jerry = getOrCreateAuthor("Jerry", "@jerry", jerryThumb);
         long SECOND = 1000l;
         long MINUTE = SECOND * 60;
         long HOUR = MINUTE * 60;
         long DAY = HOUR * 24;
         long t = System.currentTimeMillis() - 2 * DAY;
-        
+        out.add(createItem(jerry, new Date(t), "Stunning Public Domain Waterfall Photos", "https://weblite.ca/cn1tests/radchat/waterfalls.jpg"));
+        out.add(createItem(george, new Date(t), "Use the RADChatRoom library to quickly and easily add a nice-looking, ...", "https://www.codenameone.com/img/blog/chat-ui-kit-feature.jpg"));
+        out.add(createItem(kramer, new Date(t), "EasyThread  makes it much easier to write multi-threaded code in Codename One.", "https://www.codenameone.com/img/blog/new-features.jpg"));
+        out.add(createItem(jerry, new Date(t), "XCODE 11 IS NOW THE DEFAULT", "https://www.codenameone.com/img/blog/xcode-7.png"));
+        out.add(createItem(kramer, new Date(t), "CSS styles can now be distributed inside a cn1lib.", "https://www.codenameone.com/img/blog/css-header.jpg"));
         out.add(createItem(george, new Date(t), "Iran's vast coronavirus burial pits are visible by satellite", "https://pbs.twimg.com/media/ES6gV-xXkAQwZ0Y?format=jpg&name=small"));
         out.add(createItem(george, new Date(t), "We've added the ability to position your Sheets in different locations on the screen.", "https://www.codenameone.com/img/blog/new-features.jpg"));
         return out;

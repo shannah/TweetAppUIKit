@@ -40,7 +40,11 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.Border;
 
 /**
- *
+ * This component is the equivalent of the "ToolBar" for TweetAppUIKit apps.  It will display
+ * either a "Back" button, or the current user's avatar in the upper left, depending on context,
+ * The remainder of the component is filled with the "main content", which is passed to the component
+ * constructor.
+ * 
  * @author shannah
  */
 public class TWTTitleComponent extends AbstractEntityView {
@@ -52,6 +56,12 @@ public class TWTTitleComponent extends AbstractEntityView {
     private ProfileAvatarView avatar;
     private Component mainContent;
     
+    /**
+     * Creates a new title 
+     * @param entity
+     * @param node
+     * @param mainContent 
+     */
     public TWTTitleComponent(Entity entity, ViewNode node, Component mainContent) {
         super(entity);
         this.node = node;
