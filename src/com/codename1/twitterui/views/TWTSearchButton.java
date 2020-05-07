@@ -31,11 +31,32 @@ import com.codename1.ui.FontImage;
 import com.codename1.ui.layouts.FlowLayout;
 
 /**
- *
+ * This component is a button that is made to look like a search field.  The idea is that when the user presses the button,
+ * it will transition to a new form which has an actual search field.  The look of this component is meant match the {@link TWTSearchField}
+ * component.
+ * 
+ * image::https://shannah.github.com/TweetAppUIKit/manual/images/TWTSearchButton.png[]
+ * 
+ * === View Model
+ * 
+ * This component doesn't have any special view model requirements.  It doesn't use any dynamic properties.
+ * 
+ * === Actions
+ * 
+ * {@link SEARCH_ACTION} - Action that is fired when the user clicks on the button.
+ * 
+ * === Styles
+ * 
+ * `TWTSearchButton` - The UIID of the component.
+ * `TWTSearchButtonAction` - The UIID of the label inside the button.
+ * 
  * @author shannah
  */
 public class TWTSearchButton extends  AbstractEntityView {
     
+    /**
+     * Action that is fired when the user clicks on the button.
+     */
     public static final Category SEARCH_ACTION = new Category();
     
     private ViewNode node;
