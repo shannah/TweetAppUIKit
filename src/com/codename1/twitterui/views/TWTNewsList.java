@@ -21,6 +21,8 @@ import com.codename1.rad.models.Attribute;
 import com.codename1.rad.models.Entity;
 import com.codename1.rad.models.EntityList;
 import com.codename1.rad.models.PropertySelector;
+import com.codename1.rad.nodes.ActionNode;
+import com.codename1.rad.nodes.ActionNode.Category;
 import com.codename1.rad.nodes.FieldNode;
 import com.codename1.rad.nodes.ListNode;
 import com.codename1.rad.nodes.Node;
@@ -30,29 +32,70 @@ import com.codename1.rad.propertyviews.SpanLabelPropertyView;
 import com.codename1.rad.schemas.Thing;
 import com.codename1.rad.text.TimeAgoDateFormatter;
 import com.codename1.rad.ui.AbstractEntityView;
+import com.codename1.rad.ui.Actions;
 import com.codename1.rad.ui.EntityListCellRenderer;
 import com.codename1.rad.ui.EntityView;
 import com.codename1.rad.ui.UI;
 import com.codename1.rad.ui.entityviews.EntityListView;
 import com.codename1.rad.ui.image.ImageContainer;
 import com.codename1.rad.ui.image.RoundImageRenderer;
+import com.codename1.rad.ui.menus.ActionSheet;
 import com.codename1.twitterui.schemas.TWTNewsItem;
 import com.codename1.ui.Button;
 import com.codename1.ui.CN;
 import static com.codename1.ui.ComponentSelector.$;
 import com.codename1.ui.Container;
 import com.codename1.ui.Label;
+import com.codename1.ui.Sheet;
+import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 
 /**
- *
+ * A view for displaying a list of news items.  This is similar to {@link TweetListView}, except this 
+ * more closely resembles the "News" section of the Twitter mobile app rather than a "tweet" list.  E.g.
+ * it displays a headline, a news source, and an image associated with the headline.  
+ * 
+ * image::https://shannah.github.io/TweetAppUIKit/manual/images/Image-070520-064442.119.png[]
+ * 
+ * This is really just a vanilla {@link EntityListView} that uses the {@link TWTNewsListRowView} to render
+ * each row.  The first row is rendered with a large splash image, and the rest are rendered using
+ * a more compact layout.
+ * 
+ * === View Model
+ * 
+ * Any {@link EntityList} will do for the view model.  Each row should be an entity that conforms to
+ * the {@link TWTNewsItem} schema.  For more details on row view model requirements see {@link TWTNewsListRowView}.
+ * 
+ * === Actions
+ * 
+ * . {@link #NEWS_ITEM_CLICKED} - Fired when news item is clicked.
+ * . {@link #NEWS_ITEM_LONGPRESS} - Fired when news item is longpressed.
+ * . {@link #NEWS_ITEM_CLICKED_MENU} - Actions that will appear in action sheet when news item is clicked.
+ * . {@link #NEWS_ITEM_LONGPRESS_MENU} - Actions that will appear in action sheet when news item is longpressed.
+ * . {@link #CREATOR_CLICKED} - Fired when the "creator" label is clicked.
+ * . {@link #CREATOR_LONGPRESS} - Fired when the "creator" label is longpressed.
+ * . {@link #CREATOR_CLICKED_MENU} - Actions that will appear in action sheet when "creator" label is clicked.
+ * . {@link #CREATOR_LONGPRESS_MENU} - Actions that will appear in action sheet when "creator" label is longpressed.
+ * 
+ * === Styles
+ * 
+ * See {@link TWTNewsListRowView} for styles in each row.
+ * 
  * @author shannah
  */
 public class TWTNewsList extends EntityListView {
     
+    public static final Category NEWS_ITEM_CLICKED = new Category(),
+            NEWS_ITEM_LONGPRESS = new Category(),
+            NEWS_ITEM_CLICKED_MENU = new Category(),
+            NEWS_ITEM_LONGPRESS_MENU = new Category(),
+            CREATOR_CLICKED = new Category(),
+            CREATOR_LONGPRESS = new Category(),
+            CREATOR_CLICKED_MENU = new Category(),
+            CREATOR_LONGPRESS_MENU = new Category();
     
     private ViewNode node;
     
@@ -66,6 +109,45 @@ public class TWTNewsList extends EntityListView {
         
     }
     
+    /**
+     * The row view for a news list.  This can be used directly as an independent component, but
+     * it is more commonly used to render rows in the {@link TWTNewsList} component.
+     * 
+     * === Actions
+     *
+     * . {@link #NEWS_ITEM_CLICKED} - Fired when news item is clicked.
+     * . {@link #NEWS_ITEM_LONGPRESS} - Fired when news item is longpressed.
+     * . {@link #NEWS_ITEM_CLICKED_MENU} - Actions that will appear in action
+     * sheet when news item is clicked. 
+     * . {@link #NEWS_ITEM_LONGPRESS_MENU} -
+     * Actions that will appear in action sheet when news item is longpressed. 
+     * . {@link #CREATOR_CLICKED} - Fired when the "creator" label is clicked. .
+     * . {@link #CREATOR_LONGPRESS} - Fired when the "creator" label is
+     * longpressed. 
+     * . {@link #CREATOR_CLICKED_MENU} - Actions that will appear
+     * in action sheet when "creator" label is clicked. 
+     * . {@link #CREATOR_LONGPRESS_MENU} - Actions that will appear in action
+     * sheet when "creator" label is longpressed.
+     * 
+     * === Styles
+     * 
+     * . `TWTNewsListRowCreator` - UIID for the Creator label
+     * . `TWTNewsListRowCreatorFeature` - UIID for Creator label in "featured" row.
+     * . `TWTNewsListRowCreatorIcon` - UIID for creator icon.
+     * . `TWTNewsListRowCreatorIconFeature` - UIID for creator icon in featured row.
+     * . `TWTNewsListRowThumbnail` - UIID for the news item thumbnail.
+     * . `TWTNewsListRowThumbnailFeature` - UIID for the news item thumbnail in a "featured" row.
+     * . `TWTNewsListRowView` - UIID for the component.
+     * . `TWTNewsListRowViewFeature` - UIID for featured component.
+     * . `TWTNewsListRowThumbnail` - UIID for news item's thumbnail image.
+     * . `TWTNewsListRowThumbnailFeature` - UIID for news items thumbnail image in featured row.
+     * . `TWTNewsListRowHeadline` - UIID for news item's headline SpanLabel
+     * . `TWTNewsListRowHeadlineText` - UIID for news item's headline text.
+     * . `TWTNewsListRowHeadlineFeature` - UIID for news item's headline SpanLabel in featured row.
+     * . `TWTNewsListRowHeadlineTextFeature` - UIID for news item's headline text in featured row.
+     * . `TWTNewsListRowDate` - UIID for the date of the news item.
+     * . `TWTNewsListRowDateFeature` - UIID for the date of a news item in featured row.
+     */
     public static class TWTNewsListRowView extends AbstractEntityView {
         private ViewNode node;
         private final Button creatorButton;
@@ -106,6 +188,41 @@ public class TWTNewsList extends EntityListView {
             // A view to display the creator
             
             creatorButton = new Button();
+            creatorButton.setBlockLead(true);
+            creatorButton.addActionListener(evt->{
+                ActionNode clickedAction = node.getInheritedAction(CREATOR_CLICKED);
+                if (clickedAction != null && clickedAction.isEnabled(entity)) {
+                    ActionEvent e2 = clickedAction.fireEvent(entity, this);
+                    if (e2.isConsumed()) {
+                        evt.consume();
+                        return;
+                    }
+                }
+                Actions clickedActions = node.getInheritedActions(CREATOR_CLICKED_MENU).getEnabled(entity);
+                if (!clickedActions.isEmpty()) {
+                    evt.consume();
+                    ActionSheet actionSheet = new ActionSheet(Sheet.findContainingSheet(this), getEntity(), clickedActions);
+                    actionSheet.show();
+                    return;
+                }
+            });
+            creatorButton.addLongPressListener(evt->{
+                ActionNode longpressAction = node.getInheritedAction(CREATOR_LONGPRESS);
+                if (longpressAction != null && longpressAction.isEnabled(entity)) {
+                    ActionEvent e2 = longpressAction.fireEvent(entity, this);
+                    if (e2.isConsumed()) {
+                        evt.consume();
+                        return;
+                    }
+                }
+                Actions longpressActions = node.getInheritedActions(CREATOR_LONGPRESS_MENU).getEnabled(entity);
+                if (!longpressActions.isEmpty()) {
+                    evt.consume();
+                    ActionSheet actionSheet = new ActionSheet(Sheet.findContainingSheet(this), getEntity(), longpressActions);
+                    actionSheet.show();
+                    return;
+                }
+            });
             creatorButton.setUIID("TWTNewsListRowCreator"+featureSuffix);
             creatorButton.setIconUIID("TWTNewsListRowCreatorIcon"+featureSuffix);
             
@@ -136,7 +253,7 @@ public class TWTNewsList extends EntityListView {
             
             
             
-            thumbnailLabel = new Label("", "TWTNewsListRowThumbnail"+featureSuffix);
+            thumbnailLabel = new Button("", "TWTNewsListRowThumbnail"+featureSuffix);
             thumbnailView = LabelPropertyView.createRoundRectIconLabel(
                     thumbnailLabel, 
                     entity, 
@@ -145,6 +262,41 @@ public class TWTNewsList extends EntityListView {
                     thumbnailSize, 
                     1.5f
             );
+            setLeadComponent((Button)thumbnailLabel);
+            ((Button)thumbnailLabel).addActionListener(evt->{
+                ActionNode clickedAction = node.getInheritedAction(NEWS_ITEM_CLICKED);
+                if (clickedAction != null && clickedAction.isEnabled(entity)) {
+                    ActionEvent e2 = clickedAction.fireEvent(entity, this);
+                    if (e2.isConsumed()) {
+                        evt.consume();
+                        return;
+                    }
+                }
+                Actions clickedActions = node.getInheritedActions(NEWS_ITEM_CLICKED_MENU).getEnabled(entity);
+                if (!clickedActions.isEmpty()) {
+                    evt.consume();
+                    ActionSheet actionSheet = new ActionSheet(Sheet.findContainingSheet(this), getEntity(), clickedActions);
+                    actionSheet.show();
+                    return;
+                }
+            });
+            ((Button)thumbnailLabel).addLongPressListener(evt->{
+                ActionNode longpressAction = node.getInheritedAction(NEWS_ITEM_LONGPRESS);
+                if (longpressAction != null && longpressAction.isEnabled(entity)) {
+                    ActionEvent e2 = longpressAction.fireEvent(entity, this);
+                    if (e2.isConsumed()) {
+                        evt.consume();
+                        return;
+                    }
+                }
+                Actions longpressActions = node.getInheritedActions(NEWS_ITEM_LONGPRESS_MENU).getEnabled(entity);
+                if (!longpressActions.isEmpty()) {
+                    evt.consume();
+                    ActionSheet actionSheet = new ActionSheet(Sheet.findContainingSheet(this), getEntity(), longpressActions);
+                    actionSheet.show();
+                    return;
+                }
+            });
             
             headlineLabel = new SpanLabel();
             headlineLabel.setUIID("TWTNewsListRowHeadline"+featureSuffix);
