@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="tweet-app-ui-kit-ios" />
+        <module name="tweet-app-ui-kit-win" />
+        <module name="tweet-app-ui-kit-javase" />
+        <module name="tweet-app-ui-kit-tests-javase" />
+        <module name="tweet-app-ui-kit-javascript" />
+        <module name="tweet-app-ui-kit-android" />
+        <module name="tweet-app-ui-kit-common" />
+        <module name="tweet-app-ui-kit-tests-common" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="tweet-app-ui-kit" target="8" />
+      <module name="tweet-app-ui-kit-android" target="8" />
+      <module name="tweet-app-ui-kit-common" target="8" />
+      <module name="tweet-app-ui-kit-ios" target="8" />
+      <module name="tweet-app-ui-kit-javascript" target="8" />
+      <module name="tweet-app-ui-kit-javase" target="1.8" />
+      <module name="tweet-app-ui-kit-lib" target="1.8" />
+      <module name="tweet-app-ui-kit-tests" target="8" />
+      <module name="tweet-app-ui-kit-tests-common" target="8" />
+      <module name="tweet-app-ui-kit-tests-javase" target="1.8" />
+      <module name="tweet-app-ui-kit-win" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

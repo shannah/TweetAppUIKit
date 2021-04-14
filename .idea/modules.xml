@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/tweet-app-ui-kit.iml" filepath="$PROJECT_DIR$/tweet-app-ui-kit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/tweet-app-ui-kit-android.iml" filepath="$PROJECT_DIR$/android/tweet-app-ui-kit-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/tweet-app-ui-kit-common.iml" filepath="$PROJECT_DIR$/common/tweet-app-ui-kit-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ios/tweet-app-ui-kit-ios.iml" filepath="$PROJECT_DIR$/ios/tweet-app-ui-kit-ios.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javascript/tweet-app-ui-kit-javascript.iml" filepath="$PROJECT_DIR$/javascript/tweet-app-ui-kit-javascript.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javase/tweet-app-ui-kit-javase.iml" filepath="$PROJECT_DIR$/javase/tweet-app-ui-kit-javase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/tweet-app-ui-kit-lib.iml" filepath="$PROJECT_DIR$/lib/tweet-app-ui-kit-lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/tweet-app-ui-kit-tests.iml" filepath="$PROJECT_DIR$/tests/tweet-app-ui-kit-tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/common/tweet-app-ui-kit-tests-common.iml" filepath="$PROJECT_DIR$/tests/common/tweet-app-ui-kit-tests-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/javase/tweet-app-ui-kit-tests-javase.iml" filepath="$PROJECT_DIR$/tests/javase/tweet-app-ui-kit-tests-javase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/win/tweet-app-ui-kit-win.iml" filepath="$PROJECT_DIR$/win/tweet-app-ui-kit-win.iml" />
+    </modules>
+  </component>
+</project>
