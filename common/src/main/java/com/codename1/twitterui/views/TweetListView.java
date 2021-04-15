@@ -34,7 +34,7 @@ import com.codename1.ui.Component;
  * 
  * The TweetListView, as a subclass of {@link EntityListView} requires an `EntityList` for a view model, and a {@link ListNode} 
  * as a UI descriptor.  The items/rows of the EntityList are expected to be {@link Entity} subclasses conforming to the {@link ITweet}
- * schema.  The {@link TweetModel} class is a reference implementation of such a view model.  You may use {@link TweetModel} instances
+ * schema.  The {@link Tweet} class is a reference implementation of such a view model.  You may use {@link Tweet} instances
  * as the items of the `EntityList`, or you may define your own view model.
  * 
  * The rows of this view are {@link TweetRowView} instances, so you can refer to the {@link TweetRowView} docs for further information

@@ -84,10 +84,11 @@ public class HomeFormController extends BaseFormController {
                 actions(TweetRowView.TWEET_ACTIONS, createTweetActions()),
                 actions(ProfileAvatarView.PROFILE_AVATAR_CLICKED_MENU, createTweetProfileAvatarClickedMenuActions()),
                 actions(TweetRowView.TWEET_CLICKED, getTweetClickedAction()),
-                UI.param(EntityListView.SCROLLABLE_Y, true)
+                UI.param(EntityListView.SCROLLABLE_Y, true),
+                UI.providerLookup(ITweetProvider.class)
 
         );
-        listNode.addLookup(lookup(ITweetProvider.class));
+
 
         TweetListView view = new TweetListView(new EntityList(), listNode);
 
