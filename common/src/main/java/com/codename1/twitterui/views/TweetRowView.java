@@ -27,7 +27,7 @@ import com.codename1.rad.ui.entityviews.EntityListView;
 import com.codename1.rad.ui.entityviews.ProfileAvatarView;
 import com.codename1.rad.ui.image.ImageContainer;
 import com.codename1.rad.ui.menus.ActionSheet;
-import com.codename1.twitterui.models.ITweet;
+import com.codename1.twitterui.schemas.TweetSchema;
 import com.codename1.ui.Button;
 import com.codename1.ui.CN;
 import com.codename1.ui.Component;
@@ -49,7 +49,7 @@ import com.codename1.ui.plaf.RoundRectBorder;
  * 
  * === View Model
  * 
- * The view model should be an Entity subclass that conforms to the {@link ITweet} schema.  {@link TweetModel} is a
+ * The view model should be an Entity subclass that conforms to the {@link TweetSchema} schema.  {@link TweetModel} is a
  * reference implementation of such a view model.
  * 
  * .A TweetRowView container populated with some sample data.
@@ -192,7 +192,7 @@ public class TweetRowView extends AbstractEntityView {
            
     /**
      * Creates a tweet row view.
-     * @param tweet The view model.  Entity class should conform to the {@link ITweet} schema.
+     * @param tweet The view model.  Entity class should conform to the {@link TweetSchema} schema.
      * @param node The UI descriptor (where actions are defined).
      */
     public TweetRowView(Entity tweet, ViewNode node) {
@@ -207,28 +207,28 @@ public class TweetRowView extends AbstractEntityView {
     private void loadProperties() {
         Entity e = getEntity();
         EntityType et = e.getEntityType();
-        authorProp = e.findProperty(ITweet.author);
+        authorProp = e.findProperty(TweetSchema.author);
         if (authorProp != null && !authorProp.getContentType().isEntity()) {
-            authorIdProp = e.findProperty(ITweet.authorId);
-            authorIconProp = e.findProperty(ITweet.authorIcon);
+            authorIdProp = e.findProperty(TweetSchema.authorId);
+            authorIconProp = e.findProperty(TweetSchema.authorIcon);
         }
         
-        postTimeProp = e.findProperty(ITweet.datePosted);
-        replyingToProp = e.findProperty(ITweet.inReplyTo);
-        subscriptionSourceProp = e.findProperty(ITweet.subscriptionSource);
-        imageProp = e.findProperty(ITweet.image);
-        linkProp = e.findProperty(ITweet.link);
+        postTimeProp = e.findProperty(TweetSchema.datePosted);
+        replyingToProp = e.findProperty(TweetSchema.inReplyTo);
+        subscriptionSourceProp = e.findProperty(TweetSchema.subscriptionSource);
+        imageProp = e.findProperty(TweetSchema.image);
+        linkProp = e.findProperty(TweetSchema.link);
         if (linkProp == null || !linkProp.getContentType().isEntity()) {
-            linkTitleProp = e.findProperty(ITweet.linkSubject);
+            linkTitleProp = e.findProperty(TweetSchema.linkSubject);
             if (linkProp == null) {
-                linkProp = e.findProperty(ITweet.linkUrl);
+                linkProp = e.findProperty(TweetSchema.linkUrl);
             }
         }
-        messageBodyProp = e.findProperty(ITweet.text);
-        numViewsProp = e.findProperty(ITweet.numViews);
-        numRepliesProp = e.findProperty(ITweet.numReplies);
-        numRetweetsProp = e.findProperty(ITweet.numRetweets);
-        numLikesProp = e.findProperty(ITweet.numLikes);
+        messageBodyProp = e.findProperty(TweetSchema.text);
+        numViewsProp = e.findProperty(TweetSchema.numViews);
+        numRepliesProp = e.findProperty(TweetSchema.numReplies);
+        numRetweetsProp = e.findProperty(TweetSchema.numRetweets);
+        numLikesProp = e.findProperty(TweetSchema.numLikes);
         
     }
     
@@ -360,7 +360,7 @@ public class TweetRowView extends AbstractEntityView {
                 authorName = e.getText(authorProp);
                 authorId = e.getText(authorIdProp);
                 ViewNode n = new ViewNode(
-                        UI.param(ProfileAvatarView.ICON_PROPERTY_TAGS, ITweet.authorIcon),
+                        UI.param(ProfileAvatarView.ICON_PROPERTY_TAGS, TweetSchema.authorIcon),
                         UI.param(ProfileAvatarView.NAME_PROPERTY, authorProp)
                 );
                 n.setParent(getViewNode());

@@ -22,7 +22,6 @@ import com.codename1.rad.attributes.IconUIID;
 import com.codename1.rad.attributes.UIID;
 import com.codename1.rad.models.Entity;
 import com.codename1.rad.models.EntityType;
-import com.codename1.rad.models.Property;
 import com.codename1.rad.models.PropertySelector;
 import com.codename1.rad.nodes.ActionNode.Category;
 import com.codename1.rad.nodes.ComponentDecoratorNode;
@@ -35,8 +34,8 @@ import com.codename1.rad.ui.Actions;
 import com.codename1.rad.ui.UI;
 import com.codename1.rad.ui.entityviews.ProfileAvatarView;
 import com.codename1.rad.ui.menus.ActionSheet;
-import com.codename1.twitterui.models.IApplicationModel;
-import com.codename1.twitterui.models.IUserProfile;
+import com.codename1.twitterui.schemas.TWTApplicationSchema;
+import com.codename1.twitterui.schemas.TWTUserProfileSchema;
 import com.codename1.twitterui.models.TWTUserProfile;
 import com.codename1.ui.*;
 
@@ -154,7 +153,7 @@ ViewNode viewNode = new ViewNode(
  * 
  * This component is designed to work seamlessly with the other components of the TweetAppUIKit.  If you use the `TWTFormController` as a base for your
  * form controllers, it will automatically create the TWTSideBarView as your app's sidebar, using the controller's {@link ViewNode} as the UI
- * descriptor for the side view, and the registered {@link com.codename1.twitterui.models.IApplicationModel} (which you would implement) as the view model for the side bar.
+ * descriptor for the side view, and the registered {@link TWTApplicationSchema} (which you would implement) as the view model for the side bar.
  * 
  * The following is a simple example.
  * 
@@ -460,9 +459,9 @@ public class TWTSideBarView extends AbstractEntityView {
     
     private void loadProperties() {
         Entity e = getEntity();
-        nameProp = new PropertySelector(e, IApplicationModel.user).createChildSelector(IUserProfile.name);
-        idProp = new PropertySelector(e, IApplicationModel.user).createChildSelector(IUserProfile.identifier);
-        avatarProp = new PropertySelector(e, IApplicationModel.user).createChildSelector(IUserProfile.thumbnailUrl);
+        nameProp = new PropertySelector(e, TWTApplicationSchema.user).createChildSelector(TWTUserProfileSchema.name);
+        idProp = new PropertySelector(e, TWTApplicationSchema.user).createChildSelector(TWTUserProfileSchema.identifier);
+        avatarProp = new PropertySelector(e, TWTApplicationSchema.user).createChildSelector(TWTUserProfileSchema.thumbnailUrl);
     }
     
     
@@ -473,7 +472,7 @@ public class TWTSideBarView extends AbstractEntityView {
         Entity e = getEntity();
         EntityType et = e.getEntityType();
         setSafeAreaRoot(true);
-        Entity userProfile = e.getEntity(IApplicationModel.user);
+        Entity userProfile = e.getEntity(TWTApplicationSchema.user);
         if (userProfile == null) {
             userProfile = new TWTUserProfile();
         }
@@ -484,7 +483,7 @@ public class TWTSideBarView extends AbstractEntityView {
         fragment.set("namelabel", nameLabel);
         fragment.set("idlabel", idLabel);
         fragment.set("avatar", avatar);
-        avatarUrl = userProfile.getText(IUserProfile.thumbnailUrl);
+        avatarUrl = userProfile.getText(TWTUserProfileSchema.thumbnailUrl);
                 
         add(BorderLayout.CENTER, fragment.getView());
         

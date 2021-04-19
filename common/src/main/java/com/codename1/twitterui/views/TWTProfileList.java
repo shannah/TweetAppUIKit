@@ -36,7 +36,7 @@ import com.codename1.rad.ui.UI;
 import com.codename1.rad.ui.entityviews.EntityListView;
 import com.codename1.rad.ui.entityviews.ProfileAvatarView;
 import com.codename1.rad.ui.menus.ActionSheet;
-import com.codename1.twitterui.models.IUserProfile;
+import com.codename1.twitterui.schemas.TWTUserProfileSchema;
 import com.codename1.ui.Button;
 import com.codename1.ui.CN;
 import static com.codename1.ui.ComponentSelector.$;
@@ -175,17 +175,17 @@ public class TWTProfileList extends EntityListView {
     }
     
     /**
-     * Component to render a twitter profile as a badge.  This includes just the avatar ({@link IUserProfile#thumbnailUrl}), name ({@link IUserProfile#name}),
-     * and account ID ({@link IUserProfile#identifier}).
+     * Component to render a twitter profile as a badge.  This includes just the avatar ({@link TWTUserProfileSchema#thumbnailUrl}), name ({@link TWTUserProfileSchema#name}),
+     * and account ID ({@link TWTUserProfileSchema#identifier}).
      * 
      * === View Model
      * 
-     * This view supports the {@link IUserProfile#name}, {@link IUserProfile#identifier}, and {@link IUserProfile#thumbnailUrl} tags.
+     * This view supports the {@link TWTUserProfileSchema#name}, {@link TWTUserProfileSchema#identifier}, and {@link TWTUserProfileSchema#thumbnailUrl} tags.
      * 
      * image::https://shannah.github.io/TweetAppUIKit/manual/images/TWTProfileListRowX.png[]
      * 
-     * NOTE: {@link IUserProfile#name} is the same as {@link IUserProfile#name},  {@link IUserProfile#identifier} is the same as {@link IUserProfile#identifier},
-     * and {@link IUserProfile#thumbnailUrl} is the same as {@link IUserProfile#thumbnailUrl}, so if your view model provides properties with these tags, they
+     * NOTE: {@link TWTUserProfileSchema#name} is the same as {@link TWTUserProfileSchema#name},  {@link TWTUserProfileSchema#identifier} is the same as {@link TWTUserProfileSchema#identifier},
+     * and {@link TWTUserProfileSchema#thumbnailUrl} is the same as {@link TWTUserProfileSchema#thumbnailUrl}, so if your view model provides properties with these tags, they
      * will be compatible.
      * 
      * === Actions
@@ -242,9 +242,9 @@ public class TWTProfileList extends EntityListView {
             setPreferredW(CN.convertToPixels(14));
             setPreferredH(CN.convertToPixels(18));
             this.node = node;
-            this.nameProp = entity.findProperty(IUserProfile.name);
-            this.iconProp = entity.findProperty(IUserProfile.thumbnailUrl);
-            this.idProp = entity.findProperty(IUserProfile.identifier);
+            this.nameProp = entity.findProperty(TWTUserProfileSchema.name);
+            this.iconProp = entity.findProperty(TWTUserProfileSchema.thumbnailUrl);
+            this.idProp = entity.findProperty(TWTUserProfileSchema.identifier);
             initUI();
         }
         
@@ -359,15 +359,15 @@ public class TWTProfileList extends EntityListView {
     }
     
      /**
-     * Component to render a twitter profile as a row in the {@link TWTProfileList}.  This includes just the avatar ({@link IUserProfile#thumbnailUrl}), name ({@link IUserProfile#name}),
-     * and account ID ({@link IUserProfile#identifier}) - in addition to a number of actions defined in the {@link #PROFILE_ACTIONS} category.
+     * Component to render a twitter profile as a row in the {@link TWTProfileList}.  This includes just the avatar ({@link TWTUserProfileSchema#thumbnailUrl}), name ({@link TWTUserProfileSchema#name}),
+     * and account ID ({@link TWTUserProfileSchema#identifier}) - in addition to a number of actions defined in the {@link #PROFILE_ACTIONS} category.
      * 
      * === View Model
      * 
-     * This view supports the {@link IUserProfile#name}, {@link IUserProfile#identifier}, and {@link IUserProfile#thumbnailUrl} tags.
+     * This view supports the {@link TWTUserProfileSchema#name}, {@link TWTUserProfileSchema#identifier}, and {@link TWTUserProfileSchema#thumbnailUrl} tags.
      * 
-     * NOTE: {@link IUserProfile#name} is the same as {@link Thing#name},  {@link IUserProfile#identifier} is the same as {@link Thing#identifier},
-     * and {@link IUserProfile#thumbnailUrl} is the same as {@link Thing#thumbnailUrl}, so if your view model provides properties with these tags, they
+     * NOTE: {@link TWTUserProfileSchema#name} is the same as {@link Thing#name},  {@link TWTUserProfileSchema#identifier} is the same as {@link Thing#identifier},
+     * and {@link TWTUserProfileSchema#thumbnailUrl} is the same as {@link Thing#thumbnailUrl}, so if your view model provides properties with these tags, they
      * will be compatible.
      * 
      * === Actions
@@ -399,9 +399,9 @@ public class TWTProfileList extends EntityListView {
         public TWTProfileListRow(Entity entity, ViewNode node) {
             super(entity);
             this.node = node;
-            this.nameProp = entity.findProperty(IUserProfile.name);
-            this.iconProp = entity.findProperty(IUserProfile.thumbnailUrl);
-            this.idProp = entity.findProperty(IUserProfile.identifier);
+            this.nameProp = entity.findProperty(TWTUserProfileSchema.name);
+            this.iconProp = entity.findProperty(TWTUserProfileSchema.thumbnailUrl);
+            this.idProp = entity.findProperty(TWTUserProfileSchema.identifier);
             setSafeArea(true);
             initUI();
         }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.codename1.twitterui.models;
+package com.codename1.twitterui.schemas;
 
 import com.codename1.rad.models.Tag;
 import com.codename1.rad.schemas.SocialMediaPosting;
@@ -22,7 +22,7 @@ import com.codename1.rad.schemas.SocialMediaPosting;
  *
  * @author shannah
  */
-public interface INewsItem {
+public interface TWTNewsItemSchema {
     public static final Tag creator = SocialMediaPosting.creator,
             headline = SocialMediaPosting.headline,
             thumbnailUrl = SocialMediaPosting.thumbnailUrl,

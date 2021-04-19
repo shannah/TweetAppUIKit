@@ -31,12 +31,11 @@ import com.codename1.ui.layouts.GridLayout;
  */
 public class TWTGlobalTabs extends AbstractEntityView {
     public static final Category GLOBAL_TABS = new Category();
-    private ViewNode node;
+
     
     
     public TWTGlobalTabs(Entity entity, ViewNode node) {
-        super(entity);
-        this.node = node;
+        super(entity, node);
         initUI();
     }
     
@@ -64,9 +63,5 @@ public class TWTGlobalTabs extends AbstractEntityView {
         
     }
 
-    @Override
-    public Node getViewNode() {
-        return node;
-    }
     
 }

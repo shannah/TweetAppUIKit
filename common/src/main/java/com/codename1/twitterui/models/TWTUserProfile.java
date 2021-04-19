@@ -10,18 +10,19 @@ import com.codename1.rad.models.Entity;
 import com.codename1.rad.models.EntityType;
 import com.codename1.rad.schemas.PostalAddress;
 import com.codename1.rad.schemas.Thing;
+import com.codename1.twitterui.schemas.TWTUserProfileSchema;
 
 /**
  *
  * @author shannah
  */
-public class TWTUserProfile extends Entity implements IUserProfile {
+public class TWTUserProfile extends Entity implements TWTUserProfileSchema {
     public static BooleanProperty qualityFilter;
     private static final EntityType TYPE = new EntityType() {{
-        string(tags(Thing.name));
-        string(tags(Thing.identifier));
-        string(tags(Thing.thumbnailUrl));
-        string(tags(PostalAddress.addressCountry));
+        string(tags(name));
+        string(tags(identifier));
+        string(tags(thumbnailUrl));
+        string(tags(addressCountry));
         qualityFilter = Boolean();
     }};
     {

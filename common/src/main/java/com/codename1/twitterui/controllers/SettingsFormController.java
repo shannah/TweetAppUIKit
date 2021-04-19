@@ -7,7 +7,7 @@ package com.codename1.twitterui.controllers;
 
 
 import com.codename1.rad.models.Entity;
-import com.codename1.twitterui.models.IUserProfile;
+import com.codename1.twitterui.schemas.TWTUserProfileSchema;
 import com.codename1.twitterui.models.TWTUserProfile;
 import static com.codename1.rad.ui.UI.*;
 import com.codename1.rad.controllers.Controller;
@@ -24,7 +24,7 @@ import com.codename1.ui.list.DefaultListModel;
  *
  * @author shannah
  */
-public class SettingsFormController extends BaseFormController {
+public class SettingsFormController extends TWTFormController {
     public static final ActionNode username = action(
                 label("Username"), 
                 property(entity->{
@@ -69,8 +69,8 @@ public class SettingsFormController extends BaseFormController {
             );
     public SettingsFormController(Controller parent) {
         super(parent);
-        
-        TWTSettingsForm view = new TWTSettingsForm((Entity)lookup(IUserProfile.class), getViewNode());
+        setPathName("settings");
+        TWTSettingsForm view = new TWTSettingsForm((Entity)lookup(TWTUserProfileSchema.class), getViewNode());
         
         setTitle("Settings and privacy");
         

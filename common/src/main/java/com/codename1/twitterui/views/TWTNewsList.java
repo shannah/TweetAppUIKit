@@ -39,7 +39,7 @@ import com.codename1.rad.ui.entityviews.EntityListView;
 import com.codename1.rad.ui.image.ImageContainer;
 import com.codename1.rad.ui.image.RoundImageRenderer;
 import com.codename1.rad.ui.menus.ActionSheet;
-import com.codename1.twitterui.models.INewsItem;
+import com.codename1.twitterui.schemas.TWTNewsItemSchema;
 import com.codename1.ui.Button;
 import com.codename1.ui.CN;
 import static com.codename1.ui.ComponentSelector.$;
@@ -66,7 +66,7 @@ import com.codename1.ui.plaf.Style;
  * === View Model
  * 
  * Any {@link EntityList} will do for the view model.  Each row should be an entity that conforms to
- * the {@link INewsItem} schema.  For more details on row view model requirements see {@link TWTNewsListRowView}.
+ * the {@link TWTNewsItemSchema} schema.  For more details on row view model requirements see {@link TWTNewsListRowView}.
  * 
  * === Actions
  * 
@@ -166,11 +166,11 @@ public class TWTNewsList extends EntityListView {
             super(entity);
             
             this.node = node;
-            creatorProp = new PropertySelector(entity, INewsItem.creator);
-            dateProp = new PropertySelector(entity, INewsItem.date);
-            headlineProp = new PropertySelector(entity, INewsItem.headline);
-            imageProp = new PropertySelector(entity, INewsItem.image);
-            thumbnailProp = new PropertySelector(entity, INewsItem.thumbnailUrl);
+            creatorProp = new PropertySelector(entity, TWTNewsItemSchema.creator);
+            dateProp = new PropertySelector(entity, TWTNewsItemSchema.date);
+            headlineProp = new PropertySelector(entity, TWTNewsItemSchema.headline);
+            imageProp = new PropertySelector(entity, TWTNewsItemSchema.image);
+            thumbnailProp = new PropertySelector(entity, TWTNewsItemSchema.thumbnailUrl);
             featureItem = featureItem && !imageProp.isEmpty();
             String featureSuffix = featureItem ? "Feature" : "";
             setName("TWTNewsListRowView");
@@ -229,14 +229,14 @@ public class TWTNewsList extends EntityListView {
             $(this).addTags("left-edge");
             $(creatorButton).addTags("left-inset");
             
-            PropertySelector creatorSelector = new PropertySelector(getEntity(), INewsItem.creator);
+            PropertySelector creatorSelector = new PropertySelector(getEntity(), TWTNewsItemSchema.creator);
             
             PropertySelector creatorNameSelector = creatorSelector.child(Thing.name);
             FieldNode creatorNameField =  new FieldNode(
                     UI.property(creatorNameSelector)
             );
             FieldNode creatorIconField = new FieldNode(
-                    UI.property(new PropertySelector(getEntity(), INewsItem.creator).child(Thing.thumbnailUrl)),
+                    UI.property(new PropertySelector(getEntity(), TWTNewsItemSchema.creator).child(Thing.thumbnailUrl)),
                     UI.iconRenderer(new RoundImageRenderer(creatorIconSize))
             );
             creatorNameField.setParent(node);

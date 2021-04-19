@@ -22,9 +22,9 @@ import com.codename1.rad.controllers.AppSectionController;
 import com.codename1.rad.controllers.Controller;
 import com.codename1.rad.controllers.FormController;
 import com.codename1.rad.models.Entity;
-import com.codename1.rad.models.Property;
-import com.codename1.twitterui.models.IApplicationModel;
-import com.codename1.twitterui.models.TWTNavSection;
+import com.codename1.twitterui.models.TWTApplicationModel;
+import com.codename1.twitterui.spi.IController;
+import com.codename1.twitterui.schemas.TWTApplicationSchema;
 import com.codename1.twitterui.views.TWTGlobalTabs;
 import com.codename1.twitterui.views.TWTSideBarView;
 import com.codename1.ui.Button;
@@ -43,16 +43,8 @@ import com.codename1.ui.plaf.Style;
  *
  * @author shannah
  */
-public abstract class TWTFormController extends FormController {
-    private TWTNavSection navSection;
+public abstract class TWTFormController extends FormController implements IController {
 
-    public void setNavSection(TWTNavSection navSection) {
-        this.navSection = navSection;
-    }
-
-    public TWTNavSection getNavSection() {
-        return this.navSection;
-    }
 
     public TWTFormController(Controller parent) {
         super(parent);
@@ -66,7 +58,7 @@ public abstract class TWTFormController extends FormController {
      * @return 
      */
     protected Component createSideBarView() {
-        return new TWTSideBarView((Entity)lookup(IApplicationModel.class), getViewNode());
+        return new TWTSideBarView(lookup(TWTApplicationModel.class).getEntity(), getViewNode());
     }
     
     private boolean alignLeftOnLayout = false;
@@ -188,5 +180,16 @@ public abstract class TWTFormController extends FormController {
             
         }
         super.setView(form);
+    }
+
+    @Override
+    public boolean isDemoMode() {
+        IController provider = parentLookup(IController.class);
+        if (provider != null) return provider.isDemoMode();
+        return false;
+    }
+
+    public TWTApplicationModel getApplicationModel() {
+        return lookup(TWTApplicationModel.class);
     }
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.codename1.twitterui.models;
+package com.codename1.twitterui.schemas;
 
 import com.codename1.rad.models.Tag;
 import com.codename1.rad.schemas.Comment;
@@ -24,7 +24,7 @@ import com.codename1.rad.schemas.SocialMediaPosting;
  *
  * @author shannah
  */
-public interface ITweet {
+public interface TweetSchema {
     public static final Tag author = Comment.author,
             authorId = new Tag(),
             text = Comment.text,

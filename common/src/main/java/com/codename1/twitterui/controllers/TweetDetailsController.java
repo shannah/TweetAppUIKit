@@ -12,9 +12,7 @@ import com.codename1.rad.models.Entity;
 import com.codename1.rad.nodes.ActionNode;
 import com.codename1.rad.nodes.ViewNode;
 import com.codename1.rad.ui.ActionStyle;
-import com.codename1.rad.ui.UI;
-import com.codename1.twitterui.controllers.TWTFormController;
-import com.codename1.twitterui.models.ITweet;
+import com.codename1.twitterui.schemas.TweetSchema;
 import com.codename1.twitterui.views.TWTTitleComponent;
 import com.codename1.twitterui.views.TweetDetailView;
 import com.codename1.ui.Label;
@@ -24,7 +22,7 @@ import static com.codename1.rad.ui.UI.*;
  *
  * @author shannah
  */
-public class TweetDetailsController<T extends Entity & ITweet> extends BaseFormController {
+public class TweetDetailsController<T extends Entity & TweetSchema> extends TWTFormController {
     public static final ActionNode retweets = action(
             icon("Retweets"),
             label("245"),

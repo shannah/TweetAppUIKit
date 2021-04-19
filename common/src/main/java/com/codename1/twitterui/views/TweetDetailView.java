@@ -37,7 +37,7 @@ import com.codename1.rad.ui.image.ImageContainer;
 import com.codename1.rad.ui.image.RoundImageRenderer;
 import com.codename1.rad.ui.menus.ActionSheet;
 import com.codename1.ui.Button;
-import com.codename1.twitterui.models.ITweet;
+import com.codename1.twitterui.schemas.TweetSchema;
 import com.codename1.ui.CN;
 import static com.codename1.ui.ComponentSelector.$;
 import com.codename1.ui.Container;
@@ -59,7 +59,7 @@ import com.codename1.ui.layouts.GridLayout;
  * 
  * === View Model
  * 
- * Will accept any entity conforming to the {@link ITweet} schema.
+ * Will accept any entity conforming to the {@link TweetSchema} schema.
  * 
  * === Actions
  * 
@@ -206,7 +206,7 @@ public class TweetDetailView extends AbstractEntityView {
     
     /**
      * Creates a new detail view.
-     * @param entity The view model.  Any entity conforming to the {@link ITweet} schema.
+     * @param entity The view model.  Any entity conforming to the {@link TweetSchema} schema.
      * @param node The view node.  
      */
     public TweetDetailView(Entity entity, ViewNode node) {
@@ -224,8 +224,8 @@ public class TweetDetailView extends AbstractEntityView {
                 UI.property(new PropertySelector(entity, Comment.author).child(Thing.identifier))
         ));
         //Button authorIconBtn = new Button("", "TweetDetailViewAuthorIcon");
-        PropertySelector authorIconSelector = entity.findProperty(ITweet.authorIcon) != null ?
-                new PropertySelector(entity, ITweet.authorIcon) :
+        PropertySelector authorIconSelector = entity.findProperty(TweetSchema.authorIcon) != null ?
+                new PropertySelector(entity, TweetSchema.authorIcon) :
                 new PropertySelector(entity, Comment.author).child(Thing.thumbnailUrl);
         
         authorIcon = LabelPropertyView.createIconLabel(
@@ -239,7 +239,7 @@ public class TweetDetailView extends AbstractEntityView {
         contentLbl.setUIID("TweetDetailViewContent");
         contentLbl.setTextUIID("TweetDetailViewContentText");
         content = new SpanLabelPropertyView(contentLbl, entity, new FieldNode(
-                UI.property(new PropertySelector(entity, ITweet.text))
+                UI.property(new PropertySelector(entity, TweetSchema.text))
         ));
         PropertySelector imagePropertySelector = new PropertySelector(entity, Comment.image);
         ImageContainer imCnt = ImageContainer.createToFileSystem(imagePropertySelector);
@@ -251,7 +251,7 @@ public class TweetDetailView extends AbstractEntityView {
         Label datePostedLbl = new Label("", "TweetDetailsViewDatePosted");
         datePosted = new LabelPropertyView(datePostedLbl, entity, new FieldNode(
                 UI.dateFormat(new LocalDateTimeFormatter()),
-                UI.property(new PropertySelector(entity, ITweet.datePosted))
+                UI.property(new PropertySelector(entity, TweetSchema.datePosted))
         ));
         
         setLayout(new BorderLayout());

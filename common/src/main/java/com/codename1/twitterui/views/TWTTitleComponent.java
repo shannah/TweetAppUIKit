@@ -21,12 +21,14 @@ import com.codename1.rad.controllers.ActionSupport;
 import com.codename1.rad.controllers.FormController;
 import com.codename1.rad.controllers.ViewController;
 import com.codename1.rad.models.Entity;
+import com.codename1.rad.models.Tag;
 import com.codename1.rad.nodes.ActionNode;
 import com.codename1.rad.nodes.ActionNode.Category;
 import com.codename1.rad.nodes.Node;
 import com.codename1.rad.nodes.ViewNode;
 import com.codename1.rad.ui.AbstractEntityView;
 import com.codename1.rad.ui.Actions;
+import com.codename1.rad.ui.Slot;
 import com.codename1.rad.ui.entityviews.ProfileAvatarView;
 import com.codename1.rad.ui.menus.ActionSheet;
 import com.codename1.ui.Button;
@@ -108,6 +110,11 @@ image::https://shannah.github.io/TweetAppUIKit/manual/images/Image-070520-074236
  * @author shannah
  */
 public class TWTTitleComponent extends AbstractEntityView {
+
+    /**
+     * Slot ID that allows controllers to override the main content of this view.
+     */
+    public static final Tag mainContentSlot = new Tag("TWTTitleComponent.mainContentSlot");
     
     /**
      * Actions displayed in the EAST slot of the title component.  If only one action is registered in this
@@ -128,7 +135,7 @@ public class TWTTitleComponent extends AbstractEntityView {
      */
     public static final Category BACK_BUTTON_CLICKED = new Category();
     
-    private ViewNode node;
+
     private Button backButton, sidebarButton;
     private ProfileAvatarView avatar;
     private Component mainContent;
@@ -140,8 +147,8 @@ public class TWTTitleComponent extends AbstractEntityView {
      * @param mainContent 
      */
     public TWTTitleComponent(Entity entity, ViewNode node, Component mainContent) {
-        super(entity);
-        this.node = node;
+        super(entity, node);
+
         this.mainContent = mainContent;
         initUI();
     }
@@ -224,7 +231,10 @@ public class TWTTitleComponent extends AbstractEntityView {
         $(this).addTags("left-edge");
         $(btnsWrap).addTags("left-inset");
         add(BorderLayout.WEST, btnsWrap);
-        add(BorderLayout.CENTER, mainContent);
+
+        Slot mainSlot = new Slot(mainContentSlot, this);
+        mainSlot.setContent(mainContent);
+        add(BorderLayout.CENTER, mainSlot);
         
         Actions actions = getViewNode().getInheritedActions(TITLE_ACTIONS).getEnabled(getEntity());
         if (!actions.isEmpty()) {
@@ -303,12 +313,7 @@ public class TWTTitleComponent extends AbstractEntityView {
 
     @Override
     public void commit() {
-        
-    }
 
-    @Override
-    public Node getViewNode() {
-        return node;
     }
     
 }

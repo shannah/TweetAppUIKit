@@ -1,15 +1,16 @@
 package com.codename1.twitterui.providers;
 
+import com.codename1.rad.models.AbstractEntityListProvider;
 import com.codename1.rad.models.Entity;
-import com.codename1.rad.models.EntityListProvider;
 import com.codename1.rad.schemas.Thing;
 import com.codename1.twitterui.models.*;
+import com.codename1.twitterui.schemas.TweetSchema;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DemoTweetProvider implements ITweetProvider {
+public class DemoTweetProvider extends AbstractEntityListProvider implements ITweetProvider {
 
     private Map<String,Entity> authors = new HashMap<>();
 
@@ -44,7 +45,7 @@ public class DemoTweetProvider implements ITweetProvider {
         if (authors.containsKey(id)) {
             return authors.get(id);
         }
-        Entity author = new TWTAuthor();
+        Entity author = new TWTAuthorImpl();
         author.set(Thing.name, name);
         author.set(Thing.identifier, id);
         author.set(Thing.thumbnailUrl, iconUrl);
@@ -53,12 +54,12 @@ public class DemoTweetProvider implements ITweetProvider {
 
     }
 
-    private ITweet createTweet(Entity author, String content, Date date, String imageUrl) {
-        Tweet tweet = new Tweet();
-        tweet.set(ITweet.author, author);
-        tweet.setText(ITweet.text, content);
-        tweet.setDate(ITweet.datePosted, date);
-        tweet.setText(ITweet.image, imageUrl);
+    private TweetSchema createTweet(Entity author, String content, Date date, String imageUrl) {
+        TweetImpl tweet = new TweetImpl();
+        tweet.set(TweetSchema.author, author);
+        tweet.setText(TweetSchema.text, content);
+        tweet.setDate(TweetSchema.datePosted, date);
+        tweet.setText(TweetSchema.image, imageUrl);
         return tweet;
     }
 
@@ -67,5 +68,11 @@ public class DemoTweetProvider implements ITweetProvider {
     public Request getEntities(Request request) {
         request.complete(createDemoTweetList());
         return request;
+    }
+
+
+    @Override
+    public Request createRequest(RequestType type) {
+        return new Request(type);
     }
 }

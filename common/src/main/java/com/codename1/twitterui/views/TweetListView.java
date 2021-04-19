@@ -14,8 +14,8 @@ import com.codename1.rad.nodes.ListNode;
 import com.codename1.rad.ui.ActionViewFactory;
 import com.codename1.rad.ui.UI;
 import com.codename1.rad.ui.entityviews.EntityListView;
-import com.codename1.twitterui.models.ITweet;
-import com.codename1.twitterui.models.Tweet;
+import com.codename1.twitterui.schemas.TweetSchema;
+import com.codename1.twitterui.models.TweetImpl;
 import com.codename1.twitterui.text.TweetDateFormatter;
 import com.codename1.ui.Button;
 import com.codename1.ui.CN;
@@ -33,8 +33,8 @@ import com.codename1.ui.Component;
  * === View Model
  * 
  * The TweetListView, as a subclass of {@link EntityListView} requires an `EntityList` for a view model, and a {@link ListNode} 
- * as a UI descriptor.  The items/rows of the EntityList are expected to be {@link Entity} subclasses conforming to the {@link ITweet}
- * schema.  The {@link Tweet} class is a reference implementation of such a view model.  You may use {@link Tweet} instances
+ * as a UI descriptor.  The items/rows of the EntityList are expected to be {@link Entity} subclasses conforming to the {@link TweetSchema}
+ * schema.  The {@link TweetImpl} class is a reference implementation of such a view model.  You may use {@link TweetImpl} instances
  * as the items of the `EntityList`, or you may define your own view model.
  * 
  * The rows of this view are {@link TweetRowView} instances, so you can refer to the {@link TweetRowView} docs for further information
@@ -294,8 +294,8 @@ public class TweetListView extends EntityListView {
    
     /**
      * Creates a new tweet list view.
-     * @param tweets List of tweets.  Rows of this list should conform to the {@link ITweet} schema.
-     * @see Tweet A reference implementation conforming to the {@link ITweet} schema.
+     * @param tweets List of tweets.  Rows of this list should conform to the {@link TweetSchema} schema.
+     * @see TweetImpl A reference implementation conforming to the {@link TweetSchema} schema.
      * @see TweetRowView For component used to render each individual row.
      */
     public TweetListView(EntityList tweets) {
@@ -304,9 +304,9 @@ public class TweetListView extends EntityListView {
     
     /**
      * Creates a new tweet list view.
-     * @param tweets List of tweets.  Rows of this list should conform to the {@link ITweet} schema.
+     * @param tweets List of tweets.  Rows of this list should conform to the {@link TweetSchema} schema.
      * @param node UI descriptor.  Use this to pass parameters, attributes, actions, etc.. to the component.
-     * @see Tweet A reference implementation conforming to the {@link ITweet} schema.
+     * @see TweetImpl A reference implementation conforming to the {@link TweetSchema} schema.
      * @see TweetRowView For component used to render each individual row.
      */
     public TweetListView(EntityList tweets, ListNode node) {
