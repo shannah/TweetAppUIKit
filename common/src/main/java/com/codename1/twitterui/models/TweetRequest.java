@@ -1,15 +1,12 @@
 package com.codename1.twitterui.models;
 
+import com.codename1.rad.annotations.RAD;
+import com.codename1.rad.models.BaseEntity;
 import com.codename1.rad.models.Entity;
 import com.codename1.rad.models.EntityType;
 import com.codename1.twitterui.schemas.ITweetRequest;
 
-public class TweetRequest extends Entity implements ITweetRequest {
-    public static final EntityType TYPE = new EntityType() {{
+@RAD
+public interface TweetRequest extends Entity, ITweetRequest {
 
-    }};
-
-    {
-        setEntityType(TYPE);
-    }
 }

@@ -36,6 +36,7 @@ import com.codename1.rad.ui.UI;
 import com.codename1.rad.ui.image.ImageContainer;
 import com.codename1.rad.ui.image.RoundImageRenderer;
 import com.codename1.rad.ui.menus.ActionSheet;
+import com.codename1.twitterui.models.Tweet;
 import com.codename1.ui.Button;
 import com.codename1.twitterui.schemas.TweetSchema;
 import com.codename1.ui.CN;
@@ -209,7 +210,7 @@ public class TweetDetailView extends AbstractEntityView {
      * @param entity The view model.  Any entity conforming to the {@link TweetSchema} schema.
      * @param node The view node.  
      */
-    public TweetDetailView(Entity entity, ViewNode node) {
+    public TweetDetailView(Tweet entity, ViewNode node) {
         super(entity);
         setUIID("TweetDetailView");
         setName("TweetDetailView");

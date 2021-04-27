@@ -6,150 +6,109 @@
 package com.codename1.twitterui.controllers;
 
 import ca.weblite.shared.components.CollapsibleHeaderContainer;
-import com.codename1.rad.controllers.FormController;
-import com.codename1.rad.controllers.ViewController;
-import com.codename1.rad.models.PropertySelector;
-import com.codename1.rad.ui.UI;
-import com.codename1.twitterui.providers.DemoNewsProvider;
-import com.codename1.twitterui.providers.INewsProvider;
-import com.codename1.twitterui.schemas.TWTApplicationSchema;
-import com.codename1.twitterui.spi.INewsFormController;
-import com.codename1.twitterui.models.*;
 import com.codename1.rad.controllers.Controller;
-import com.codename1.rad.models.Entity;
+import com.codename1.rad.controllers.ViewController;
 import com.codename1.rad.models.EntityList;
-import com.codename1.rad.nodes.ActionNode;
+import com.codename1.rad.models.PropertySelector;
+import com.codename1.rad.nodes.Node;
 import com.codename1.rad.nodes.ViewNode;
-
-import static com.codename1.rad.ui.UI.*;
+import com.codename1.rad.ui.EntityListCellRenderer;
 import com.codename1.rad.ui.entityviews.TabsEntityView;
+import com.codename1.twitterui.models.TWTApplicationModel;
+import com.codename1.twitterui.models.TWTNewsCategories;
+import com.codename1.twitterui.models.TWTNewsCategory;
+import com.codename1.twitterui.providers.INewsProvider;
 import com.codename1.twitterui.views.TWTNewsList;
 import com.codename1.twitterui.views.TWTSearchButton;
 import com.codename1.twitterui.views.TWTTabsView;
 import com.codename1.twitterui.views.TWTTitleComponent;
-import com.codename1.ui.FontImage;
+
+import static com.codename1.rad.ui.UI.*;
+import static com.codename1.rad.util.NonNull.with;
 
 /**
- *
+ * A controller for the "News" form, which displays a list of news items.
  * @author shannah
  */
-public class NewsFormController extends TWTFormController implements INewsFormController {
+public class NewsFormController extends TWTFormController {
 
-    private static final ActionNode refreshAction = UI.action();
-    private static final ActionNode loadMoreAction = UI.action();
+    private EntityList<TWTNewsCategory> newsCategories;
 
-    public static interface Factory {
-        public NewsFormController newController(Controller parent);
-    }
-
-    /**
-     * Creates a new instance of NewsFormController at the given context.  This will do a
-     * lookup for {@link Factory} and use that factory to create the instance if found.
-     *
-     * It will fall back to creating a new {@link NewsFormController}.  This implementation
-     * allows you to override the {@link Factory} by adding a lookup to the application controller.
-     *
-     * @param context The context from where the lookup is made to find a {@link Factory}.
-     * @param parent The parent controller passed to the new form controller to be its parent.
-     * @return A NewsFormController.
-     */
-    public static NewsFormController newInstance(Controller context, Controller parent) {
-        Factory factory = context.lookup(Factory.class);
-        NewsFormController out = null;
-        if (factory != null) {
-            out = factory.newController(parent);
-            if (out != null) return out;
-        }
-        return new NewsFormController(parent);
-    }
-
-    public static final TWTApplicationSchema.Section section = new TWTApplicationSchema.Section(action(icon(FontImage.MATERIAL_SEARCH)), evt->{
-        ViewController vc = evt.getViewController();
-        newInstance(vc, vc.getApplicationController()).show();
-    });
-
-
-    public static final ActionNode search = action(
-            
-    );
-
-
-    private TWTApplicationModel appModel;
-    
     public NewsFormController(Controller parent) {
+        this(parent, null);
+    }
+
+    public NewsFormController(Controller parent, EntityList<TWTNewsCategory> newsCategories) {
         super(parent);
+        this.newsCategories = newsCategories;
+
+    }
+
+    @Override
+    protected void initControllerActions() {
+        super.initControllerActions();
+        extendAction(TWTSearchButton.SEARCH_ACTION, action -> {
+            // Customize search action here as ncessary.
+        });
+        extendAction(LIST_REFRESH_ACTION, action -> {
+            //
+        });
+        extendAction(LIST_LOAD_MORE_ACTION, action -> {
+
+        });
+
+
+    }
+
+    @Override
+    protected void onStartController() {
+        super.onStartController();
+        TWTApplicationController applicationController = getTWTApplicationController();
+        TWTApplicationModel model = applicationController.getApplicationModel();
+        if (this.newsCategories == null) {
+            this.newsCategories = model.getNewsCategories();
+            if (this.newsCategories == null) {
+                this.newsCategories = new TWTNewsCategories();
+                model.setNewsCategories(this.newsCategories);
+            }
+        }
+
         setPathName("news");
-        TWTApplicationModel model = parent.lookup(TWTApplicationModel.class);
-        appModel = model;
+
+
         TabsEntityView view = new TWTTabsView(model.getEntity(), getViewNode());
-       
+
         CollapsibleHeaderContainer wrapper = new CollapsibleHeaderContainer(
                 new TWTTitleComponent(
                         model.getEntity(),
                         getViewNode(),
                         new TWTSearchButton(model.getEntity(), getViewNode())
                 ),
-                view, 
+                view,
                 view
         );
         setView(wrapper);
-        
-        addActionListener(search, evt->{
-            evt.consume();
-            createSearchFormController(this).show();
 
+        // Pipe the LIST_LOAD_MORE_ACTION and LIST_REFRESH_ACTION events through
+        // to a registered news provider.  Generally the news provider would be registered
+        // in the Application controller as a lookup.
+        with(getNewsProvider(), provider -> {
+            addActionListener(getAction(LIST_LOAD_MORE_ACTION), provider);
+            addActionListener(getAction(LIST_REFRESH_ACTION), provider);
         });
-
-        // We need to bind the news provider to the load and refresh actions to give it
-        // a chance to respond to events in the news lists.
-        addActionListener(refreshAction, getNewsProvider());
-        addActionListener(loadMoreAction, getNewsProvider());
-
-
-        
-    }
-
-    @Override
-    public void initController() {
-        super.initController();
-        withLookup(TWTApplicationModel.class, model -> model.setCurrentSection(section));
-    }
-
-    private FormController createSearchFormController(Controller parent) {
-        TWTControllerFactory factory = parentLookup(TWTControllerFactory.class);
-        if (factory != null) {
-            FormController out = factory.createSearchFormController(parent);
-            if (out != null) {
-                return out;
-            }
-        }
-        return new SearchFormController(parent);
     }
 
     @Override
     protected ViewNode createViewNode() {
+        TWTApplicationController applicationController = getTWTApplicationController();
+        TWTApplicationModel appModel = applicationController.getApplicationModel();
 
-        ViewNode vn = new ViewNode(
-                actions(TWTSearchButton.SEARCH_ACTION, search)
-
-        );
-        appModel.setNewsCategories(getNewsCategories());
-
-        for (TWTNewsCategory cat : getNewsCategories()) {
+        ViewNode vn = super.createViewNode();
+        for (TWTNewsCategory cat : appModel.getNewsCategories()) {
             if (cat.getFeed() == null) {
                 cat.setFeed(new EntityList());
             }
-            NewsCategoryController categoryController = NewsCategoryController.newInstance(this, this, cat);
-            vn.setAttributes(list(
-                    property(new PropertySelector(cat, TWTNewsCategory.feed)),
-                    label(cat.getName()),
-                    controller(categoryController),
-                    cellRenderer(new TWTNewsList.TWTNewsListCellRenderer()),
-                    actions(LIST_REFRESH_ACTION, refreshAction),
-                    actions(LIST_LOAD_MORE_ACTION, loadMoreAction)
-            ));
-
-
+            vn.setAttributes(createNewsCategoryNode(cat));
         }
 
 
@@ -157,50 +116,51 @@ public class NewsFormController extends TWTFormController implements INewsFormCo
 
     }
 
-    private TWTNewsCategories newsCategories;
-
-    public TWTNewsCategories<?> getNewsCategories() {
-        if (newsCategories == null) {
-            withParentLookup(INewsFormController.class, ctl -> {
-                newsCategories = ctl.getNewsCategories();
-            });
-            if (newsCategories != null) {
-                return newsCategories;
-            }
-            withLookup(TWTApplicationModel.class, appModel -> {
-                EntityList el = appModel.getNewsCategories();
-                if (el != null) {
-                    newsCategories = el.wrap(TWTNewsCategories.class);
-                }
-            });
-            if (newsCategories != null) return newsCategories;
-            newsCategories = new TWTNewsCategories();
-            newsCategories.add((Entity)new TWTNewsCategoryImpl(DemoNewsProvider.ID_FOR_YOU, "For You" ));
-            newsCategories.add((Entity)new TWTNewsCategoryImpl(DemoNewsProvider.ID_TRENDING, "Trending"));
-        }
-        return newsCategories;
-
+    protected EntityListCellRenderer createNewsListCellRenderer(TWTNewsCategory cat) {
+        return new TWTNewsList.TWTNewsListCellRenderer();
     }
 
-    private INewsProvider newsProvider;
+    /**
+     * Creates the node to use for a category tab.  Typically this will return a ListNode that is configured
+     * with the label, cell renderer, category controller, and the property from which the entity list
+     * should be pulled from.
+     *
+     * @param cat The news category.
+     * @return
+     */
+    protected Node createNewsCategoryNode(TWTNewsCategory cat) {
+        ViewController categoryController = getTWTApplicationController().createNewsCategoryController(this, cat);
 
-    @Override
+
+        return list(
+                property(new PropertySelector(cat, TWTNewsCategory.feed)),
+                label(cat.getName()),
+                controller(categoryController),
+                cellRenderer(createNewsListCellRenderer(cat))
+        );
+    }
+
+
+    /**
+     * Sets the news provider to use with this form controller.  Note that you can also add a news provider
+     * on any parent controller (e.g. the application controller via `addLookup(NewsProvider.class, myNewsProvider)`
+     *
+     * @param provider
+     */
+    public void setNewsProvider(INewsProvider provider) {
+        addLookup(INewsProvider.class, provider);
+    }
+
+    /**
+     * Gets the news provider to use in the news list.  This will crawl up the controller hierarchy until it
+     * finds a provider.
+     *
+     * @return
+     */
     public INewsProvider getNewsProvider() {
-        if (newsProvider == null) {
-            withParentLookup(INewsFormController.class, ctl -> {
-                 newsProvider = ctl.getNewsProvider();
-            });
-            if (newsProvider == null) {
-                if (isDemoMode()) {
-                    newsProvider = new DemoNewsProvider();
-                } else {
-
-                }
-            }
-
-        }
-        return newsProvider;
+        return lookup(INewsProvider.class);
     }
+
 
 
 }

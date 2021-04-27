@@ -17,7 +17,6 @@ package com.codename1.twitterui.views;
 
 import com.codename1.compat.java.util.Objects;
 import com.codename1.rad.attributes.UIID;
-import com.codename1.rad.models.DateFormatterAttribute;
 import com.codename1.rad.models.Entity;
 import com.codename1.rad.models.EntityList;
 import com.codename1.rad.models.Property;
@@ -33,7 +32,8 @@ import com.codename1.rad.ui.EntityView;
 import com.codename1.rad.ui.UI;
 import com.codename1.rad.ui.entityviews.EntityListView;
 import com.codename1.twitterui.schemas.TWTKeyword;
-import com.codename1.twitterui.text.TweetDateFormatter;
+import com.codename1.twitterui.schemas.TWTKeywordSchema;
+import com.codename1.twitterui.schemas.TWTKeywordWrapper;
 import com.codename1.ui.Button;
 import static com.codename1.ui.ComponentSelector.$;
 import com.codename1.ui.Container;
@@ -60,11 +60,11 @@ public class TWTKeywordList extends EntityListView {
         return node;
     }
     
-    public TWTKeywordList(EntityList list) {
+    public TWTKeywordList(EntityList<TWTKeyword> list) {
         this(list, null);
     }
     
-    public TWTKeywordList(EntityList list, ListNode node) {
+    public TWTKeywordList(EntityList<TWTKeyword> list, ListNode node) {
         super(list, decorate(node));
         setUIID("TWTKeywordList");
         setName("TWTKeywordList");
@@ -78,10 +78,10 @@ public class TWTKeywordList extends EntityListView {
         private Property keywordProp;
         
         
-        public TWTKeywordListRow(Entity entity, ViewNode node) {
+        public TWTKeywordListRow(TWTKeyword entity, ViewNode node) {
             super(entity);
             this.node = node;
-            this.keywordProp = entity.findProperty(TWTKeyword.keyword);
+            this.keywordProp = entity.getEntity().findProperty(TWTKeywordSchema.keyword);
             initUI();
             
         }
@@ -114,8 +114,8 @@ public class TWTKeywordList extends EntityListView {
         public void update() {
             boolean changed = false;
             String keyword = "";
-            if (!getEntity().isEmpty(keywordProp)) {
-                keyword = getEntity().getText(keywordProp);
+            if (!getEntity().getEntity().isEmpty(keywordProp)) {
+                keyword = getEntity().getEntity().getText(keywordProp);
             }
             if (!Objects.equals(keyword, label.getText())) {
                 label.setText(keyword);
@@ -147,8 +147,8 @@ public class TWTKeywordList extends EntityListView {
         @Override
         public EntityView getListCellRendererComponent(EntityListView list, Entity value, int index, boolean isSelected, boolean isFocused) {
             ListNode node = (ListNode)list.getViewNode();
-                    
-            return new TWTKeywordListRow(value, node.getRowTemplate());
+
+            return new TWTKeywordListRow(TWTKeywordWrapper.wrap(value), node.getRowTemplate());
         }
         
     }

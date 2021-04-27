@@ -34,7 +34,7 @@ public class SettingsFormController extends TWTFormController {
             qualityFilter = action(
                     label("Quality filter"),
                     toggleSwitch(
-                        property(TWTUserProfile.qualityFilter),
+                        tags(TWTUserProfile.qualityFilter),
                         description("Filter lower-quality content from your notifications. This won't filter out notifications from people you follow or accounts you've interacted with recently.")
                     )
             ),
@@ -70,7 +70,7 @@ public class SettingsFormController extends TWTFormController {
     public SettingsFormController(Controller parent) {
         super(parent);
         setPathName("settings");
-        TWTSettingsForm view = new TWTSettingsForm((Entity)lookup(TWTUserProfileSchema.class), getViewNode());
+        TWTSettingsForm view = new TWTSettingsForm((Entity)lookup(TWTUserProfile.class), getViewNode());
         
         setTitle("Settings and privacy");
         

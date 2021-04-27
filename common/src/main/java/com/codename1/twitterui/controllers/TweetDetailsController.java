@@ -12,6 +12,7 @@ import com.codename1.rad.models.Entity;
 import com.codename1.rad.nodes.ActionNode;
 import com.codename1.rad.nodes.ViewNode;
 import com.codename1.rad.ui.ActionStyle;
+import com.codename1.twitterui.models.Tweet;
 import com.codename1.twitterui.schemas.TweetSchema;
 import com.codename1.twitterui.views.TWTTitleComponent;
 import com.codename1.twitterui.views.TweetDetailView;
@@ -22,35 +23,54 @@ import static com.codename1.rad.ui.UI.*;
  *
  * @author shannah
  */
-public class TweetDetailsController<T extends Entity & TweetSchema> extends TWTFormController {
-    public static final ActionNode retweets = action(
-            icon("Retweets"),
-            label("245"),
-            actionStyle(ActionStyle.IconRight)
-    ), likes = action(
-            icon("Likes"),
-            label("1444"),
-            actionStyle(ActionStyle.IconRight)
-    );
+public class TweetDetailsController extends TWTFormController {
+
+    private ActionNode retweets, likes;
+    private Tweet tweet;
     
-    public TweetDetailsController(Controller parent, T tweet) {
+    public TweetDetailsController(Controller parent, Tweet tweet) {
         super(parent);
+        this.tweet = tweet;
+
         
+    }
+
+    private void initActions() {
+        retweets = action(
+                icon("Retweets"),
+                label("245"),
+                actionStyle(ActionStyle.IconRight)
+        );
+        likes = action(
+                icon("Likes"),
+                label("1444"),
+                actionStyle(ActionStyle.IconRight)
+        );
+    }
+
+    @Override
+    protected void onStartController() {
+        super.onStartController();
+        initActions();
+
         TweetDetailView view = new TweetDetailView(tweet, getViewNode());
         CollapsibleHeaderContainer wrapper = new CollapsibleHeaderContainer(
-                new TWTTitleComponent(tweet, getViewNode(), new Label("Tweet")), 
-                view, 
-        view);
+                new TWTTitleComponent(tweet, getViewNode(), new Label("Tweet")),
+                view,
+                view);
         setView(wrapper);
-        
     }
 
     @Override
     protected ViewNode createViewNode() {
+        TWTApplicationController applicationController = getTWTApplicationController();
         ViewNode vn = new ViewNode(
-                actions(TweetDetailView.TWEET_ACTIONS, TWTApplicationController.reply, TWTApplicationController.retweet, TWTApplicationController.favorite, TWTApplicationController.share),
+                actions(TweetDetailView.TWEET_ACTIONS, applicationController.getReplyAction(),
+                        applicationController.getRetweetAction(),
+                        applicationController.getFavouriteAction(),
+                        applicationController.getShareAction()),
                 actions(TweetDetailView.STATS_ACTIONS, retweets, likes),
-                actions(TweetDetailView.OVERFLOW_ACTIONS, TWTApplicationController.mute)
+                actions(TweetDetailView.OVERFLOW_ACTIONS, applicationController.getMuteAction())
         );
         
         return vn;

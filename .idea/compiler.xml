@@ -7,8 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="tweet-app-ui-kit-ios" />
+        <module name="tweet-app-ui-kit-examples-loginformexample-common" />
         <module name="tweet-app-ui-kit-win" />
         <module name="tweet-app-ui-kit-javase" />
+        <module name="tweet-app-ui-kit-examples-loginformexample-javase" />
         <module name="tweet-app-ui-kit-tests-javase" />
         <module name="tweet-app-ui-kit-javascript" />
         <module name="tweet-app-ui-kit-android" />
@@ -17,9 +19,13 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="examples" target="8" />
+      <module name="loginformexample" target="1.8" />
       <module name="tweet-app-ui-kit" target="8" />
       <module name="tweet-app-ui-kit-android" target="8" />
       <module name="tweet-app-ui-kit-common" target="8" />
+      <module name="tweet-app-ui-kit-examples-loginformexample-common" target="1.8" />
+      <module name="tweet-app-ui-kit-examples-loginformexample-javase" target="1.8" />
       <module name="tweet-app-ui-kit-ios" target="8" />
       <module name="tweet-app-ui-kit-javascript" target="8" />
       <module name="tweet-app-ui-kit-javase" target="1.8" />

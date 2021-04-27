@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/examples/examples.iml" filepath="$PROJECT_DIR$/examples/examples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/loginformexample/loginformexample.iml" filepath="$PROJECT_DIR$/examples/loginformexample/loginformexample.iml" />
       <module fileurl="file://$PROJECT_DIR$/tweet-app-ui-kit.iml" filepath="$PROJECT_DIR$/tweet-app-ui-kit.iml" />
       <module fileurl="file://$PROJECT_DIR$/android/tweet-app-ui-kit-android.iml" filepath="$PROJECT_DIR$/android/tweet-app-ui-kit-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/common/tweet-app-ui-kit-common.iml" filepath="$PROJECT_DIR$/common/tweet-app-ui-kit-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/loginformexample/common/tweet-app-ui-kit-examples-loginformexample-common.iml" filepath="$PROJECT_DIR$/examples/loginformexample/common/tweet-app-ui-kit-examples-loginformexample-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/loginformexample/javase/tweet-app-ui-kit-examples-loginformexample-javase.iml" filepath="$PROJECT_DIR$/examples/loginformexample/javase/tweet-app-ui-kit-examples-loginformexample-javase.iml" />
       <module fileurl="file://$PROJECT_DIR$/ios/tweet-app-ui-kit-ios.iml" filepath="$PROJECT_DIR$/ios/tweet-app-ui-kit-ios.iml" />
       <module fileurl="file://$PROJECT_DIR$/javascript/tweet-app-ui-kit-javascript.iml" filepath="$PROJECT_DIR$/javascript/tweet-app-ui-kit-javascript.iml" />
       <module fileurl="file://$PROJECT_DIR$/javase/tweet-app-ui-kit-javase.iml" filepath="$PROJECT_DIR$/javase/tweet-app-ui-kit-javase.iml" />

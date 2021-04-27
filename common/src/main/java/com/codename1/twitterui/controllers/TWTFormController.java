@@ -23,7 +23,7 @@ import com.codename1.rad.controllers.Controller;
 import com.codename1.rad.controllers.FormController;
 import com.codename1.rad.models.Entity;
 import com.codename1.twitterui.models.TWTApplicationModel;
-import com.codename1.twitterui.spi.IController;
+
 import com.codename1.twitterui.schemas.TWTApplicationSchema;
 import com.codename1.twitterui.views.TWTGlobalTabs;
 import com.codename1.twitterui.views.TWTSideBarView;
@@ -43,13 +43,22 @@ import com.codename1.ui.plaf.Style;
  *
  * @author shannah
  */
-public abstract class TWTFormController extends FormController implements IController {
+public abstract class TWTFormController extends FormController {
 
 
     public TWTFormController(Controller parent) {
         super(parent);
     }
     
+
+    public TWTApplicationController getTWTApplicationController() {
+        TWTApplicationController out = lookup(TWTApplicationController.class);
+        if (out == null) {
+            throw new IllegalStateException("TWTFormController must either be used in the context of a TWTApplicationController, or a TWTApplicationController instance must be added as a lookup to the controller hierarchy above the TWTController");
+
+        }
+        return out;
+    }
 
     /**
      * Creates the sidebar component.  The sidebar is only created for top-level
@@ -180,13 +189,6 @@ public abstract class TWTFormController extends FormController implements IContr
             
         }
         super.setView(form);
-    }
-
-    @Override
-    public boolean isDemoMode() {
-        IController provider = parentLookup(IController.class);
-        if (provider != null) return provider.isDemoMode();
-        return false;
     }
 
     public TWTApplicationModel getApplicationModel() {

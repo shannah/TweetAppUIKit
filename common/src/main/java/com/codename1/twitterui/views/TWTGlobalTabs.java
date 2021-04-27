@@ -23,6 +23,7 @@ import com.codename1.rad.nodes.ViewNode;
 import com.codename1.rad.ui.AbstractEntityView;
 import com.codename1.rad.ui.Actions;
 import com.codename1.rad.ui.UI;
+import com.codename1.twitterui.models.TWTApplicationModel;
 import com.codename1.ui.layouts.GridLayout;
 
 /**
@@ -34,7 +35,7 @@ public class TWTGlobalTabs extends AbstractEntityView {
 
     
     
-    public TWTGlobalTabs(Entity entity, ViewNode node) {
+    public TWTGlobalTabs(TWTApplicationModel entity, ViewNode node) {
         super(entity, node);
         initUI();
     }

@@ -27,6 +27,7 @@ import com.codename1.rad.ui.entityviews.EntityListView;
 import com.codename1.rad.ui.entityviews.ProfileAvatarView;
 import com.codename1.rad.ui.image.ImageContainer;
 import com.codename1.rad.ui.menus.ActionSheet;
+import com.codename1.twitterui.models.Tweet;
 import com.codename1.twitterui.schemas.TweetSchema;
 import com.codename1.ui.Button;
 import com.codename1.ui.CN;
@@ -43,13 +44,14 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.RoundRectBorder;
+import com.codename1.rad.models.Entity;
 
 /**
  * View used to render individual rows of {@link TweetListView}.
  * 
  * === View Model
  * 
- * The view model should be an Entity subclass that conforms to the {@link TweetSchema} schema.  {@link TweetModel} is a
+ * The view model should be an Entity subclass that conforms to the {@link TweetSchema} schema.  {@link Tweet} is a
  * reference implementation of such a view model.
  * 
  * .A TweetRowView container populated with some sample data.
@@ -195,7 +197,7 @@ public class TweetRowView extends AbstractEntityView {
      * @param tweet The view model.  Entity class should conform to the {@link TweetSchema} schema.
      * @param node The UI descriptor (where actions are defined).
      */
-    public TweetRowView(Entity tweet, ViewNode node) {
+    public TweetRowView(Tweet tweet, ViewNode node) {
         super(tweet);
         setLeadComponent(leadButton);
         setUIID("TweetRowView");
@@ -491,7 +493,7 @@ public class TweetRowView extends AbstractEntityView {
         @Override
         public EntityView getListCellRendererComponent(EntityListView list, Entity value, int index, boolean isSelected, boolean isFocused) {
             ViewNode tplNode = ((ListNode)list.getViewNode()).getRowTemplate();
-            return new TweetRowView(value, tplNode);
+            return new TweetRowView((Tweet)value, tplNode);
         }
         
     }

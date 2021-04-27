@@ -14,6 +14,7 @@ import com.codename1.rad.nodes.ListNode;
 import com.codename1.rad.ui.ActionViewFactory;
 import com.codename1.rad.ui.UI;
 import com.codename1.rad.ui.entityviews.EntityListView;
+import com.codename1.twitterui.models.Tweet;
 import com.codename1.twitterui.schemas.TweetSchema;
 import com.codename1.twitterui.models.TweetImpl;
 import com.codename1.twitterui.text.TweetDateFormatter;
@@ -298,7 +299,7 @@ public class TweetListView extends EntityListView {
      * @see TweetImpl A reference implementation conforming to the {@link TweetSchema} schema.
      * @see TweetRowView For component used to render each individual row.
      */
-    public TweetListView(EntityList tweets) {
+    public TweetListView(EntityList<Tweet> tweets) {
         this(tweets, null);
     }
     
@@ -309,7 +310,7 @@ public class TweetListView extends EntityListView {
      * @see TweetImpl A reference implementation conforming to the {@link TweetSchema} schema.
      * @see TweetRowView For component used to render each individual row.
      */
-    public TweetListView(EntityList tweets, ListNode node) {
+    public TweetListView(EntityList<Tweet> tweets, ListNode node) {
         super(tweets, decorate(node));
     }
 

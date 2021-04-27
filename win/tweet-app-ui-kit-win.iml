@@ -11,5 +11,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="tweet-app-ui-kit-common" />
     <orderEntry type="library" name="Maven: com.codenameone:coderad-common:1.0.2-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.codenameone:coderad-annotation-processor:1.0.2-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.codenameone:coderad-annotations:1.0.2-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.squareup:javapoet:1.13.0" level="project" />
   </component>
 </module>

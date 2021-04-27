@@ -51,6 +51,7 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
+import com.codename1.rad.models.Entity;
 
 /**
  * A view for displaying a list of news items.  This is similar to {@link TweetListView}, except this 

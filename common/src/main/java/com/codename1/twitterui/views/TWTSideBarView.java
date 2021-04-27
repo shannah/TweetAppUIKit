@@ -34,6 +34,7 @@ import com.codename1.rad.ui.Actions;
 import com.codename1.rad.ui.UI;
 import com.codename1.rad.ui.entityviews.ProfileAvatarView;
 import com.codename1.rad.ui.menus.ActionSheet;
+import com.codename1.twitterui.models.TWTUserProfileImpl;
 import com.codename1.twitterui.schemas.TWTApplicationSchema;
 import com.codename1.twitterui.schemas.TWTUserProfileSchema;
 import com.codename1.twitterui.models.TWTUserProfile;
@@ -47,6 +48,7 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Border;
 import java.io.IOException;
 import com.codename1.twitterui.controllers.TWTFormController;
+import com.codename1.rad.models.Entity;
 
 
 /**
@@ -474,7 +476,7 @@ public class TWTSideBarView extends AbstractEntityView {
         setSafeAreaRoot(true);
         Entity userProfile = e.getEntity(TWTApplicationSchema.user);
         if (userProfile == null) {
-            userProfile = new TWTUserProfile();
+            userProfile = new TWTUserProfileImpl();
         }
 
         avatar = new ProfileAvatarView(userProfile, getViewNode(), 8f);

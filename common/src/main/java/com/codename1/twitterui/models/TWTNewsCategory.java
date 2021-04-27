@@ -1,54 +1,24 @@
 package com.codename1.twitterui.models;
 
-import com.codename1.rad.models.AbstractEntityWrapper;
+import com.codename1.rad.annotations.RAD;
+import com.codename1.rad.models.SimpleEntityWrapper;
 import com.codename1.rad.models.Entity;
 import com.codename1.rad.models.EntityList;
-import com.codename1.rad.models.EntityWrapper;
 import com.codename1.twitterui.schemas.TWTNewsCategorySchema;
+import com.codename1.rad.models.Entity;
 
-public interface TWTNewsCategory extends TWTNewsCategorySchema, EntityWrapper {
+@RAD
+public interface TWTNewsCategory extends TWTNewsCategorySchema, Entity {
 
+    @RAD(tag="identifier")
     public String getIdentifier();
     public void setIdentifier(String id);
+    @RAD(tag="name")
     public String getName();
     public void setName(String name);
+    @RAD(tag="feed")
     public EntityList getFeed();
     public void setFeed(EntityList feed);
 
-    public static class Wrapper extends AbstractEntityWrapper implements TWTNewsCategory {
 
-        protected Wrapper(Entity entity) {
-            super(entity);
-        }
-
-        @Override
-        public String getIdentifier() {
-            return entity.getText(identifier);
-        }
-
-        @Override
-        public void setIdentifier(String id) {
-            entity.setText(identifier, id);
-        }
-
-        public String getName() {
-            return entity.getText(name);
-        }
-
-        public void setName(String nameVal) {
-            entity.setText(name, nameVal);
-        }
-
-        public EntityList getFeed() {
-            return entity.getEntityList(feed);
-        }
-
-
-
-        public void setFeed(EntityList feedVal) {
-            entity.set(feed, feedVal);
-        }
-
-
-    }
 }

@@ -8,15 +8,15 @@ package com.codename1.twitterui.controllers;
 import com.codename1.rad.controllers.Controller;
 import com.codename1.rad.controllers.FormController;
 import com.codename1.rad.controllers.ViewController;
-import com.codename1.rad.models.Entity;
+import com.codename1.rad.models.BaseEntity;
 import com.codename1.rad.models.EntityList;
 import com.codename1.rad.models.EntityType;
 import com.codename1.rad.nodes.ViewNode;
 import com.codename1.rad.schemas.Thing;
-import com.codename1.twitterui.events.AppNavigationEvent;
+
 import com.codename1.twitterui.schemas.TWTApplicationSchema;
+import com.codename1.twitterui.schemas.TWTKeywordSchema;
 import com.codename1.twitterui.views.TWTSearchView;
-import com.codename1.twitterui.schemas.TWTKeyword;
 import com.codename1.twitterui.schemas.TWTSearch;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
@@ -29,42 +29,17 @@ import static com.codename1.rad.ui.UI.icon;
  *
  * @author shannah
  */
-public class SearchFormController extends FormController implements TWTSearch, TWTKeyword {
+public class SearchFormController extends FormController implements TWTSearch, TWTKeywordSchema {
 
-    public static interface Factory {
-        public SearchFormController newController(Controller parent);
-    }
-
-    /**
-     * Creates a new instance of SearchFormController at the given context.  This will do a
-     * lookup for {@link SearchFormController.Factory} and use that factory to create the instance if found.
-     *
-     * It will fall back to creating a new {@link SearchFormController}.  This implementation
-     * allows you to override the {@link SearchFormController.Factory} by adding a lookup to the application controller.
-     *
-     * @param context The context from where the lookup is made to find a {@link SearchFormController.Factory}.
-     * @param parent The parent controller passed to the new form controller to be its parent.
-     * @return A SearchFormController.
-     */
-    public static SearchFormController newInstance(Controller context, Controller parent) {
-        SearchFormController.Factory factory = context.lookup(SearchFormController.Factory.class);
-        SearchFormController out = null;
-        if (factory != null) {
-            out = factory.newController(parent);
-            if (out != null) return out;
-        }
-        return new SearchFormController(parent);
-    }
-
-    public static final TWTApplicationSchema.Section section = new TWTApplicationSchema.Section(action(icon(FontImage.MATERIAL_SEARCH)), evt->{
-        ViewController vc = evt.getViewController();
-        newInstance(vc, vc.getFormController()).show();
-    });
 
 
 
     public SearchFormController(Controller parent) {
         super(parent);
+
+    }
+
+    protected void init() {
         setPathName("search");
         Form form = new Form(new BorderLayout());
         TWTSearchView view = new TWTSearchView(createViewModel(), new ViewNode());
@@ -74,7 +49,7 @@ public class SearchFormController extends FormController implements TWTSearch, T
     }
     
     
-    private static class ViewModel extends Entity {
+    private static class ViewModel extends BaseEntity {
         private static final EntityType TYPE = new EntityType() {{
             string(tags(query));
             list(EntityList.class, tags(autocompleteKeywords));
@@ -92,7 +67,7 @@ public class SearchFormController extends FormController implements TWTSearch, T
         }
     }
     
-    private static class KeywordModel extends Entity {
+    private static class KeywordModel extends BaseEntity {
         private static final EntityType TYPE = new EntityType() {{
             string(tags(keyword));
         }};
@@ -102,7 +77,7 @@ public class SearchFormController extends FormController implements TWTSearch, T
     }
     
     
-    private static class ProfileModel extends Entity {
+    private static class ProfileModel extends BaseEntity {
         private static final EntityType TYPE = new EntityType() {{
             string(tags(Thing.name));
             string(tags(Thing.identifier));
@@ -146,12 +121,6 @@ public class SearchFormController extends FormController implements TWTSearch, T
         return out;
     }
 
-    @Override
-    public void initController() {
-        super.initController();
-        dispatchEvent(new AppNavigationEvent(this, section));
-    }
-    
     
     
 }

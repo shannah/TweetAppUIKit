@@ -8,6 +8,20 @@
     --main-font-light: 'native:MainLight';
     --main-font-bold: 'native:MainBold';
     --main-font-size: 2.5mm;
+    --twt-solid-bg-color: rgb(29, 161, 242);
+    --twt-solid-text-color: white;
+}
+
+TWTFeatureButton {
+    cn1-derive: 'Button';
+    background-color: var(--twt-solid-bg-color);
+    border: 1px transparent cn1-pill-border;
+    color: var(--twt-solid-text-color);
+}
+
+TWTLoginButton {
+    cn1-derive: 'TWTFeatureButton';
+
 }
 
 TweetRowMainColumn {
@@ -132,7 +146,7 @@ TWTSideBarOverflowMenuButton {
     padding:0;
     margin:0;
     font-size: 4.5mm;
-    color: rgb(29, 161, 242);
+    color: var(--twt-solid-bg-color);
 }
 
 /** Top action in TWTSideBar.
@@ -143,7 +157,7 @@ TWTSideBarTopAction {
     font-size: 4.5mm;
     padding:0;
     margin:0;
-    color: rgb(29, 161, 242);
+    color: var(--twt-solid-bg-color);
 }
 
 /**
@@ -322,13 +336,13 @@ TWTGlobalTabsAction {
 
 
 TWTGlobalTabsAction.pressed {
-    color:rgb(29, 161, 242);
+    color:var(--twt-solid-bg-color);
 }
 
 TWTGlobalTabsActionBadge {
     text-align:center;
     border: 1pt #ffffff cn1-pill-border;
-    background-color:rgb(29, 161, 242);
+    background-color:var(--twt-solid-bg-color);
     padding:0.25mm;
     margin:0;
     font-size: 1.5mm;
@@ -373,7 +387,7 @@ TWTSearchFieldText {
 }
 
 TWTSearchFieldCancelButton {
-    color: rgb(29, 161, 242);
+    color: var(--twt-solid-bg-color);
     font-size: 2mm;
     font-family: 'native:MainLight';
     margin:0;
@@ -474,7 +488,7 @@ TWTSearchViewTitleBar {
 }
 
 TWTSearchViewCancelAction, TWTSearchAction {
-    color: rgb(29, 161, 242);
+    color: var(--twt-solid-bg-color);
     font-size: 2mm;
     font-family: 'native:MainLight';
 }
@@ -570,7 +584,7 @@ TWTTab {
 
 TWTTab.pressed {
     border-bottom: 0.5mm solid rgb(29, 161, 242);
-    color: rgb(29, 161, 242);
+    color: var(--twt-solid-bg-color);
 }
 
 TweetDetailView {
