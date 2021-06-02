@@ -249,8 +249,9 @@ public class TWTApplicationController extends ApplicationController {
     @Override
     public void actionPerformed(ControllerEvent evt) {
         if (evt instanceof StartEvent) {
-            if (((StartEvent) evt).getCurrentForm() == null) {
-                evt.consume();
+            StartEvent sevt = (StartEvent)evt;
+            if (sevt.getCurrentForm() == null && !sevt.isShowingForm()) {
+                sevt.setShowingForm(true);
 
                 if (isLoggedIn()) {
                     createTweetListFormController(this).show();

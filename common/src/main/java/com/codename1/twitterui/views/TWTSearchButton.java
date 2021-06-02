@@ -15,6 +15,7 @@
  */
 package com.codename1.twitterui.views;
 
+import com.codename1.rad.annotations.Inject;
 import com.codename1.rad.attributes.UIID;
 import com.codename1.rad.models.Entity;
 import com.codename1.rad.nodes.ActionNode;
@@ -57,12 +58,12 @@ public class TWTSearchButton extends  AbstractEntityView {
     /**
      * Action that is fired when the user clicks on the button.
      */
-    public static final Category SEARCH_ACTION = new Category();
+    public static final Category SEARCH_ACTION = new Category("SEARCH_ACTION");
     
     private ViewNode node;
     private Button inner;
     
-    public TWTSearchButton(Entity entity, ViewNode node) {
+    public TWTSearchButton(@Inject Entity entity, @Inject ViewNode node) {
         super(entity);
         this.node = node;
         initUI();
@@ -76,7 +77,7 @@ public class TWTSearchButton extends  AbstractEntityView {
         FlowLayout fl = new FlowLayout(CENTER);
         fl.setValign(CENTER);
         setLayout(fl);
-        ActionNode action = getViewNode().getAction(SEARCH_ACTION);
+        ActionNode action = getViewNode().getInheritedAction(SEARCH_ACTION);
         if (action == null) {
             action = new ActionNode(
                     label("Search"),

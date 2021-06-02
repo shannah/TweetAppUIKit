@@ -54,7 +54,7 @@ public class DemoTweetProvider extends AbstractEntityListProvider implements ITw
 
     }
 
-    private TweetSchema createTweet(Entity author, String content, Date date, String imageUrl) {
+    private Tweet createTweet(Entity author, String content, Date date, String imageUrl) {
         TweetImpl tweet = new TweetImpl();
         tweet.set(TweetSchema.author, author);
         tweet.setText(TweetSchema.text, content);

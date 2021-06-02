@@ -15,6 +15,7 @@ import com.codename1.rad.ui.ActionViewFactory;
 import com.codename1.rad.ui.UI;
 import com.codename1.rad.ui.entityviews.EntityListView;
 import com.codename1.twitterui.models.Tweet;
+import com.codename1.twitterui.models.Tweets;
 import com.codename1.twitterui.schemas.TweetSchema;
 import com.codename1.twitterui.models.TweetImpl;
 import com.codename1.twitterui.text.TweetDateFormatter;
@@ -291,8 +292,7 @@ public class TweetListView extends EntityListView {
         node.setAttributes(UI.cellRenderer(new TweetRowView.TweetRowCellRenderer()));
         return node;
     }
-    
-   
+
     /**
      * Creates a new tweet list view.
      * @param tweets List of tweets.  Rows of this list should conform to the {@link TweetSchema} schema.

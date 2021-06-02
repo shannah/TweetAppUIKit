@@ -17,6 +17,7 @@ package com.codename1.twitterui.views;
 
 import ca.weblite.shared.components.ComponentImage;
 import ca.weblite.shared.components.CollapsibleSideBarContainer;
+import com.codename1.rad.annotations.Inject;
 import com.codename1.rad.controllers.ActionSupport;
 import com.codename1.rad.controllers.FormController;
 import com.codename1.rad.controllers.ViewController;
@@ -29,8 +30,12 @@ import com.codename1.rad.nodes.ViewNode;
 import com.codename1.rad.ui.AbstractEntityView;
 import com.codename1.rad.ui.Actions;
 import com.codename1.rad.ui.Slot;
+import com.codename1.rad.ui.ViewContext;
 import com.codename1.rad.ui.entityviews.ProfileAvatarView;
 import com.codename1.rad.ui.menus.ActionSheet;
+import com.codename1.twitterui.controllers.TWTApplicationController;
+import com.codename1.twitterui.models.TWTApplicationModel;
+import com.codename1.twitterui.models.TWTUserProfile;
 import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import static com.codename1.ui.ComponentSelector.$;
@@ -145,10 +150,23 @@ public class TWTTitleComponent extends AbstractEntityView {
      * @param entity The view model.
      * @param node The UI descriptor.
      * @param mainContent 
+     * @deprecated Use {@link #TWTTitleComponent(ViewContext, Component)}
      */
-    public TWTTitleComponent(Entity entity, ViewNode node, Component mainContent) {
+    public TWTTitleComponent(@Inject Entity entity, @Inject ViewNode node, @Inject Component mainContent) {
         super(entity, node);
 
+        this.mainContent = mainContent;
+        initUI();
+    }
+
+    /**
+     * Creates a new title component.
+     * @param context The View context
+     * @param mainContent
+     * @deprecated Use {@link #TWTTitleComponent(ViewContext, Component)}
+     */
+    public TWTTitleComponent(@Inject ViewContext<Entity> context, @Inject Component mainContent) {
+        super(context);
         this.mainContent = mainContent;
         initUI();
     }
@@ -201,7 +219,22 @@ public class TWTTitleComponent extends AbstractEntityView {
             ActionSupport.dispatchEvent(new FormController.FormBackEvent(this));
         });
         
-        avatar = new ProfileAvatarView(getEntity(), 5f);
+        Entity avatarEntity = getEntity();
+        if (getContext().getController() != null) {
+            TWTUserProfile profile = getContext().getController().lookup(TWTUserProfile.class);
+            if (profile != null) {
+                avatarEntity = profile;
+            } else {
+                TWTApplicationModel appModel = getContext().getController().lookup(TWTApplicationModel.class);
+                if (appModel != null && appModel.getUser() != null) {
+                    avatarEntity = appModel.getUser();
+                }
+
+            }
+        }
+        final Entity fAvatarEntity = avatarEntity;
+        
+        avatar = new ProfileAvatarView(avatarEntity, 5f);
         avatar.setWidth(avatar.getPreferredW());
         avatar.setHeight(avatar.getPreferredH());
         avatar.layoutContainer();
@@ -212,7 +245,7 @@ public class TWTTitleComponent extends AbstractEntityView {
             evt.consume();
             ActionNode sidebarClickedAction = getViewNode().getInheritedAction(AVATAR_CLICKED);
             if (sidebarClickedAction != null) {
-                ActionEvent e2 = sidebarClickedAction.fireEvent(getEntity(), TWTTitleComponent.this);
+                ActionEvent e2 = sidebarClickedAction.fireEvent(fAvatarEntity, TWTTitleComponent.this);
                 if (e2.isConsumed()) {
                     return;
                 }

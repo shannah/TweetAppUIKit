@@ -4,9 +4,9 @@ import com.codename1.rad.models.Entity;
 import com.codename1.rad.models.EntityList;
 import com.codename1.twitterui.schemas.TweetSchema;
 
-public class Tweets<T extends Entity & TweetSchema> extends EntityList<T> {
+public class Tweets extends EntityList<Tweet> {
 
-    public void add(TweetSchema link) {
-        super.add((T)link);
+    public void add(Tweet link) {
+        super.add(link);
     }
 }

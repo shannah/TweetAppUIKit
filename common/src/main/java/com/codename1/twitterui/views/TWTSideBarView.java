@@ -18,6 +18,7 @@ package com.codename1.twitterui.views;
 import com.codename1.compat.java.util.Objects;
 import com.codename1.io.Log;
 import com.codename1.io.Util;
+import com.codename1.rad.annotations.Inject;
 import com.codename1.rad.attributes.IconUIID;
 import com.codename1.rad.attributes.UIID;
 import com.codename1.rad.models.Entity;
@@ -28,12 +29,11 @@ import com.codename1.rad.nodes.ComponentDecoratorNode;
 import com.codename1.rad.nodes.Node;
 import com.codename1.rad.nodes.ViewNode;
 import com.codename1.rad.schemas.Thing;
-import com.codename1.rad.ui.AbstractEntityView;
-import com.codename1.rad.ui.ActionStyle;
-import com.codename1.rad.ui.Actions;
-import com.codename1.rad.ui.UI;
+import com.codename1.rad.ui.*;
 import com.codename1.rad.ui.entityviews.ProfileAvatarView;
 import com.codename1.rad.ui.menus.ActionSheet;
+import com.codename1.twitterui.controllers.TWTApplicationController;
+import com.codename1.twitterui.models.TWTApplicationModel;
 import com.codename1.twitterui.models.TWTUserProfileImpl;
 import com.codename1.twitterui.schemas.TWTApplicationSchema;
 import com.codename1.twitterui.schemas.TWTUserProfileSchema;
@@ -42,6 +42,7 @@ import com.codename1.ui.*;
 
 import static com.codename1.ui.ComponentSelector.$;
 
+import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.GridLayout;
@@ -104,282 +105,12 @@ import com.codename1.rad.models.Entity;
  * . `TWTSideBarSouth` - UIID for the south container.  This wraps the bottom left and bottom right actions.
  * 
  * 
- * === Examples
- * 
- * .Some basic example usage.  If you use the {@link TWTFormController} class for your form controller, then you wouldn't actually create the TWTSideBar view directly.  The controller will do that for you.  See next example for such a case.
- * [source,java]
+ * === Example Usage
+ *
+ * [source,xml]
  * ----
- * public static final ActionNode profile = action(
-                label("Profile"),
-                icon(FontImage.MATERIAL_ACCOUNT_CIRCLE)
-        ),
-        lists = action(label("Lists"), icon(FontImage.MATERIAL_LIST)),
-        topics = action(label("Topics"), icon(FontImage.MATERIAL_CATEGORY)),
-        bookmarks = action(label("Bookmarks"), icon(FontImage.MATERIAL_BOOKMARKS)),
-        moments = action(label("Moments"), icon(FontImage.MATERIAL_BOLT)),
-        newAccount = action(label("Create new account")),
-        addExistingAccount = action(label("Add Existing Account")),
-        settingsAndPrivacy = action(label("Settings and privacy")),
-        helpCenter = action(label("Help Center")),
-        darkMode = action(icon(FontImage.MATERIAL_LIGHTBULB_OUTLINE)),
-        qrCode = action(icon(FontImage.MATERIAL_SCANNER)),
-        switchProfile = action(icon(FontImage.MATERIAL_ACCOUNT_CIRCLE)),
-        switchProfile2 = action(icon(FontImage.MATERIAL_ACCOUNT_BALANCE_WALLET)),
-        followers = action(
-                icon("Followers"),
-                label("344")
-        ),
-        following = action(
-            icon("Following"),
-            label("311")
-        ),
-   ...
-  
-ViewNode viewNode = new ViewNode( 
-            actions(TWTSideBarView.SIDEBAR_ACTIONS, profile, lists, topics, bookmarks, moments),
-            actions(TWTSideBarView.SIDEBAR_TOP_OVERFLOW_MENU, newAccount, addExistingAccount),
-            actions(TWTSideBarView.SIDEBAR_SETTINGS_ACTIONS, settingsAndPrivacy, helpCenter),
-            actions(TWTSideBarView.SIDEBAR_BOTTOM_LEFT_ACTIONS, darkMode),
-            actions(TWTSideBarView.SIDEBAR_BOTTOM_RIGHT_ACTIONS, qrCode),
-            actions(TWTSideBarView.SIDEBAR_TOP_ACTIONS, switchProfile, switchProfile2),
-            actions(TWTSideBarView.SIDEBAR_STATS, following, followers),
-            actions(TWTGlobalTabs.GLOBAL_TABS, home, search, alerts, messages),
-            actions(TWTTitleComponent.TITLE_ACTIONS, settings)
-                
-        );
- 
- TWTSideBarView view = new TWTSideBarView(myViewModel, viewNode)
+ * <twtSideBarView />
  * ----
- * 
- * === Example using TWTFormController
- * 
- * This component is designed to work seamlessly with the other components of the TweetAppUIKit.  If you use the `TWTFormController` as a base for your
- * form controllers, it will automatically create the TWTSideBarView as your app's sidebar, using the controller's {@link ViewNode} as the UI
- * descriptor for the side view, and the registered {@link TWTApplicationSchema} (which you would implement) as the view model for the side bar.
- * 
- * The following is a simple example.
- * 
- * .Application controller.  Since the sidebar is generally the same, app-wide, it makes sense to configure the TWTSideBar view using the UI descriptor of the appliation controller so that the settings will be inherited by all forms on the app. Complete sample can be seen https://github.com/shannah/TweetAppUIKit/blob/master/TwitterUIDemo/src/com/codename1/demos/twitterui/TwitterUIDemo.java[here].
- * [source,java]
- * ----
- * package com.codename1.demos.twitterui;
-
-
-import com.codename1.demos.twitterui.models.UserProfile;
-import com.codename1.rad.controllers.ApplicationController;
-import com.codename1.rad.controllers.Controller;
-import com.codename1.rad.controllers.ControllerEvent;
-import com.codename1.rad.controllers.ViewController;
-import com.codename1.rad.nodes.ActionNode;
-import com.codename1.rad.nodes.ViewNode;
-import com.codename1.rad.schemas.Thing;
-import static com.codename1.rad.ui.UI.action;
-import static com.codename1.rad.ui.UI.actions;
-import static com.codename1.rad.ui.UI.badge;
-import static com.codename1.rad.ui.UI.icon;
-import static com.codename1.rad.ui.UI.label;
-import static com.codename1.rad.ui.UI.selectedCondition;
-import com.codename1.twitterui.views.TWTGlobalTabs;
-import com.codename1.twitterui.views.TWTSideBarView;
-import com.codename1.twitterui.models.Tweet;
-import com.codename1.twitterui.views.TWTTitleComponent;
-import com.codename1.ui.FontImage;
-
-
-public class TwitterUIDemo extends ApplicationController {
-    
-    // ... code redacted for sample
-    
-    // Define all of the actions for the app <1>
-    static final ActionNode notInterested = action(
-            label("Not interested in this"),
-            icon(FontImage.MATERIAL_MOOD_BAD)
-        ),
-            
-        unfollow = action(
-            icon(FontImage.MATERIAL_REMOVE),
-            label(tweet->{
-                if (tweet.isEntity(Tweet.author)) {
-                    return "Unfollow "+tweet.getEntity(Tweet.author).getText(Thing.identifier);
-                } else if (!tweet.isEmpty(Tweet.authorId)){
-                    return "Unfollow "+tweet.getText(Tweet.authorId);
-                }
-                return "Unfollow this user";
-            })
-        ),
-            
-        mute = action(
-            icon(FontImage.MATERIAL_VOLUME_OFF),
-            label(tweet->{
-                if (tweet.isEntity(Tweet.author)) {
-                    return "Mute "+tweet.getEntity(Tweet.author).getText(Thing.identifier);
-                } else if (!tweet.isEmpty(Tweet.authorId)){
-                    return "Mute "+tweet.getText(Tweet.authorId);
-                }
-                return "Mute this user";
-            })
-        ),
-            
-        reply = action(
-            icon(FontImage.MATERIAL_CHAT_BUBBLE_OUTLINE)
-        ),
-        retweet = action(
-            icon(FontImage.MATERIAL_FORWARD)
-        ),
-        favorite = action(
-            icon(FontImage.MATERIAL_FAVORITE_OUTLINE)
-        ),
-        share = action(
-            icon(FontImage.MATERIAL_SHARE)
-        ),
-            
-        tweetDetails = action(
-                   
-        ),
-        profile = action(
-                label("Profile"),
-                icon(FontImage.MATERIAL_ACCOUNT_CIRCLE)
-        ),
-        lists = action(label("Lists"), icon(FontImage.MATERIAL_LIST)),
-        topics = action(label("Topics"), icon(FontImage.MATERIAL_CATEGORY)),
-        bookmarks = action(label("Bookmarks"), icon(FontImage.MATERIAL_BOOKMARKS)),
-        moments = action(label("Moments"), icon(FontImage.MATERIAL_BOLT)),
-        newAccount = action(label("Create new account")),
-        addExistingAccount = action(label("Add Existing Account")),
-        settingsAndPrivacy = action(label("Settings and privacy")),
-        helpCenter = action(label("Help Center")),
-        darkMode = action(icon(FontImage.MATERIAL_LIGHTBULB_OUTLINE)),
-        qrCode = action(icon(FontImage.MATERIAL_SCANNER)),
-        switchProfile = action(icon(FontImage.MATERIAL_ACCOUNT_CIRCLE)),
-        switchProfile2 = action(icon(FontImage.MATERIAL_ACCOUNT_BALANCE_WALLET)),
-        followers = action(
-                icon("Followers"),
-                label("344")
-        ),
-        following = action(
-            icon("Following"),
-            label("311")
-        ),
-        home = action(
-            selectedCondition(entity -> {
-                return entity.get(AppNavigationViewModel.currentSection) == AppNavigationViewModel.NavSection.Home;
-            }),
-            icon(FontImage.MATERIAL_HOME)
-        ),
-        search = action(
-            selectedCondition(entity -> {
-                return entity.get(AppNavigationViewModel.currentSection) == AppNavigationViewModel.NavSection.Search;
-            }),
-            icon(FontImage.MATERIAL_SEARCH)
-        ),
-        alerts = action(
-            selectedCondition(entity -> {
-                return entity.get(AppNavigationViewModel.currentSection) == AppNavigationViewModel.NavSection.Alerts;
-            }),
-            icon(FontImage.MATERIAL_ALARM)
-        ),
-        messages = action(
-            selectedCondition(entity -> {
-                return entity.get(AppNavigationViewModel.currentSection) == AppNavigationViewModel.NavSection.Inbox;
-            }),
-            icon(FontImage.MATERIAL_INBOX),
-            badge("9")
-        ),
-        settings = action(
-            icon(FontImage.MATERIAL_SETTINGS)
-        )
-    
-        ;
-    
-    
-    public TwitterUIDemo() {
-
-    }
-
-    @Override
-    public void init(Object context) {
-        super.init(context);
-        
-        // ... code redacted for sample ...
-        
-        // Create a UserProfile which will serve as the view model for many views
-        // in this app.
-        UserProfile p = createDemoProfile(); <2>
-        addLookup(p);   // Add lookup so profile will be accessible by all controllers in app
-        
-        // ... code redacted for sample ...
-        
-    }
-    
-    
-    
-    private static UserProfile createDemoProfile() {
-        UserProfile p = new UserProfile();
-        p.set(Thing.name, "Steve Hannah");
-        p.set(Thing.identifier, "@shannah78");
-        p.set(Thing.thumbnailUrl, "https://www.codenameone.com/img/steve.jpg");
-        return p;
-    }
-
-    // ... code redacted for sample ...
-    
-    public ViewNode createViewNode() {
-        ViewNode viewNode = new ViewNode( <3>
-            actions(TWTSideBarView.SIDEBAR_ACTIONS, profile, lists, topics, bookmarks, moments),
-            actions(TWTSideBarView.SIDEBAR_TOP_OVERFLOW_MENU, newAccount, addExistingAccount),
-            actions(TWTSideBarView.SIDEBAR_SETTINGS_ACTIONS, settingsAndPrivacy, helpCenter),
-            actions(TWTSideBarView.SIDEBAR_BOTTOM_LEFT_ACTIONS, darkMode),
-            actions(TWTSideBarView.SIDEBAR_BOTTOM_RIGHT_ACTIONS, qrCode),
-            actions(TWTSideBarView.SIDEBAR_TOP_ACTIONS, switchProfile, switchProfile2),
-            actions(TWTSideBarView.SIDEBAR_STATS, following, followers),
-            actions(TWTGlobalTabs.GLOBAL_TABS, home, search, alerts, messages),
-            actions(TWTTitleComponent.TITLE_ACTIONS, settings)
-                
-        );
-        return viewNode;
-    }
-    
-}
- * ----
- * <1> We define a all of the actions in the app.
- * <2> Create the view model, which will be used for the sidebar and manu other views.
- * <3> Create the UI descriptor via the `createViewNode()` method.  This will serve as the root view node
- * for all UI descriptors in the app, so that its attributes will be accessible to all sub-nodes.
- * 
- * .A Form controller.  This implements the `getSideBarViewModel()` method which defines the view model that should be used for the sidebar in this form.
- * [source,java]
- * ----
-
-package com.codename1.demos.twitterui;
-
-import com.codename1.demos.twitterui.models.UserProfile;
-import com.codename1.rad.controllers.Controller;
-import com.codename1.rad.models.Entity;
-import com.codename1.twitterui.controllers.TWTFormController;
-
-
-public class MyFormController extends TWTFormController {
-    public TweetDetailsController(Controller parent, Entity tweet) {
-        super(parent);
-        
-        TweetDetailView view = new TweetDetailView(tweet, getViewNode());
-        CollapsibleHeaderContainer wrapper = new CollapsibleHeaderContainer(
-                new TWTTitleComponent(tweet, getViewNode(), new Label("Tweet")), 
-                view, 
-        view);
-        setView(wrapper); <1>
-        
-    }
-
-    @Override
-    protected Entity getSideBarViewModel() {
-        return lookup(UserProfile.class); <2>
-    }
-  
-}
- * ----
- * <1> Since we only pass a Container to the `setView()` method, and not a Form, the form controller will automatically wrap the contain in a CollapsibleSideBarContainer and create the form.
- * <2> In the `getSideBarViewModel()` method we return the UserProfile class that was created and registered in the Application controller.
  * 
  * @author shannah
  */
@@ -423,7 +154,7 @@ public class TWTSideBarView extends AbstractEntityView {
             
     
     
-    private ViewNode node;
+
     private PropertySelector nameProp, idProp, avatarProp;
     private Button nameLabel = new Button(), idLabel = new Button(), overflowMenu = new Button();
     private ProfileAvatarView avatar;
@@ -446,27 +177,80 @@ public class TWTSideBarView extends AbstractEntityView {
     }
     
     
-   
+
+    public TWTSideBarView(@Inject ViewContext context) {
+        super(context);
+
+        loadProperties();
+        initUI();
+    }
+
     /**
      * Creates a new sidebar.
      * @param entity The view model.  See class documentation for specific view model requirements.
      * @param node The UI descriptor.  See class documentation for UI descriptor requirements, including supported action categories.
+     * @deprecated Use {@link #TWTSideBarView(ViewContext)}
      */
     public TWTSideBarView(Entity entity, ViewNode node) {
-        super(entity);
-        this.node = node;
+        super(entity, node);
+
         loadProperties();
         initUI();
     }
     
     private void loadProperties() {
         Entity e = getEntity();
-        nameProp = new PropertySelector(e, TWTApplicationSchema.user).createChildSelector(TWTUserProfileSchema.name);
-        idProp = new PropertySelector(e, TWTApplicationSchema.user).createChildSelector(TWTUserProfileSchema.identifier);
-        avatarProp = new PropertySelector(e, TWTApplicationSchema.user).createChildSelector(TWTUserProfileSchema.thumbnailUrl);
+        TWTUserProfile userProfile = getContext().getController().lookup(TWTUserProfile.class);
+        if (userProfile != null) {
+            nameProp = new PropertySelector(userProfile, TWTUserProfileSchema.name);
+            idProp = new PropertySelector(userProfile, TWTUserProfileSchema.identifier);
+            avatarProp = new PropertySelector(userProfile, TWTUserProfileSchema.thumbnailUrl);
+        } else {
+            TWTApplicationModel applicationModel = getContext().getController().lookup(TWTApplicationModel.class);
+            if (applicationModel == null) {
+                TWTApplicationController appController = getContext().getController().lookup(TWTApplicationController.class);
+                if (appController != null) {
+                    applicationModel = appController.getApplicationModel();
+                }
+            }
+            if (applicationModel != null) {
+                nameProp = new PropertySelector(applicationModel, TWTApplicationSchema.user).createChildSelector(TWTUserProfileSchema.name);
+                idProp = new PropertySelector(applicationModel, TWTApplicationSchema.user).createChildSelector(TWTUserProfileSchema.identifier);
+                avatarProp = new PropertySelector(applicationModel, TWTApplicationSchema.user).createChildSelector(TWTUserProfileSchema.thumbnailUrl);
+            } else {
+                nameProp = new PropertySelector(e, TWTUserProfileSchema.name);
+                idProp = new PropertySelector(e, TWTUserProfileSchema.identifier);
+                avatarProp = new PropertySelector(e, TWTUserProfileSchema.thumbnailUrl);
+
+            }
+        }
+
     }
-    
-    
+
+    private TWTUserProfile userProfile;
+
+    private TWTUserProfile getUserProfile() {
+        if (userProfile == null) {
+            TWTUserProfile out = getContext().getController().lookup(TWTUserProfile.class);
+            if (out != null) {
+                userProfile = out;
+                return userProfile;
+            }
+            TWTApplicationModel appModel = getContext().getController().lookup(TWTApplicationModel.class);
+            if (appModel == null) {
+                TWTApplicationController cnt = getContext().getController().lookup(TWTApplicationController.class);
+                if (cnt != null) {
+                    appModel = cnt.getApplicationModel();
+                }
+            }
+            if (appModel != null && appModel.getUser() != null) {
+                 userProfile = appModel.getUser();
+                 return userProfile;
+            }
+            userProfile = new TWTUserProfileImpl();
+        }
+        return userProfile;
+    }
     
     private void initUI() {
         setUIID("TWTSideBar");
@@ -474,16 +258,13 @@ public class TWTSideBarView extends AbstractEntityView {
         Entity e = getEntity();
         EntityType et = e.getEntityType();
         setSafeAreaRoot(true);
-        Entity userProfile = e.getEntity(TWTApplicationSchema.user);
-        if (userProfile == null) {
-            userProfile = new TWTUserProfileImpl();
-        }
+        Entity userProfile = getUserProfile();
 
         avatar = new ProfileAvatarView(userProfile, getViewNode(), 8f);
         fragment = UIFragment.parseXML(loadFragmentTemplate());
-        fragment.set("overflowmenu", overflowMenu);
-        fragment.set("namelabel", nameLabel);
-        fragment.set("idlabel", idLabel);
+        fragment.set("overflowMenu", overflowMenu);
+        fragment.set("nameLabel", nameLabel);
+        fragment.set("idLabel", idLabel);
         fragment.set("avatar", avatar);
         avatarUrl = userProfile.getText(TWTUserProfileSchema.thumbnailUrl);
                 
@@ -603,7 +384,6 @@ public class TWTSideBarView extends AbstractEntityView {
     
     @Override
     public void update() {
-        Entity e = getEntity();
         boolean changed = false;
         String name = "";
         if (nameProp.exists()) {
@@ -647,10 +427,6 @@ public class TWTSideBarView extends AbstractEntityView {
         
     }
 
-    @Override
-    public Node getViewNode() {
-        return node;
-    }
 
     @Override
     public void layoutContainer() {
@@ -676,7 +452,15 @@ public class TWTSideBarView extends AbstractEntityView {
             }
         });
     }
-    
-    
-    
+
+
+    @Override
+    protected Dimension calcPreferredSize() {
+        if (CN.isPortrait() && !CN.isTablet()) {
+            return new Dimension((int)Math.round(CN.getDisplayWidth() * 0.85), CN.getDisplayHeight());
+        } else {
+            return new Dimension((int)Math.min(CN.getDisplayWidth(), CN.convertToPixels(150)), CN.getDisplayHeight());
+        }
+
+    }
 }

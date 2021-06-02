@@ -16,6 +16,7 @@
 package com.codename1.twitterui.views;
 
 import com.codename1.components.SpanLabel;
+import com.codename1.rad.annotations.Inject;
 import com.codename1.rad.attributes.PropertyImageRendererAttribute;
 import com.codename1.rad.attributes.UIID;
 import com.codename1.rad.models.Entity;
@@ -210,7 +211,7 @@ public class TweetDetailView extends AbstractEntityView {
      * @param entity The view model.  Any entity conforming to the {@link TweetSchema} schema.
      * @param node The view node.  
      */
-    public TweetDetailView(Tweet entity, ViewNode node) {
+    public TweetDetailView(@Inject Tweet entity, @Inject ViewNode node) {
         super(entity);
         setUIID("TweetDetailView");
         setName("TweetDetailView");
