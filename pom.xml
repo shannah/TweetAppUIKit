@@ -9,16 +9,30 @@
 
     <name>tweet-app-ui-kit</name>
     <description>Codename One tweet-app-ui-kit library</description>
-    <url>https://www.codenameone.com</url>
+    <url>https://github.com/shannah/TweetAppUIKit</url>
 
     <licenses>
         <license>
-            <name>GPL v2 With Classpath Exception</name>
-            <url>https://openjdk.java.net/legal/gplv2+ce.html</url>
+            <name>The MIT License (MIT)</name>
+            <url>http://opensource.org/licenses/MIT</url>
             <distribution>repo</distribution>
-            <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <id>shannah78</id>
+            <name>Steve Hannah</name>
+            <email>steve.hannah@codenameone.com</email>
+            <timezone>-8</timezone>
+        </developer>
+
+    </developers>
+
+    <scm>
+        <url>https://github.com/shannah/TweetAppUIKit</url>
+        <connection>scm:git:git@github.com:shannah/TweetAppUIKit.git</connection>
+    </scm>
 
     <dependencies>
         <dependency>
@@ -28,20 +42,41 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    
-    <!--
-  <distributionManagement>
-      <snapshotRepository>
-        <id>sonatype-nexus-snapshots</id>
-        <name>Sonatype Nexus Snapshots</name>
-        <url>${sonatypeOssDistMgmtSnapshotsUrl}</url>
-      </snapshotRepository>
-      <repository>
-        <id>sonatype-nexus-staging</id>
-        <name>Nexus Release Repository</name>
-        <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-      </repository>
-    </distributionManagement>-->
+
+    <profiles>
+        <profile>
+            <id>sign-artifacts</id>
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <passphrase>${gpg.passphrase}</passphrase>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    <distributionManagement>
+        <repository>
+            <id>nexus-staging</id>
+            <name>Nexus Release Repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 	  
     <properties>
         <cn1.plugin.version>7.0.29</cn1.plugin.version>
@@ -147,6 +182,50 @@
         </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+                <executions>
+                    <execution>
+                        <id>build-javadoc</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <phase>post-integration-test</phase>
+                        <configuration>
+                            <quiet>true</quiet>
+                        </configuration>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <source>1.8</source>
+                    <show>protected</show>
+                    <failOnError>false</failOnError>
+                    <!-- UNCOMMENT and modify to use Asciidoc for Javadocs
+                    <doclet>org.asciidoctor.Asciidoclet</doclet>
+                    <docletArtifact>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoclet</artifactId>
+                        <version>1.5.6</version>
+                    </docletArtifact>
+                    <overview>../common/src/main/resources/overview.adoc</overview>
+                    <additionalparam>
+                        -\-base-dir ${project.basedir}
+                        -\-attribute "name=${project.name}"
+                        -\-attribute "version=${project.version}"
+                        -\-attribute "title-link=https://github.com/shannah/CodeRAD[${project.name} ${project.version}]"
+                    </additionalparam>
+                    <offlineLinks>
+                        <offlineLink>
+                            <url>https://www.codenameone.com/javadoc/</url>
+                            <location>${basedir}/../javadoc-dependencies/com.codename1</location>
+                        </offlineLink>
+                    </offlineLinks>
+                    -->
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>

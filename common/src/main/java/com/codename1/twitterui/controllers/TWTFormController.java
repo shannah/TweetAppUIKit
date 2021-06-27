@@ -64,7 +64,7 @@ public abstract class TWTFormController extends FormController {
      * Creates the sidebar component.  The sidebar is only created for top-level
      * forms, with no back command.
      * as the view model to create an instance of {@link TWTSideBarView}.
-     * @return 
+     * @return  Creates sidebarview.
      */
     protected Component createSideBarView() {
         return new TWTSideBarView(lookup(TWTApplicationModel.class).getEntity(), getViewNode());

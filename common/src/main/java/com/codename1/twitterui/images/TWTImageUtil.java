@@ -33,9 +33,9 @@ public class TWTImageUtil {
     
     /**
      * Creates an image mask for images, to round the corners on them.
-     * @param width
-     * @param height
-     * @return 
+     * @param width Width in pixels
+     * @param height Height in pixels
+     * @return An image mask with given width and height.
      */
     public static Object createImageMask(int width, int height) {
         

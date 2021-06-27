@@ -126,7 +126,7 @@ public class NewsFormController extends TWTFormController {
      * should be pulled from.
      *
      * @param cat The news category.
-     * @return
+     * @return NewsCategoryNode
      */
     protected Node createNewsCategoryNode(TWTNewsCategory cat) {
         ViewController categoryController = getTWTApplicationController().createNewsCategoryController(this, cat);
@@ -145,7 +145,7 @@ public class NewsFormController extends TWTFormController {
      * Sets the news provider to use with this form controller.  Note that you can also add a news provider
      * on any parent controller (e.g. the application controller via `addLookup(NewsProvider.class, myNewsProvider)`
      *
-     * @param provider
+     * @param provider The news provider
      */
     public void setNewsProvider(INewsProvider provider) {
         addLookup(INewsProvider.class, provider);
@@ -155,7 +155,7 @@ public class NewsFormController extends TWTFormController {
      * Gets the news provider to use in the news list.  This will crawl up the controller hierarchy until it
      * finds a provider.
      *
-     * @return
+     * @return The news provider
      */
     public INewsProvider getNewsProvider() {
         return lookup(INewsProvider.class);
