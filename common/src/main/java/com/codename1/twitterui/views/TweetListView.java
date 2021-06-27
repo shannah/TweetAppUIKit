@@ -13,6 +13,7 @@ import com.codename1.rad.nodes.ActionNode.Category;
 import com.codename1.rad.nodes.ListNode;
 import com.codename1.rad.ui.ActionViewFactory;
 import com.codename1.rad.ui.UI;
+import com.codename1.rad.ui.ViewContext;
 import com.codename1.rad.ui.entityviews.EntityListView;
 import com.codename1.twitterui.models.Tweet;
 import com.codename1.twitterui.models.Tweets;
@@ -292,6 +293,7 @@ public class TweetListView extends EntityListView {
         node.setAttributes(UI.cellRenderer(new TweetRowView.TweetRowCellRenderer()));
         return node;
     }
+
 
     /**
      * Creates a new tweet list view.

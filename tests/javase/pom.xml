@@ -4,11 +4,11 @@
   <parent>
       <groupId>com.codenameone</groupId>
       <artifactId>tweet-app-ui-kit-tests</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>1.0-pre1</version>
   </parent>
   <groupId>com.codenameone</groupId>
   <artifactId>tweet-app-ui-kit-tests-javase</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0-pre1</version>
 
   <name>tweet-app-ui-kit-tests-javase</name>
   

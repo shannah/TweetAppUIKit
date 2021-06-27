@@ -1,0 +1,41 @@
+= Getting Started with the Tweet App UI Kit
+
+The Tweet App UI Kit provides a set of components that will allow you to implement a "Twitter-like" native app  for iOS and Android.
+
+== Who is this Tutorial For?
+
+This tutorial is targeted at developers with at least some programming experience.  The application will be written in Java, CSS, and XML.
+
+== Requirements
+
+In order to complete this tutorial, you will require the following:
+
+1. JDK 8 or higher.  JDK 11 recommended.  You can download a JDK for most platforms for free at https://adoptopenjdk.net/.
+2. A Java IDE that supports Maven projects.  https://www.jetbrains.com/idea/[IntelliJ IDEA] recommended.
+
+== Step 0: A Starting Point
+
+The source code for this tutorial is located in the https://github.com/shannah/twitter-clone[Twitter Clone] Github repository. If you have a Github account, it is best to fork this repository so that you are able to work from a repository for which you have full write permissions.  Otherwise, you can simply clone the repository:
+
+----
+git clone https://github.com/shannah/twitter-clone
+----
+
+== Step 1: The Finished Product
+
+The _master_ branch contains the finished product of this tutorial, so, before we begin, let's take a look at our destination.
+
+Open the _twitter-clone_ project in IntelliJ.
+
+Once the project has finished loading, press the "Run" button on the toolbar, to run the project in the Codename One simulator.
+
+NOTE: The first time you build the project it may take a while as Maven needs to download all of the project dependencies.  Subsequent builds will be much faster.
+
+TODO: Show screenshots of the project.
+
+
+
+  There are a number of branches named _tutorialN_ for _N_ >= _0_ which serve as incremental snapshots for this tutorial.  We will start at step _0_, i.e. branch _tutorial0_.
+
+
+

@@ -145,7 +145,7 @@ public class TweetRowView extends AbstractEntityView {
     
     private int imageWidth = (int)Math.round(CN.getDisplayWidth() * 0.75), 
             imageHeight = (int)Math.round(imageWidth * 9.0/16.0);
-    private ViewNode node;
+
     private float profileAvatarSize = 8f;
     private Property 
             authorProp,
@@ -198,10 +198,9 @@ public class TweetRowView extends AbstractEntityView {
      * @param node The UI descriptor (where actions are defined).
      */
     public TweetRowView(Tweet tweet, ViewNode node) {
-        super(tweet);
+        super(tweet, node);
         setLeadComponent(leadButton);
         setUIID("TweetRowView");
-        this.node = node;
         loadProperties();
         initUI();
     }
@@ -258,7 +257,7 @@ public class TweetRowView extends AbstractEntityView {
         tweetActionsMenuButton.setBlockLead(true);
         tweetActionsMenuButton.setMaterialIcon(FontImage.MATERIAL_KEYBOARD_ARROW_DOWN);
         tweetActionsMenuButton.addActionListener(evt->{
-            Actions actions = getViewNode().getInheritedActions(TWEET_MENU_ACTIONS).getEnabled(getEntity());
+            Actions actions = getViewNode().getInheritedActions(TWEET_MENU_ACTIONS).getEnabled(getEntity()).proxy(getViewNode());
             if (actions.isEmpty()) {
                 return;
             }
@@ -272,7 +271,7 @@ public class TweetRowView extends AbstractEntityView {
         mainColumn.add(imageContainerWrapper);
         
         
-        Actions tweetActions = getViewNode().getInheritedActions(TWEET_ACTIONS).getEnabled(getEntity());
+        Actions tweetActions = getViewNode().getInheritedActions(TWEET_ACTIONS).getEnabled(getEntity()).proxy(getViewNode());
         if (!tweetActions.isEmpty()) {
             actionsContainer.setLayout(new GridLayout(1, tweetActions.size()));
             tweetActions.addToContainer(actionsContainer, getEntity());
@@ -480,11 +479,7 @@ public class TweetRowView extends AbstractEntityView {
         
     }
 
-    @Override
-    public Node getViewNode() {
-        return node;
-    }
-    
+
     /**
      * Renderer used by the {@link TweetListView} to create the individual row views, which are instances of {@link TweetRowView}.
      */

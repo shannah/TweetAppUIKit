@@ -259,7 +259,7 @@ public class TWTSideBarView extends AbstractEntityView {
         EntityType et = e.getEntityType();
         setSafeAreaRoot(true);
         Entity userProfile = getUserProfile();
-
+        getViewNode().setAttributesIfNotExists(UI.param(ProfileAvatarView.FALLBACK_SETTINGS, ProfileAvatarView.FallbackSettings.DefaultIcon));
         avatar = new ProfileAvatarView(userProfile, getViewNode(), 8f);
         fragment = UIFragment.parseXML(loadFragmentTemplate());
         fragment.set("overflowMenu", overflowMenu);

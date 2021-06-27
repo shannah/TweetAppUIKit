@@ -39,7 +39,7 @@ public interface TWTUserProfile extends Entity, TWTUserProfileSchema {
     void setCountry(String country);
 
     @RAD(tag="qualityFilter")
-    boolean getQualityFilter();
+    boolean isQualityFilter();
     void setQualityFilter(boolean qualityFilter);
 
 }
