@@ -15,15 +15,18 @@
  */
 package com.codename1.twitterui.views;
 
+import ca.weblite.shared.components.CollapsibleSideBarContainer;
 import com.codename1.compat.java.util.Objects;
 import com.codename1.io.Log;
 import com.codename1.io.Util;
 import com.codename1.rad.annotations.Inject;
 import com.codename1.rad.attributes.IconUIID;
 import com.codename1.rad.attributes.UIID;
+import com.codename1.rad.controllers.ActionSupport;
 import com.codename1.rad.models.Entity;
 import com.codename1.rad.models.EntityType;
 import com.codename1.rad.models.PropertySelector;
+import com.codename1.rad.nodes.ActionNode;
 import com.codename1.rad.nodes.ActionNode.Category;
 import com.codename1.rad.nodes.ComponentDecoratorNode;
 import com.codename1.rad.nodes.Node;
@@ -286,10 +289,11 @@ public class TWTSideBarView extends AbstractEntityView {
         
         FontImage.setMaterialIcon(overflowMenu, FontImage.MATERIAL_MORE_HORIZ);
         
-        
+        Actions allActions = new Actions();
         Actions actions = getViewNode().getInheritedActions(SIDEBAR_TOP_ACTIONS).getEnabled(e);
         if (!actions.isEmpty()) {
             actions = actions.proxy().setAttributesIfNotSet(new UIID("TWTSideBarTopAction"));
+            allActions.add(actions);
             Container cnt = new Container(new GridLayout(actions.size()));
             cnt.getStyle().stripMarginAndPadding();
             actions.addToContainer(cnt, e);
@@ -298,10 +302,12 @@ public class TWTSideBarView extends AbstractEntityView {
         }
         actions = getViewNode().getInheritedActions(SIDEBAR_ACTIONS).getEnabled(e);
         if (!actions.isEmpty()) {
+
             actions = actions.proxy().setAttributesIfNotSet(
                     new UIID("TWTSideBarAction"),
                     new IconUIID("TWTSideBarActionIcon")
                     );
+            allActions.add(actions);
             Container cnt = new Container(BoxLayout.y());
             cnt.getStyle().stripMarginAndPadding();
             actions.addToContainer(cnt, e);
@@ -310,7 +316,9 @@ public class TWTSideBarView extends AbstractEntityView {
         }
         actions = getViewNode().getInheritedActions(SIDEBAR_SETTINGS_ACTIONS).getEnabled(e);
         if (!actions.isEmpty()) {
+
             actions = actions.proxy().setAttributesIfNotSet(new UIID("TWTSideBarSettingsAction"));
+            allActions.add(actions);
             Container cnt = new Container(BoxLayout.y());
             cnt.getStyle().stripMarginAndPadding();
             actions.addToContainer(cnt, e);
@@ -319,6 +327,7 @@ public class TWTSideBarView extends AbstractEntityView {
         }
         actions = getViewNode().getInheritedActions(SIDEBAR_STATS).getEnabled(e);
         if (!actions.isEmpty()) {
+
             actions = actions.proxy().setAttributesIfNotSet(
                     new UIID("TWTSideBarStatsAction"),
                     new IconUIID("TWTSideBarStatsActionIcon"),
@@ -331,6 +340,7 @@ public class TWTSideBarView extends AbstractEntityView {
                         }
                     })
             );
+            allActions.add(actions);
             Container cnt = new Container(new GridLayout(actions.size()));
             cnt.getStyle().stripMarginAndPadding();
             actions.addToContainer(cnt, e);
@@ -341,6 +351,7 @@ public class TWTSideBarView extends AbstractEntityView {
         actions = getViewNode().getInheritedActions(SIDEBAR_BOTTOM_LEFT_ACTIONS).getEnabled(e);
         if (!actions.isEmpty()) {
             actions = actions.proxy().setAttributesIfNotSet(new UIID("TWTSideBarBottomLeftAction"));
+            allActions.add(actions);
             Container cnt = new Container(new GridLayout(actions.size()));
             cnt.setUIID("TWTSideBarBottomLeftActionsWrapper");
             //cnt.getStyle().stripMarginAndPadding();
@@ -354,13 +365,20 @@ public class TWTSideBarView extends AbstractEntityView {
             actions = actions.proxy().setAttributesIfNotSet(
                     new UIID("TWTSideBarBottomRightAction")
             );
+            allActions.add(actions);
             Container cnt = new Container(new GridLayout(actions.size()));
             cnt.getStyle().stripMarginAndPadding();
             actions.addToContainer(cnt, e);
             Container wcnt = (Container)fragment.findById("bottom-right-actions-wrapper");
             wcnt.add(BorderLayout.CENTER, cnt);
         }
-        
+
+        for (ActionNode action : allActions) {
+            action.addActionListener(evt -> {
+                ActionSupport.dispatchEvent(new CollapsibleSideBarContainer.HideSideBarEvent(this));
+            });
+        }
+
         actions = getViewNode().getInheritedActions(SIDEBAR_TOP_OVERFLOW_MENU).getEnabled(e);
         if (!actions.isEmpty()) {
             
